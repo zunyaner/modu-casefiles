@@ -1,0 +1,3440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>默读 · 卷一《于连》— 何忠义案</title>
+<style>
+:root{
+  --night:#0c1018;
+  --night2:#141b28;
+  --paper:#f4efe4;
+  --paper2:#ebe4d4;
+  --paper-edge:#c9bda6;
+  --ink:#2a241c;
+  --ink-soft:#5a5348;
+  --ink-faint:#8a8174;
+  --rule:#d4c9b4;
+  --amber:#9a6b2f;
+  --amber-warm:#b8833a;
+  --amber-soft:rgba(154,107,47,.12);
+  --blue:#3d5a80;
+  --blue-cool:#4a6fa5;
+  --blue-soft:rgba(61,90,128,.1);
+  --tao:#3d6b52;
+  --oth:#6b5a7a;
+  --red:#8b3a32;
+  --red-soft:rgba(139,58,50,.12);
+  --green:#3d6b4a;
+  --cork:#c4a574;
+  --cork-dark:#a8885a;
+  --bag:#e8e0d0;
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC","SimSun","Georgia",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+  --mono:"Menlo","Consolas","Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--sans); color:var(--ink);
+  background:var(--night);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(40,55,85,.45), transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(154,107,47,.05), transparent 45%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.008) 0 1px, transparent 1px 4px);
+  background-attachment:fixed;
+  line-height:1.9; -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;color:inherit;background:none;border:none}
+#app{
+  max-width:720px; margin:0 auto; min-height:100vh;
+  display:flex; flex-direction:column; position:relative;
+  padding:12px 10px 0;
+}
+
+/* ---------- dossier header ---------- */
+header{
+  position:sticky; top:0; z-index:20;
+  background:var(--paper);
+  border:1px solid var(--paper-edge);
+  border-bottom:none;
+  padding:10px 18px 8px;
+  box-shadow:0 1px 0 var(--rule);
+}
+header::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:3px;
+  background:repeating-linear-gradient(90deg, var(--red) 0 8px, transparent 8px 14px);
+  opacity:.55;
+}
+.hrow{display:flex;align-items:center;gap:10px;margin-top:4px}
+.brand{
+  font-family:var(--serif); font-weight:700; letter-spacing:.18em;
+  color:var(--ink); font-size:13.5px; white-space:nowrap;
+  border:1.5px solid var(--ink); padding:2px 8px;
+}
+.scene-title{
+  flex:1; font-family:var(--serif); font-size:13px; color:var(--ink-soft);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.tools{display:flex;gap:5px}
+.tbtn{
+  position:relative; background:transparent;
+  border:1px solid var(--paper-edge); border-radius:2px;
+  padding:4px 9px; font-size:12px; color:var(--ink-soft);
+  font-family:var(--serif); letter-spacing:.06em; transition:.2s;
+}
+.tbtn:hover{border-color:var(--amber); color:var(--amber); background:var(--amber-soft)}
+.tbtn .badge{
+  position:absolute; top:-5px; right:-5px;
+  background:var(--red); color:#f4efe4;
+  font-size:9px; font-weight:700; font-family:var(--sans);
+  border-radius:1px; min-width:14px; height:14px; line-height:14px;
+  text-align:center; padding:0 3px; display:none;
+  box-shadow:1px 1px 0 rgba(0,0,0,.15);
+}
+.tbtn.pulse{animation:pulse 1.2s ease 3}
+@keyframes pulse{
+  0%,100%{box-shadow:none}
+  50%{box-shadow:0 0 0 3px rgba(139,58,50,.25); border-color:var(--red)}
+}
+.beats{display:flex;gap:3px;margin-top:10px;align-items:center}
+.beat{flex:1;height:2px;background:var(--rule);position:relative;transition:.4s}
+.beat.done{background:var(--amber)}
+.beat.cur{background:var(--ink); height:3px}
+.beat-label{
+  font-size:11px; color:var(--ink-faint); margin-top:5px;
+  display:flex; justify-content:space-between; font-family:var(--serif);
+}
+.beat-label b{color:var(--amber); font-weight:600}
+
+/* ---------- paper reading area ---------- */
+#story{
+  flex:1;
+  background:var(--paper);
+  border-left:1px solid var(--paper-edge);
+  border-right:1px solid var(--paper-edge);
+  padding:28px 32px 36px;
+  /* subtle paper grain */
+  background-image:
+    linear-gradient(180deg, rgba(244,239,228,.97), rgba(235,228,212,.99)),
+    repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(201,189,166,.18) 28px);
+  background-size:auto, 100% 28px;
+  box-shadow:
+    inset 0 0 60px rgba(180,160,120,.06),
+    2px 0 8px rgba(0,0,0,.15),
+    -2px 0 8px rgba(0,0,0,.15);
+  min-height:50vh;
+}
+.chap-card{
+  border:1px solid var(--paper-edge);
+  border-left:3px solid var(--red);
+  background:rgba(255,255,255,.35);
+  padding:14px 18px 12px;
+  margin:0 0 28px;
+  position:relative;
+  animation:fade .55s;
+}
+.chap-stamp{
+  position:absolute; right:12px; top:10px;
+  font-size:9px; letter-spacing:.2em; color:var(--red);
+  border:1.5px solid var(--red); padding:2px 6px;
+  transform:rotate(-6deg); opacity:.55;
+  font-family:var(--mono); font-weight:700;
+}
+.chap-card small{
+  display:block; color:var(--amber); letter-spacing:.28em;
+  font-size:11px; font-family:var(--serif); margin-bottom:4px;
+}
+.chap-card h2{
+  font-family:var(--serif); font-size:22px; letter-spacing:.12em;
+  font-weight:700; color:var(--ink);
+}
+
+.line{margin:0 0 18px; animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* narration — literary serif, indented */
+.line.narr p{
+  color:var(--ink); font-family:var(--serif);
+  font-size:16.5px; text-indent:2em; line-height:2;
+  letter-spacing:.02em;
+}
+
+/* dialogue — stamp / sticky name tags, NO bubbles */
+.line.talk{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:10px 14px;
+  align-items:start;
+  margin:0 0 20px;
+  padding:4px 0 4px 2px;
+  border-left:2px solid transparent;
+}
+.who{
+  flex:none;
+  font-family:var(--serif);
+  font-size:12.5px; font-weight:700;
+  padding:3px 10px 4px;
+  letter-spacing:.12em;
+  border:1.5px solid;
+  border-radius:1px;
+  transform:rotate(-1.5deg);
+  box-shadow:1px 1px 0 rgba(0,0,0,.06);
+  white-space:nowrap;
+  margin-top:2px;
+}
+.talk p{
+  font-family:var(--serif); font-size:16px;
+  color:var(--ink); line-height:1.95;
+  background:transparent; border:none; padding:0;
+  /* subtle underline like transcript */
+  border-bottom:1px dotted var(--rule);
+  padding-bottom:10px;
+}
+.who.c-luo{
+  color:#7a4e18; border-color:#b8833a;
+  background:linear-gradient(135deg, #f5e6c8, #edd9a8);
+  box-shadow:1px 1px 0 rgba(154,107,47,.2);
+}
+.who.c-fei{
+  color:#2a4060; border-color:#4a6fa5;
+  background:linear-gradient(135deg, #dce6f2, #c8d6e8);
+  box-shadow:1px 1px 0 rgba(61,90,128,.2);
+  transform:rotate(1deg);
+}
+.who.c-tao{
+  color:#2a4a38; border-color:#5a9a72;
+  background:linear-gradient(135deg, #d8ebe0, #c5dfd0);
+}
+.who.c-oth{
+  color:#4a3a58; border-color:#8a7a9a;
+  background:linear-gradient(135deg, #e8e0f0, #ddd4e8);
+}
+
+/* player line — transcript margin note */
+.line.me{
+  display:block;
+  margin:0 0 18px;
+  padding:10px 14px 10px 16px;
+  border-left:3px solid var(--blue);
+  background:rgba(61,90,128,.06);
+}
+.line.me p{
+  max-width:100%; font-family:var(--serif); font-size:15.5px;
+  color:var(--ink); background:none; border:none; border-radius:0; padding:0;
+}
+.line.me p::before{
+  content:"〔你〕 "; color:var(--blue); font-weight:700;
+  font-size:12.5px; letter-spacing:.1em;
+}
+
+/* system — stamped file note */
+.line.sys{text-align:center; margin:12px 0 20px}
+.line.sys span{
+  display:inline-block; font-size:12.5px; font-family:var(--serif);
+  color:var(--red); letter-spacing:.08em;
+  border:1px dashed var(--red); padding:4px 14px;
+  background:var(--red-soft); border-radius:1px;
+}
+
+/* ---------- sensory opening — margin notes in pencil ---------- */
+.line.sense{
+  margin:0 0 24px; padding:10px 14px 10px 18px;
+  border-left:2px dotted var(--amber);
+  background:linear-gradient(90deg, rgba(154,107,47,.07), transparent 85%);
+  position:relative;
+}
+.line.sense::before{
+  content:"〔我〕"; position:absolute; left:-2px; top:-10px;
+  font-size:10.5px; letter-spacing:.2em; color:var(--amber);
+  background:var(--paper); padding:0 4px; font-family:var(--serif);
+}
+.line.sense p{
+  font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+  font-size:15px; line-height:1.95; letter-spacing:.03em;
+  opacity:0; animation:fade .6s ease forwards;
+}
+.line.sense p+p{margin-top:2px}
+
+/* ---------- case clock ---------- */
+.clock{
+  display:flex; align-items:baseline; gap:6px; white-space:nowrap;
+  border:1px solid var(--ink); padding:1px 8px 2px; position:relative;
+  font-family:var(--serif); background:rgba(255,255,255,.35);
+}
+.clock small{font-size:10px; letter-spacing:.15em; color:var(--ink-faint)}
+.clock b{font-family:var(--mono); font-size:14.5px; color:var(--red); letter-spacing:.06em}
+.clock .dt{
+  position:absolute; right:-4px; top:-12px; font-family:var(--mono);
+  font-size:10px; color:var(--red); font-weight:700; opacity:0; pointer-events:none;
+}
+.clock .dt.go{animation:dt 1.6s ease}
+@keyframes dt{0%{opacity:0;transform:translateY(4px)}15%,70%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-6px)}}
+.clock.tick b{animation:tick .6s ease}
+@keyframes tick{50%{color:var(--amber)}}
+.chap-time{
+  display:inline-block; margin-top:6px; font-family:var(--mono); font-size:11px;
+  color:var(--ink-faint); letter-spacing:.12em; border-top:1px dotted var(--rule); padding-top:3px;
+}
+.chap-time b{color:var(--red); font-weight:700}
+
+/* ---------- crime-scene survey sketch ---------- */
+.survey{
+  border:1px solid var(--paper-edge); border-top:2px solid var(--red);
+  background:#f8f4ea; margin:6px 0 22px; padding:14px 14px 10px;
+  position:relative; animation:fade .5s;
+  box-shadow:2px 2px 0 rgba(0,0,0,.05);
+}
+.survey h3{font-family:var(--serif); font-size:15px; letter-spacing:.18em; color:var(--ink)}
+.survey .sv-sub{font-size:11.5px; color:var(--ink-faint); font-family:var(--serif); margin-bottom:8px}
+.survey .sv-stamp{
+  position:absolute; right:12px; top:10px; font-family:var(--mono); font-size:9px;
+  letter-spacing:.18em; color:var(--red); border:1.5px solid var(--red);
+  padding:1px 6px; transform:rotate(4deg); opacity:.6; font-weight:700;
+}
+.survey svg{display:block; width:100%; height:auto; cursor:crosshair; user-select:none;
+  background-image:linear-gradient(rgba(61,90,128,.07) 1px, transparent 1px),linear-gradient(90deg, rgba(61,90,128,.07) 1px, transparent 1px);
+  background-size:14px 14px; border:1px solid var(--rule)}
+.survey .hs{cursor:pointer}
+.survey .hs .ring{fill:none; stroke:var(--red); stroke-width:1.2; transform-box:fill-box; transform-origin:center; animation:ring 1.8s ease-out infinite}
+@keyframes ring{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.9)}}
+.survey .hs .dot{fill:#fbf6ea; stroke:var(--red); stroke-width:1.6; transition:.2s}
+.survey .hs:hover .dot{fill:#f5e0d8}
+.survey .hs text.n{font-family:var(--mono); font-size:11px; font-weight:700; fill:var(--red); text-anchor:middle; dominant-baseline:central; pointer-events:none}
+.survey .hs text.lb{font-family:var(--serif); font-size:9.5px; fill:var(--ink-soft); text-anchor:middle; pointer-events:none; paint-order:stroke; stroke:#f8f4ea; stroke-width:3px}
+.survey .hs.seen .ring{display:none}
+.survey .hs.seen .dot{fill:var(--amber); stroke:var(--amber)}
+.survey .hs.seen text.n{fill:#fff}
+.survey.busy .hs{pointer-events:none; opacity:.55}
+.survey .legend{display:grid; grid-template-columns:1fr 1fr; gap:2px 14px; margin-top:8px; font-family:var(--serif); font-size:12.5px; color:var(--ink-soft)}
+.survey .legend span b{font-family:var(--mono); color:var(--red); margin-right:4px}
+.survey .legend span.seen{color:var(--ink-faint); text-decoration:line-through; text-decoration-color:var(--amber)}
+.survey .legend span i{font-style:normal; font-size:10.5px; color:var(--amber); margin-left:4px}
+.sv-note{
+  margin-top:8px; min-height:26px; font-family:var(--serif); font-size:13px; color:var(--ink-soft);
+  display:flex; gap:8px; align-items:flex-start;
+}
+.sv-note .who{font-size:11px; padding:1px 7px 2px}
+.sv-note p{animation:fade .35s}
+.btn-ghost{
+  display:block; width:100%; padding:8px; margin-bottom:6px;
+  border:1px dashed var(--paper-edge); border-radius:1px; color:var(--ink-soft);
+  font-family:var(--serif); font-size:13px; letter-spacing:.15em;
+}
+.btn-ghost:hover{border-color:var(--amber); color:var(--amber)}
+.btn-next[disabled]{opacity:.45; cursor:default}
+
+/* in-character reaction under a wrong answer */
+.rx{display:none; margin-top:6px; font-family:var(--serif); font-size:13.5px; color:var(--ink); align-items:flex-start; gap:8px}
+.quiz.done .rx.on{display:flex}
+.rx .who{font-size:11px; padding:1px 7px 2px}
+
+/* ---------- controls / choices as checklist ---------- */
+#controls{
+  position:sticky; bottom:0; z-index:15;
+  padding:12px 18px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(0deg, var(--paper2) 75%, rgba(235,228,212,0));
+  border-left:1px solid var(--paper-edge);
+  border-right:1px solid var(--paper-edge);
+  border-bottom:1px solid var(--paper-edge);
+}
+#controls:empty{padding:0;border:none;background:none}
+.btn-next{
+  display:block; width:100%; padding:11px;
+  border:1px solid var(--amber); border-radius:1px;
+  background:transparent; color:var(--amber);
+  font-family:var(--serif); font-size:14.5px; letter-spacing:.25em;
+  transition:.2s;
+}
+.btn-next:hover{background:var(--amber-soft)}
+.btn-next .k{font-size:11px; color:var(--ink-faint); letter-spacing:0; margin-left:10px}
+.choice-prompt{
+  font-size:12px; color:var(--ink-faint); margin-bottom:10px;
+  letter-spacing:.12em; font-family:var(--serif);
+  border-bottom:1px solid var(--rule); padding-bottom:6px;
+}
+.choice{
+  display:block; width:100%; text-align:left;
+  margin-bottom:6px; padding:10px 14px 10px 42px;
+  border:1px solid transparent; border-bottom:1px dotted var(--rule);
+  border-radius:0; background:transparent;
+  font-family:var(--serif); font-size:15px; line-height:1.7;
+  color:var(--ink); position:relative; transition:.15s;
+}
+.choice::before{
+  content:"□ " attr(data-n);
+  position:absolute; left:8px; top:10px;
+  font-family:var(--mono); font-size:14px;
+  color:var(--amber); letter-spacing:.05em;
+}
+.choice:hover{
+  background:rgba(154,107,47,.07);
+  border-color:var(--paper-edge);
+  padding-left:44px;
+}
+
+/* ---------- quiz as transcript form ---------- */
+.quiz{
+  border:1px solid var(--paper-edge);
+  border-top:2px solid var(--amber);
+  border-radius:1px; padding:18px 16px;
+  margin:8px 0 20px;
+  background:rgba(255,255,255,.4);
+  animation:fade .5s;
+}
+.quiz h3{
+  font-family:var(--serif); color:var(--ink);
+  font-size:16px; margin-bottom:4px; letter-spacing:.15em;
+}
+.quiz .qsub{font-size:12px; color:var(--ink-faint); margin-bottom:14px; font-family:var(--serif)}
+.q{margin-bottom:18px}
+.q .qt{font-weight:600; margin-bottom:8px; font-size:15px; font-family:var(--serif); color:var(--ink)}
+.opt{
+  display:block; width:100%; text-align:left;
+  padding:8px 12px 8px 12px; margin-bottom:4px;
+  border:1px solid transparent; border-bottom:1px dotted var(--rule);
+  border-radius:0; background:transparent;
+  font-family:var(--serif); font-size:14.5px; color:var(--ink); transition:.15s;
+}
+.opt:hover:not([disabled]){background:rgba(61,90,128,.06); border-color:var(--rule)}
+.opt.sel{border-color:var(--amber); background:var(--amber-soft); border-style:solid}
+.opt.right{border-color:var(--green); background:rgba(61,107,74,.1); border-style:solid}
+.opt.wrong{border-color:var(--red); background:var(--red-soft); border-style:solid}
+.opt[disabled]{cursor:default}
+.explain{
+  font-size:13px; color:var(--ink-soft); font-family:var(--serif);
+  border-left:2px solid var(--amber); padding-left:10px; margin-top:6px; display:none;
+}
+.quiz.done .explain{display:block}
+.qscore{
+  font-size:14px; color:var(--amber); text-align:center;
+  margin-top:10px; font-weight:600; font-family:var(--serif);
+  letter-spacing:.08em;
+}
+
+/* ---------- drawers: cork board / evidence bag ---------- */
+.mask{position:fixed;inset:0;background:rgba(8,10,14,.6);z-index:40;opacity:0;pointer-events:none;transition:.25s}
+.mask.show{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed; top:0; right:0; bottom:0;
+  width:min(440px,94vw);
+  background:linear-gradient(180deg, #d4b896 0%, #c4a574 40%, #b89560 100%);
+  border-left:3px solid #8a6a3a;
+  z-index:50; transform:translateX(105%); transition:transform .3s ease;
+  display:flex; flex-direction:column;
+  /* cork texture */
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(255,255,255,.12) 0 2px, transparent 3px),
+    radial-gradient(ellipse at 70% 60%, rgba(0,0,0,.06) 0 1.5px, transparent 3px),
+    radial-gradient(ellipse at 40% 80%, rgba(255,255,255,.08) 0 2px, transparent 3px),
+    linear-gradient(180deg, #d4b896, #c4a574);
+}
+.drawer#drawerChars, .drawer#drawerMenu{
+  background:var(--paper2);
+  background-image:none;
+  border-left:1px solid var(--paper-edge);
+}
+.drawer.open{transform:none}
+.dhead{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 18px; border-bottom:1px dashed rgba(0,0,0,.15);
+}
+.dhead h3{
+  font-family:var(--serif); color:var(--ink);
+  letter-spacing:.2em; font-size:16px;
+}
+.drawer#drawerClues .dhead h3{color:#3a2a14}
+.dhead .x{
+  background:rgba(255,255,255,.4); border:1px solid rgba(0,0,0,.2);
+  border-radius:1px; padding:2px 10px; font-size:12px; font-family:var(--serif);
+}
+.dbody{overflow-y:auto; padding:14px 16px 30px; flex:1}
+.dsec{
+  font-size:11px; color:rgba(0,0,0,.45); letter-spacing:.25em;
+  margin:14px 0 8px; border-bottom:1px dashed rgba(0,0,0,.15);
+  padding-bottom:4px; font-family:var(--serif);
+}
+.drawer#drawerChars .dsec, .drawer#drawerMenu .dsec{color:var(--ink-faint); border-color:var(--rule)}
+
+/* evidence cards — sticky notes on cork */
+.card{
+  border:1px solid rgba(0,0,0,.12);
+  background:#f7f0e0;
+  border-radius:1px;
+  padding:12px 14px 12px 16px;
+  margin-bottom:12px;
+  position:relative;
+  transition:.3s;
+  box-shadow:2px 2px 4px rgba(0,0,0,.12);
+  transform:rotate(-0.4deg);
+}
+.card:nth-child(even){transform:rotate(0.5deg)}
+.card h4{
+  font-size:14.5px; margin-bottom:4px;
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--serif); color:var(--ink); flex-wrap:wrap;
+}
+.card h4 .tag{
+  font-size:10px; font-weight:400; color:var(--ink-faint);
+  border:1px solid var(--rule); border-radius:1px; padding:0 5px;
+  letter-spacing:.05em;
+}
+.card p{font-size:13px; color:var(--ink-soft); line-height:1.75; font-family:var(--serif)}
+.card.locked{
+  opacity:.5; border-style:dashed; background:rgba(247,240,224,.5);
+  box-shadow:none; transform:none;
+}
+.card.locked h4{color:var(--ink-faint)}
+.card.fresh{
+  background:#f5e0d8;
+  border-color:var(--red);
+  box-shadow:2px 2px 6px rgba(139,58,50,.2);
+}
+.card.fresh::after{
+  content:"新入袋";
+  position:absolute; top:6px; right:8px;
+  font-size:10px; color:var(--red);
+  font-family:var(--serif); letter-spacing:.1em;
+  border-bottom:1.5px solid var(--red);
+  font-weight:700;
+}
+.card .pin{
+  position:absolute; left:50%; top:-6px; transform:translateX(-50%);
+  width:10px; height:10px; border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #e8e8e8, #666 60%, #333);
+  box-shadow:0 1px 2px rgba(0,0,0,.4);
+  z-index:1;
+}
+.card .clip{
+  display:none;
+}
+.card.fresh .clip{
+  display:block;
+  position:absolute; left:-4px; top:8px;
+  width:14px; height:28px;
+  border:2px solid var(--red);
+  border-radius:6px 6px 2px 2px;
+  border-bottom:none;
+  opacity:.7;
+  transform:rotate(-15deg);
+}
+.board-meta{font-size:12.5px; color:rgba(0,0,0,.5); font-family:var(--serif)}
+.board-meta b{color:var(--red)}
+.drawer#drawerChars .board-meta, .drawer#drawerMenu .board-meta{color:var(--ink-faint)}
+.drawer#drawerChars .board-meta b, .drawer#drawerMenu .board-meta b{color:var(--amber)}
+.drawer#drawerChars .card, .drawer#drawerMenu .card{
+  background:rgba(255,255,255,.5); box-shadow:none; transform:none;
+  border-color:var(--rule);
+}
+.drawer#drawerMenu .t-btn{
+  display:block; width:100%; margin:0 0 8px; padding:10px;
+  border:1px solid var(--paper-edge); border-radius:1px;
+  background:rgba(255,255,255,.4); color:var(--ink);
+  font-family:var(--serif); font-size:14px; letter-spacing:.12em;
+  text-align:center; transition:.2s;
+}
+.drawer#drawerMenu .t-btn:hover{border-color:var(--amber); color:var(--amber); background:var(--amber-soft)}
+
+/* ---------- toast — file stamp ---------- */
+#toasts{
+  position:fixed; top:72px; left:50%; transform:translateX(-50%);
+  z-index:60; display:flex; flex-direction:column; gap:6px;
+  align-items:center; pointer-events:none; width:92vw; max-width:400px;
+}
+.toast{
+  background:var(--paper); border:1.5px solid var(--red);
+  color:var(--red); padding:6px 16px;
+  border-radius:1px; font-size:13px; font-family:var(--serif);
+  letter-spacing:.08em; animation:toast 2.8s ease forwards;
+  text-align:center; box-shadow:2px 2px 0 rgba(0,0,0,.1);
+}
+@keyframes toast{
+  0%{opacity:0;transform:translateY(-6px) rotate(-1deg)}
+  10%,80%{opacity:1;transform:none}
+  100%{opacity:0}
+}
+
+/* ---------- title / ending — book cover ---------- */
+.screen{
+  position:fixed; inset:0; z-index:70;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(ellipse at 50% 20%, #1a2438 0%, var(--night) 65%);
+  overflow:hidden;
+}
+.screen.hide{display:none}
+.rain{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.5}
+.drop{
+  position:absolute; top:-20vh; width:1px; height:12vh;
+  background:linear-gradient(180deg, transparent, rgba(160,180,210,.25));
+  animation:fall linear infinite;
+}
+@keyframes fall{to{transform:translateY(130vh)}}
+.tbox{
+  position:relative; text-align:center; padding:36px 28px;
+  max-width:480px; width:92%;
+  background:var(--paper);
+  border:1px solid var(--paper-edge);
+  box-shadow:
+    0 0 0 6px var(--night2),
+    0 12px 40px rgba(0,0,0,.45),
+    inset 0 0 40px rgba(180,160,120,.08);
+}
+.tbox::before{
+  content:""; position:absolute; left:10px; right:10px; top:10px; bottom:10px;
+  border:1px solid var(--rule); pointer-events:none;
+}
+.t-kicker{
+  color:var(--ink-faint); letter-spacing:.4em; font-size:11px;
+  margin-bottom:16px; font-family:var(--serif); position:relative;
+}
+.t-main{
+  font-family:var(--serif); font-size:clamp(36px,9vw,56px);
+  letter-spacing:.28em; font-weight:700; color:var(--ink);
+  position:relative;
+}
+.t-main span{color:var(--amber); letter-spacing:.1em}
+.t-case{
+  font-family:var(--serif); font-size:clamp(15px,4vw,18px);
+  letter-spacing:.35em; color:var(--amber); margin:14px 0 6px;
+  position:relative;
+}
+.t-line{width:48px; height:1px; background:var(--amber); margin:16px auto; position:relative}
+.t-desc{
+  font-size:13.5px; color:var(--ink-soft); line-height:2;
+  margin-bottom:26px; font-family:var(--serif); position:relative;
+  text-align:left; padding:0 8px;
+}
+.t-btn{
+  display:block; width:min(260px,100%); margin:0 auto 8px; padding:11px;
+  border:1px solid var(--amber); border-radius:1px;
+  background:transparent; color:var(--amber);
+  font-family:var(--serif); font-size:14.5px; letter-spacing:.28em;
+  transition:.2s; position:relative;
+}
+.t-btn:hover{background:var(--amber-soft)}
+.t-btn.ghost{
+  border-color:var(--rule); color:var(--ink-soft);
+  font-size:13px; letter-spacing:.15em;
+}
+.t-btn.ghost:hover{border-color:var(--amber); color:var(--amber)}
+.t-foot{
+  margin-top:22px; font-size:11px; color:var(--ink-faint);
+  line-height:1.8; font-family:var(--serif); position:relative;
+}
+.end-stamp{
+  display:inline-block; font-family:var(--mono); font-size:11px;
+  letter-spacing:.25em; color:var(--red); border:2px solid var(--red);
+  padding:4px 12px; transform:rotate(-8deg); margin-bottom:8px;
+  opacity:.7; font-weight:700;
+}
+.rank{
+  font-family:var(--serif); font-size:64px; color:var(--amber);
+  line-height:1; position:relative;
+}
+.rank-title{
+  font-family:var(--serif); font-size:18px; letter-spacing:.25em;
+  margin:8px 0 14px; color:var(--ink); position:relative;
+}
+.stats{
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+  margin:16px 0 18px; text-align:left; position:relative;
+}
+.stat{
+  background:rgba(255,255,255,.45); border:1px solid var(--rule);
+  border-radius:1px; padding:8px 12px; font-size:12px;
+  color:var(--ink-faint); font-family:var(--serif);
+}
+.stat b{display:block; font-size:17px; color:var(--ink); letter-spacing:.05em}
+.sample-note{
+  border:1px dashed var(--amber); border-radius:1px;
+  padding:12px 14px; font-size:12.5px; color:var(--ink-soft);
+  margin-bottom:18px; text-align:left; background:var(--amber-soft);
+  font-family:var(--serif); line-height:1.85; position:relative;
+}
+.sample-note strong{color:var(--amber)}
+
+@media (max-width:520px){
+  .brand{font-size:11px; padding:2px 5px; letter-spacing:.08em}
+  .tbtn{padding:4px 6px; font-size:11px}
+  .line.narr p{font-size:15.5px}
+  .talk p{font-size:15px}
+  #story{padding:20px 16px 28px}
+  #app{padding:6px 4px 0}
+  .who{font-size:11.5px; padding:2px 7px}
+  .line.talk{gap:8px 10px}
+  .clock small{display:none}
+  .clock{padding:1px 6px}
+  .clock b{font-size:13px}
+  .survey{padding:12px 8px 8px}
+  .survey .legend{grid-template-columns:1fr}
+}
+/* =================== v4 additions =================== */
+:root{ --hand:"Kaiti SC","STKaiti","KaiTi","楷体","AR PL UKai CN","Noto Serif CJK SC","Songti SC",serif; --pencil:#a3402f; }
+.brand{letter-spacing:.12em}
+/* POV-aware sensory opening */
+.line.sense::before{content:attr(data-who)}
+.line.sense.fei{border-left-color:var(--blue-cool); background:linear-gradient(90deg, rgba(61,90,128,.08), transparent 85%)}
+.line.sense.fei::before{color:var(--blue)}
+#story.pov-fei{background-image:linear-gradient(180deg, rgba(236,240,244,.97), rgba(226,231,236,.99)),repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(120,140,170,.16) 28px)}
+.pov-div{display:flex;align-items:center;gap:10px;margin:6px 0 22px;font-family:var(--serif);font-size:12px;letter-spacing:.3em;color:var(--ink-faint);animation:fade .5s}
+.pov-div::before,.pov-div::after{content:"";flex:1;height:1px;background:var(--rule)}
+.pov-div b{color:var(--blue);font-weight:700}
+.pov-div.luo b{color:var(--amber)}
+.chap-card.fei{border-left-color:var(--blue-cool)}
+.chap-card.fei .chap-stamp{color:var(--blue);border-color:var(--blue)}
+/* action line (player's own deed, not speech) */
+.line.act p{font-family:var(--serif);font-size:15px;color:var(--ink-soft);font-style:italic;border-left:2px solid var(--amber);padding:2px 0 2px 12px}
+.line.act.fei p{border-left-color:var(--blue-cool)}
+/* margin memo (骆闻舟's red pencil) */
+.mnote{font-family:var(--hand);color:var(--pencil);font-size:13.5px;line-height:1.5;transform:rotate(-1.6deg);display:inline-block;letter-spacing:.02em}
+.chap-card .mnote{position:absolute;right:14px;bottom:8px;max-width:48%;text-align:right;font-size:13px;opacity:.9}
+.card .mnote{display:block;margin-top:6px;padding-top:4px;border-top:1px dashed rgba(163,64,47,.25)}
+/* foreshadow (重读模式) */
+.fs-mark{background:linear-gradient(transparent 58%, rgba(184,131,58,.28) 58%)}
+.fs-note{display:block;margin:4px 0 0 2em;font-family:var(--hand);font-size:13.5px;color:var(--pencil);text-indent:0}
+.fs-note i{font-style:normal;font-family:var(--mono);font-size:10px;border:1px solid var(--pencil);padding:0 4px;margin-right:6px;letter-spacing:.1em}
+.fs-note.missed i{background:var(--pencil);color:#fff}
+.talk .fs-note{margin-left:0}
+/* phone-message interlude, printed like an attached screenshot */
+.phone{margin:6px auto 22px;max-width:360px;border:1px solid var(--paper-edge);background:#fbf8f1;box-shadow:2px 3px 0 rgba(0,0,0,.06);position:relative;animation:fade .5s;transform:rotate(-.4deg)}
+.phone::before{content:"";position:absolute;left:50%;top:-9px;width:64px;height:16px;transform:translateX(-50%) rotate(2deg);background:rgba(220,205,170,.7);border:1px solid rgba(0,0,0,.05)}
+.phone .ph-h{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);padding:7px 12px 6px;border-bottom:1px dashed var(--rule);letter-spacing:.08em}
+.phone .ph-b{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px}
+.phone .msg{max-width:82%;font-family:var(--serif);font-size:14px;line-height:1.6;padding:5px 10px;border:1px solid var(--rule);background:#fff;opacity:0;animation:fade .4s forwards}
+.phone .msg.me{align-self:flex-end;background:#f3e6cc;border-color:#d8bf8e}
+.phone .msg.fei{border-color:#b9c7da;background:#eef2f7}
+.phone .msg small{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.05em}
+.phone .ph-f{font-family:var(--serif);font-size:10.5px;color:var(--ink-faint);text-align:right;padding:0 12px 7px;letter-spacing:.15em}
+/* handwritten transcript 笔录 */
+.bilu{margin:4px 0 22px;padding:16px 18px 14px 34px;background:#fdfbf4;border:1px solid var(--paper-edge);position:relative;animation:fade .5s;
+  background-image:linear-gradient(90deg, transparent 22px, rgba(163,64,47,.35) 22px, rgba(163,64,47,.35) 23px, transparent 23px),repeating-linear-gradient(0deg, transparent 0 25px, rgba(61,90,128,.16) 25px 26px);box-shadow:2px 2px 0 rgba(0,0,0,.05)}
+.bilu h4{font-family:var(--serif);font-size:13px;letter-spacing:.25em;color:var(--ink-soft);margin-bottom:6px}
+.bilu .bl{font-family:var(--hand);font-size:16px;line-height:26px;color:#23324a}
+.bilu del{color:#6a6a6a;text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#23324a}
+.bilu ins{text-decoration:none;color:#23324a}
+.bilu .sig{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:8px;font-family:var(--serif);font-size:12px;color:var(--ink-faint)}
+.bilu .sig b{font-family:var(--hand);font-size:24px;color:#1c2738;transform:rotate(-4deg);display:inline-block;font-weight:400}
+.bilu .print{width:30px;height:36px;border-radius:50% 50% 46% 46%;background:radial-gradient(ellipse at 50% 45%, rgba(170,40,30,.0) 0 18%, rgba(170,40,30,.55) 19% 24%, rgba(170,40,30,.0) 25% 33%, rgba(170,40,30,.5) 34% 39%, rgba(170,40,30,0) 40% 48%, rgba(170,40,30,.45) 49% 55%, rgba(170,40,30,.08) 56%);transform:rotate(12deg)}
+.bilu .mnote{display:block;margin-top:8px;text-align:right}
+/* photos on evidence cards */
+.photo{float:right;margin:-2px -4px 6px 10px;width:112px;background:#fff;padding:4px 4px 12px;box-shadow:1px 2px 3px rgba(0,0,0,.22);transform:rotate(2.5deg);position:relative}
+.photo svg{display:block;width:104px;height:74px}
+.photo::after{content:"";position:absolute;top:-7px;left:34px;width:40px;height:13px;background:rgba(235,225,195,.75);transform:rotate(-4deg)}
+.card:nth-child(odd) .photo{transform:rotate(-2deg)}
+.card.ded{background:#fff8ea;border:1px solid #c7a26a}
+.card.ded h4 .tag{color:var(--pencil);border-color:var(--pencil)}
+.card.sel{outline:2.5px solid var(--red);outline-offset:2px;transform:none}
+.card.pickable{cursor:pointer}
+.combo-bar{position:sticky;bottom:0;margin:10px -16px -30px;padding:10px 16px 14px;background:rgba(230,212,170,.97);border-top:1px dashed rgba(0,0,0,.2);font-family:var(--serif);font-size:13px}
+.combo-bar .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.combo-bar button{border:1px solid #7a5a2a;padding:5px 12px;font-family:var(--serif);font-size:13px;letter-spacing:.1em;background:rgba(255,255,255,.5)}
+.combo-bar button[disabled]{opacity:.4;cursor:default}
+.combo-bar .msgline{margin-top:6px;min-height:20px}
+.combo-toggle{display:block;width:100%;margin:8px 0 6px;padding:8px;border:1.5px dashed #7a5a2a;font-family:var(--serif);font-size:13.5px;letter-spacing:.18em;background:rgba(255,255,255,.35);color:#3a2a14}
+/* locked choice (gated by trust) */
+.choice.locked{color:var(--ink-faint);cursor:not-allowed}
+.choice.locked::before{content:"▨ " attr(data-n)}
+.choice.locked small{display:block;font-size:12px;color:var(--blue);font-style:italic}
+.choice.locked:hover{background:transparent;padding-left:42px;border-color:transparent}
+/* read-the-person */
+.read{border:1px solid #b9c7da;border-top:2px solid var(--blue-cool);background:rgba(238,242,247,.7);padding:16px 16px 12px;margin:6px 0 22px;animation:fade .5s;position:relative}
+.read h3{font-family:var(--serif);font-size:15px;letter-spacing:.18em;color:#2a4060}
+.read .rd-sub{font-size:12px;color:var(--ink-faint);font-family:var(--serif);margin:2px 0 10px}
+.read .rd-text{font-family:var(--serif);font-size:16px;line-height:2.1;color:var(--ink)}
+.rd-frag{border-bottom:1.5px dotted var(--blue-cool);cursor:pointer;padding:0 1px;transition:.15s}
+.rd-frag:hover{background:rgba(74,111,165,.12)}
+.rd-frag.ok{background:rgba(61,107,74,.16);border-bottom:2px solid var(--green)}
+.rd-frag.bad{background:var(--red-soft);border-bottom:2px solid var(--red)}
+.read.done .rd-frag{cursor:default}
+.read .rd-ex{margin-top:8px;font-family:var(--serif);font-size:13.5px;color:#2a4060;border-left:2px solid var(--blue-cool);padding-left:10px;display:none}
+.read.done .rd-ex{display:block}
+/* whiteboard */
+.board{position:relative;margin:6px 0 22px;padding:14px 12px 12px;background:#fbfbf8;border:1px solid #bdbdb6;border-top:10px solid #9aa0a6;box-shadow:inset 0 0 30px rgba(0,0,0,.04),2px 3px 0 rgba(0,0,0,.08);animation:fade .5s}
+.board h3{font-family:var(--serif);font-size:15px;letter-spacing:.2em}
+.board .wb-sub{font-size:12px;color:var(--ink-faint);font-family:var(--serif);margin-bottom:8px}
+.board svg.strings{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.wb-sec{position:relative;z-index:2;margin:8px 0 6px;font-family:var(--serif);font-size:11.5px;letter-spacing:.25em;color:var(--ink-faint)}
+.wb-row{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid #555;background:#fff;padding:4px 10px;font-family:var(--hand);font-size:15px;color:#1d2a40;border-radius:2px;transition:.15s;line-height:1.4}
+.chip.ev{font-family:var(--serif);font-size:12.5px;border-width:1px;border-color:#888;color:var(--ink);background:#fffdf5}
+.chip.ev.ded{border-color:#c7a26a;background:#fff4dc}
+.chip.on{border-color:var(--red);box-shadow:0 0 0 2px rgba(139,58,50,.2)}
+.chip.dim{opacity:.45}
+.chip.hint::after{content:"·费";font-size:10px;color:var(--blue);margin-left:3px}
+.tps{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0}
+.tp{border:1px solid #999;background:#fff;padding:7px 9px 8px;text-align:left;font-family:var(--serif);font-size:13px;position:relative;min-height:62px}
+.tp b{font-family:var(--mono);color:var(--red);font-size:12.5px;margin-right:6px}
+.tp .tl{display:block;font-family:var(--hand);font-size:13px;color:#1d2a40;margin-top:3px;line-height:1.5}
+.tp .tl em{font-style:normal;color:var(--ink-faint);font-family:var(--serif);font-size:11.5px}
+.tp.on{border:2px solid var(--red);padding:6px 8px 7px;background:#fff7f4}
+.tp .mk{position:absolute;right:6px;top:4px;font-family:var(--hand);font-size:18px}
+.tp .mk.y{color:var(--green)} .tp .mk.n{color:var(--red)}
+.wb-acc{position:relative;z-index:2;margin-top:10px;border-top:1px dashed #bbb;padding-top:8px}
+.wb-acc .opt{font-size:14px}
+.wb-tip{position:relative;z-index:2;font-family:var(--serif);font-size:12.5px;color:var(--ink-soft);margin-top:6px;min-height:20px}
+.wb-tip .who{font-size:11px;padding:1px 7px 2px;margin-right:6px}
+/* interrogation */
+.interro{border:1px solid #9a948a;border-top:3px solid var(--ink);background:rgba(248,245,238,.9);padding:14px 14px 12px;margin:6px 0 22px;animation:fade .5s}
+.interro h3{font-family:var(--serif);font-size:15px;letter-spacing:.2em}
+.it-seals{display:flex;gap:6px;margin:8px 0}
+.it-seal{flex:1;border:1.5px solid var(--ink);padding:4px 6px;text-align:center;font-family:var(--serif);font-size:12px;letter-spacing:.1em;position:relative;background:#fff}
+.it-seal.cur{border-color:var(--red);color:var(--red)}
+.it-seal.broken{color:var(--ink-faint);border-style:dashed;background:transparent}
+.it-seal.broken::after{content:"破";position:absolute;right:4px;top:-8px;font-family:var(--hand);color:var(--red);font-size:20px;transform:rotate(-12deg)}
+.it-meter{font-family:var(--serif);font-size:12.5px;color:var(--ink-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.it-meter b{color:var(--red);font-family:var(--mono);letter-spacing:.2em}
+.it-claim{margin:10px 0;padding:8px 12px;border-left:3px solid #8a7a9a;background:rgba(107,90,122,.06);font-family:var(--serif);font-size:15px}
+.it-pick{margin-top:8px}
+.it-pick .lab{font-family:var(--serif);font-size:11.5px;letter-spacing:.25em;color:var(--ink-faint);margin:6px 0 4px}
+.it-tac{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tac{border:1px solid var(--paper-edge);background:#fff;padding:6px 9px;text-align:left;font-family:var(--serif);font-size:13.5px}
+.tac small{display:block;font-size:11px;color:var(--ink-faint)}
+.tac.on{border-color:var(--red);box-shadow:0 0 0 2px rgba(139,58,50,.15)}
+.tac.hint::after{content:"费渡：可以";font-size:10px;color:var(--blue);margin-left:4px}
+.interro.busy .it-pick{opacity:.4;pointer-events:none}
+/* seal epilogue screen */
+.seal{max-width:520px;text-align:left;background:#ece6d8;color:#3a342b}
+.seal .t-kicker{text-align:center}
+.seal p.sp{font-family:var(--serif);font-size:15px;line-height:2.15;text-indent:2em;margin-bottom:10px;opacity:0;animation:fade 1.2s forwards}
+.seal .last{text-align:center;text-indent:0;letter-spacing:.5em;color:var(--red);margin-top:18px}
+.seal .phone{opacity:0;animation:fade 1.2s forwards}
+/* achievements */
+.ach{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--rule);margin-bottom:6px;background:rgba(255,255,255,.4);font-family:var(--serif)}
+.ach .ic{font-family:var(--hand);font-size:22px;color:var(--pencil);width:28px;text-align:center}
+.ach b{display:block;font-size:14px}
+.ach span{font-size:12px;color:var(--ink-faint)}
+.ach.locked .ic{color:var(--ink-faint)}
+.ach.locked b{color:var(--ink-faint)}
+.endlist{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.endlist div{border:1px solid var(--rule);padding:6px 8px;font-family:var(--serif);font-size:12.5px;color:var(--ink-faint);background:rgba(255,255,255,.3)}
+.endlist div.got{color:var(--ink);border-color:var(--amber)}
+.endlist div b{font-family:var(--mono);color:var(--red);margin-right:4px}
+#btnSound.on{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
+.t-btn.confirming{border-color:var(--red)!important;color:var(--red)!important}
+.t-sub{font-family:var(--serif);font-size:13px;letter-spacing:.4em;color:var(--ink-soft);position:relative;margin-top:-2px}
+.t-epi{font-family:var(--serif);font-size:12px;color:var(--ink-faint);font-style:italic;margin:10px 0 0;position:relative;line-height:1.8}
+.screen .tbox{margin:auto}
+.reread-tag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--pencil);border:1px solid var(--pencil);padding:0 5px;margin-left:6px;letter-spacing:.15em;vertical-align:middle}
+@media (max-width:520px){
+  .scene-title{display:none}
+  .hrow{flex-wrap:wrap;gap:6px}
+  .tools{flex-wrap:wrap}
+  .tps{grid-template-columns:1fr}
+  .it-tac{grid-template-columns:1fr 1fr}
+  .photo{width:90px}.photo svg{width:82px;height:58px}
+  .chap-card .mnote{position:static;display:block;max-width:none;text-align:right;margin-top:6px}
+}
+#controls .choice-prompt{position:relative; background:var(--paper2); box-shadow:0 -10px 12px 4px var(--paper2)}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="hrow">
+      <div class="brand">燕城市局·刑侦</div>
+      <div class="scene-title" id="sceneTitle">何忠义案</div>
+      <div class="clock" id="clock" title="案卷时钟：随场景与行动推进；拖得越久，变数越多"><small>案卷时钟</small><b id="clockVal">20日 18:40</b><span class="dt" id="clockDt"></span></div>
+      <div class="tools">
+        <button class="tbtn" id="btnClues">证物袋<span class="badge" id="badgeClues"></span></button>
+        <button class="tbtn" id="btnChars">人物<span class="badge" id="badgeChars"></span></button>
+        <button class="tbtn" id="btnSound" title="环境声（城市夜声 / 雨声 / 走廊回声 / 审讯室挂钟），默认关闭">声·关</button>
+        <button class="tbtn" id="btnSave">封存</button>
+        <button class="tbtn" id="btnMenu">目录</button>
+      </div>
+    </div>
+    <div class="beats" id="beats"></div>
+    <div class="beat-label"><span id="beatName"></span><span id="beatCount"></span></div>
+  </header>
+  <main id="story"></main>
+  <div id="controls"></div>
+</div>
+
+<div class="mask" id="mask"></div>
+<aside class="drawer" id="drawerClues">
+  <div class="dhead"><h3>证物袋 · 软木板</h3><button class="x" data-close>合上</button></div>
+  <div class="dbody" id="clueBody"></div>
+</aside>
+<aside class="drawer" id="drawerChars">
+  <div class="dhead"><h3>人物档案</h3><button class="x" data-close>合上</button></div>
+  <div class="dbody" id="charBody"></div>
+</aside>
+<aside class="drawer" id="drawerMenu">
+  <div class="dhead"><h3>案卷目录</h3><button class="x" data-close>合上</button></div>
+  <div class="dbody">
+    <div class="dsec">存档</div>
+    <button class="t-btn ghost" id="mSave">手动封存本案</button>
+    <button class="t-btn ghost" id="mLoad">启封手动存档</button>
+    <button class="t-btn ghost" id="mLoadAuto">启封自动存档（本页开头）</button>
+    <div class="board-meta" id="saveInfo" style="text-align:center;margin:6px 0 14px"></div>
+    <div class="dsec">结局与成就</div>
+    <div id="achBody"></div>
+    <div class="dsec">其他</div>
+    <button class="t-btn ghost" id="mSound">环境声：关</button>
+    <button class="t-btn ghost" id="mTitle">返回封面</button>
+    <a class="t-btn ghost" href="index.html" id="mShelf" style="text-decoration:none;text-align:center">← 返回案卷柜</a>
+    <button class="t-btn ghost" id="mReset">清除全部存档</button>
+    <div class="board-meta" style="margin-top:16px;line-height:1.85">
+      <b>怎么读这份案卷</b><br>      · 点「翻页」或按 空格 / 回车 往下读；数字键 1–9 选选项。每进入新的一页都会自动存档。<br>      · 你是<b>骆闻舟</b>。标着「视角 · 费渡」的几页，你借费渡的眼睛看人：点出对方身上最想藏的那一处，这就是「读人」。<br>      · 页眉的「案卷时钟」从 5 月 20 日傍晚开始走，每个行动都要花时间。<b>拖久了会有真实后果</b>：暴雨会冲掉证据，有人会被灭口，倒计时会归零。<br>      · 金三角空地要你亲手点草图勘查；证物袋里可以「组合推理」，挑两件证物合在一起推出新结论（白板和审讯都用得上）。<br>      · 会议室白板上连线：先点时间点，再点人、点证物，最后指认凶手和动机。<br>      · 审讯是一场对峙：每一轮选一件证物、一种问法，三道防线逐一击穿。错三次他就会要求见律师，那时你得出去另找证据。<br>      · 费渡肯告诉你多少，看你怎么待他。<br>      · 一共六种结局，结案后有「案卷封存」。通关一次后，封面会出现「重读模式」，把第一遍漏看的伏笔标出来。<br>      · 环境声全部由浏览器实时合成，默认关闭，可以在页眉的「声」切换。
+    </div>
+  </div>
+</aside>
+<div id="toasts"></div>
+
+<section class="screen" id="titleScreen" style="overflow-y:auto;align-items:flex-start;padding:24px 0">
+  <div class="rain" id="rain"></div>
+  <div class="tbox">
+    <div class="t-kicker">燕城市局刑侦支队 · 卷一</div>
+    <div class="t-main">默读</div>
+    <div class="t-case">《于连》</div>
+    <div class="t-sub">何忠义案 · 「520」</div>
+    <p class="t-epi">「真实，这残酷的真实。」<br>——《红与黑》卷首题词</p>
+    <div class="t-line"></div>
+    <p class="t-desc">燕城，五月。开国际会议，全城单双号限行。<br>花市西区一片荒地上，一个送外卖的年轻人死在泥水里，额头上贴着一张纸条，写着一个「钱」字。<br>照片一夜之间传遍了网络。刑侦支队长骆闻舟被派去「技术指导」——而那个总出现在不该出现的地方的人，前一天傍晚，刚和死者擦肩而过。</p>
+    <p class="t-foot" style="margin:-14px 0 20px;font-family:var(--mono);letter-spacing:.18em;color:var(--red)">案卷时钟 · 5月20日 18:40 起</p>
+    <button class="t-btn" id="tStart">启封本案</button>
+    <button class="t-btn ghost" id="tContinue" style="display:none">续读未结案卷</button>
+    <button class="t-btn ghost" id="tLoad" style="display:none">启封手动存档</button>
+    <button class="t-btn ghost" id="tReread" style="display:none">二周目 · 重读模式</button>
+    <button class="t-btn ghost" id="tAch">结局与成就</button>
+    <a class="t-btn ghost" href="index.html" id="tShelf" style="text-decoration:none;text-align:center">← 返回案卷柜</a>
+    <p class="t-foot">同人改编 · 剧情依据 priest《默读》卷一《于连》（何忠义案）<br>本作所有叙述与对白均为重新撰写，未摘录原著文字</p>
+  </div>
+</section>
+
+<section class="screen hide" id="endScreen" style="overflow-y:auto;align-items:flex-start;padding:30px 0">
+  <div class="tbox" id="endBox"></div>
+</section>
+<section class="screen hide" id="sealScreen" style="overflow-y:auto;align-items:flex-start;padding:30px 0">
+  <div class="tbox seal" id="sealBox"></div>
+</section>
+<script>
+'use strict';
+/* =========================================================
+   默读 · 卷一《于连》— 何忠义案（「520」案）
+   数据：章节 / 证物 / 推论 / 人物
+   时钟：自 5 月 20 日 00:00 起计的分钟数
+   ========================================================= */
+const CASE_ID = 'vol1';
+const SAVE_AUTO = 'moodu_game_' + CASE_ID + '_auto';
+const SAVE_MANUAL = 'moodu_game_' + CASE_ID + '_manual';
+const SAVE_META = 'moodu_game_' + CASE_ID + '_meta';
+const VOLUME = '卷一 · 于连';
+const CLOCK_DAY0 = 20;   // 时钟零点 = 5月20日 00:00
+
+const CHAPTERS = ['序章','金三角空地','花市分局','雨','冯年哥','鸿福大观','天幕','风情酒庄','对峙','朗读'];
+
+/* 证物：ph = 照片母题（内联 SVG），note = 骆闻舟的页边批注 */
+const CLUES = {
+  neck:   {name:'颈部勒痕与后脑钝伤', tag:'现场', ph:'wound', desc:'死者后脑有一处钝器伤，颈部一道勒痕，宽而匀，像是软布带子勒出来的。指甲缝干净，身上几乎没有抵抗伤：他先被打晕，再被勒死。', note:'先打晕，再勒。下手的人不想看着他挣扎。'},
+  shoes:  {name:'干净的鞋', tag:'现场', ph:'shoe', desc:'现场一片泥地，死者那双半旧的运动鞋却干干净净，鞋底的纹路里几乎没有泥。', note:'人没在这片泥地上走过。'},
+  note:   {name:'额头上的「钱」', tag:'现场', ph:'paper', desc:'死者额头上贴着一角从纸袋上撕下来的纸，写着一个「钱」字。网上传的照片里，这个字被说成「仇杀警告」。', note:'谁贴的？写给谁看的？'},
+  wallet: {name:'被掏空的钱包', tag:'现场', ph:'wallet', desc:'钱包被翻过，一分钱没剩，证件还在。死者的手机不见了。', note:'像抢劫。太像了。'},
+  mud:    {name:'空地上的杂乱脚印', tag:'现场', ph:'prints', desc:'尸体周围没有拖拽痕迹，泥地上却有好几种鞋印，新旧叠在一起。这片「金三角空地」，晚上并不缺人来。', note:'没人住的地方，半夜反倒热闹。'},
+  yulei:  {name:'于磊的证词', tag:'人证', ph:'note', desc:'保安于磊作证：二十号晚上九点到九点半之间，空地那边有两个男人吵架，都是外地口音，听不清吵的什么。', note:'九点多。两个男人。'},
+  nine15: {name:'「九点一刻」', tag:'人证', ph:'note', desc:'死者室友马小伟在分局说漏了嘴：吵架声他听见了，是「九点一刻」。追问下去，他只反复说下楼时什么人都没看见。', note:'他记得这么准，说明他当时就在边上。'},
+  tag:    {name:'没剪的吊牌', tag:'推断', ph:'tag', desc:'费渡从现场照片里看出：死者外衣的领口里还挂着吊牌，是新买的，打算穿一次就拿去退。', note:'舍不得。可他还是买了。'},
+  borrowed:{name:'左脚磨偏的鞋', tag:'推断', ph:'shoe', desc:'费渡注意到：死者那双鞋的左脚磨损得厉害，跟他的走路习惯对不上——鞋是借来的。', note:'借来的鞋，新买的衣服。他要去见谁？'},
+  phonefound:{name:'马小伟身上的手机', tag:'物证', ph:'phone', desc:'分局在马小伟身上搜出了死者那部白色新手机，上面有两个人的指纹。马小伟一口咬定是「捡的」。他的身份证改过，其实才十六岁。', note:'分局要的就是这个。太顺了。'},
+  report: {name:'陈振的匿名举报', tag:'书证', ph:'doc', desc:'黑车司机陈振交给骆闻舟的材料：花市区分局有人给贩毒网络打掩护，他的姐姐陈媛就是因为这件事死的。', note:'这是另一个案子。也可能不是。'},
+  askedway:{name:'问路的人', tag:'人证', ph:'note', desc:'费渡说：二十号傍晚，死者在东区一家咖啡店打听「承光公馆」在哪儿，借口说那边招快递员。', note:'他早就见过。'},
+  zhaoyl: {name:'赵玉龙的证词', tag:'人证', ph:'note', desc:'死者的同乡赵玉龙说：鞋是他借的；何忠义那天说要去「承光公馆」见一个人。那部白手机，据何忠义自己说，是挨了打之后「人家赔礼送的」。', note:'承光公馆。那一晚，那儿全是有钱人。'},
+  nest:   {name:'鸟窝里的摄像头', tag:'电子', ph:'frames', desc:'承光公馆外围一条石子小路上，有个伪装成鸟窝的隐蔽摄像头。二十号 20:50 左右，一个年轻人抱着牛皮纸袋在那儿抽烟徘徊，接了个电话后离开。', note:'他在等。等的人没出来。'},
+  butts:  {name:'雨前的烟蒂', tag:'物证', ph:'butts', desc:'费渡赶在暴雨前，把小路边垃圾桶上那几个烟蒂捡了回来，装在盒子里寄给骆闻舟，附了两个字：「顺便」。', note:'他顺便的事，比别人专门办的都多。'},
+  cctvz:  {name:'公馆院内监控', tag:'电子', ph:'screen', desc:'费渡给的 U 盘：二十号晚上张东来一直在公馆院里，九点前后出来送过一拨饭局散场的人，再没离开过。', note:'张东来有不在场。可有人想让他没有。'},
+  bus34:  {name:'34 路公交监控', tag:'电子', ph:'bus', desc:'二十号晚上约 21:10，何忠义在「南平大道东」站上了 34 路，二十多分钟后在终点「文昌路口」下车。之后，再没有一个摄像头拍到他。', note:'他离开承光公馆，往东去了。'},
+  fengnian:{name:'张婷的证词', tag:'人证', ph:'note', desc:'张婷说：何忠义曾在她公司楼下拦住她，打听一个叫「冯年哥」的人。张东来打人那天，是她男朋友赵浩昌开车来接的她。', note:'冯年哥。'},
+  autopsy:{name:'法医报告', tag:'法医', ph:'wound', desc:'死亡时间二十号 21:00–22:00。死者血液里查不出任何毒品成分——他从没碰过那东西。', note:'他干净。从头到脚。'},
+  sms:    {name:'「结账地点」短信', tag:'电子', ph:'sms', desc:'二十号 21:50 左右，死者的手机收到一条黑号短信：「结账地点改在金三角空地」。那会儿，手机已经在马小伟手里。', note:'谁发的？发给谁？'},
+  ledger: {name:'何忠义的账本', tag:'书证', ph:'ledger', desc:'死者的小账本，每一笔几块钱都记着。最后几页有一笔十万元的借款，借给他钱的人只写了一个代号。账本上的「钱」字，和他额头上纸条里那个字写得一模一样。', note:'他记得每一块钱。'},
+  card:   {name:'赵浩昌的名片', tag:'书证', ph:'card', desc:'荣顺律师事务所 二级合伙人 赵浩昌。地址：文昌路 103 号。', note:'文昌路。'},
+  tie:    {name:'车后座的领带', tag:'物证', ph:'tie', desc:'刘律师从张东来车后座的缝隙里摸出来的一条银灰色条纹领带：上面有张东来的指纹，宽窄和死者颈部的勒痕吻合，沾着血。', note:'只有他一个人的指纹。干净得过分。'},
+  mxw:    {name:'马小伟的供述', tag:'人证', ph:'note', desc:'马小伟交代：那部手机是他偷的，九点多拿到金三角空地换了毒品。他一直以为何忠义是被他卖手机的事牵连死的，所以什么都不敢说。', note:'吸毒的是他。跟死者没关系。'},
+  xiaohy: {name:'肖海洋的证词', tag:'人证', ph:'note', desc:'肖海洋交代：陈媛死时衣服穿反了，分局有人塞了两千块让他闭嘴。他用 GPS 盯过黄敬廉，二十号晚上，黄敬廉一伙就在「那个地方」。', note:'这孩子一个人扛了一年。'},
+  gloves: {name:'兜里的手套', tag:'物证', ph:'gloves', desc:'在双子大楼的空中走廊抓到赵浩昌时，他兜里揣着一副手套，上面沾着铁屑和护栏的油漆。', note:'松护栏的手。'},
+  zhaofn: {name:'「他像赵丰年」', tag:'人证', ph:'note', desc:'王秀娟想起来了：楼顶那个人，像她们村里一个叫赵丰年的后生。十几年前考出去了，后来再没回来过。', note:'丰年，冯年。'},
+  fire:   {name:'赵家那场大火', tag:'旧案', ph:'fire', desc:'王秀娟说：赵丰年家当年一场大火，烧死了一家五口，说是村里一个傻子玩火引起的。只有赵丰年那晚不在家。', note:'一家五口。只有他不在。'},
+  sleevephoto:{name:'旧档里的照片', tag:'旧案', ph:'oldcase', desc:'镇派出所的旧档里，那场火之后拍的一张照片：被认定纵火的傻子站在灰堆前，两只胳膊上只剩一只套袖。', note:'另一只呢？'},
+  cuiying:{name:'陈媛的 U 盘', tag:'书证', ph:'usb', desc:'崔颖保管的 U 盘，是陈媛生前留下的：视频里，王洪亮和黄敬廉在给女孩注射毒品。', note:'这是王洪亮的棺材板。'},
+  joke:   {name:'赵浩昌的「玩笑」', tag:'人证', ph:'note', desc:'崔颖说，她曾把陈媛的事告诉过赵浩昌。赵浩昌跟她开过一个「玩笑」：要是杀了人，就扔到毒品交易的地方去，那儿的人不敢报警，警察也不会细查。', note:'他不是在开玩笑。'},
+  basement:{name:'风情酒庄的地下室', tag:'物证', ph:'lamp', desc:'郊区风情酒庄 12 号的地下室：一排排玻璃罐，装着赵浩昌的「纪念品」——一只单只的套袖，标签写着「解脱」；何忠义的旧手机；费渡丢失的一支钢笔。正中立着一盏做成着火的树形状的落地灯。', note:'他把每一个人都装进了罐子里。'}
+};
+
+/* 推论：两件证物合并得出；combos 任一组合成立即可 */
+const DEDS = {
+  d_dumped:{name:'这里不是第一现场', combos:[['shoes','mud'],['shoes','neck']], ph:'shoe', desc:'鞋底干净，泥地上没有挣扎和拖拽：他是死了以后才被人扔到这片空地上来的。', note:'肖海洋那句话，是对的。'},
+  d_dressed:{name:'去见一个敬重的人', combos:[['tag','zhaoyl'],['tag','borrowed'],['borrowed','zhaoyl']], ph:'tag', desc:'借来的鞋，没剪吊牌的新衣服：他那天特意打扮过，要去见一个他心里看得很重的人。', note:'穷孩子去见人，借鞋也要体面。'},
+  d_left:  {name:'他九点就离开了公馆', combos:[['nest','bus34'],['butts','bus34'],['cctvz','bus34']], ph:'bus', desc:'20:50 在公馆外徘徊，约 21:10 上了 34 路往东去了。张东来那会儿一直在院子里——两个人当晚根本没碰上面。', note:'张东来的嫌疑，到这儿就该放下了。'},
+  d_repay: {name:'他是去还钱的', combos:[['note','ledger']], ph:'ledger', desc:'纸条上的「钱」是他自己写的，从他抱着的纸袋上撕下来的。账本上欠着十万。他抱着纸袋去承光公馆，不是去要钱，是去还钱。', note:'额头上那个字，不是警告。是一张欠条。'},
+  d_fengnian:{name:'冯年哥 = 赵丰年', combos:[['fengnian','zhaofn'],['fengnian','fire']], ph:'card', desc:'何忠义找的「冯年哥」，就是王秀娟记得的「赵丰年」，也就是张婷的男朋友，赵浩昌。', note:'他改了名字，换了一个人生。'},
+  d_wenchang:{name:'下车的地方', combos:[['bus34','card']], ph:'card', desc:'34 路的终点是文昌路口。赵浩昌的律所，在文昌路 103 号。', note:'他是去找他的。'},
+  d_frame: {name:'领带是栽赃', combos:[['tie','bus34'],['tie','nest'],['tie','cctvz']], ph:'tie', desc:'张东来当晚没离开过公馆，领带上却「恰好」只有他的指纹和死者的血。有人戴着手套，把它塞进了他的车里。', note:'越干净的证据，越像有人擦过。'},
+  d_clean: {name:'何忠义是干净的', combos:[['autopsy','mxw'],['autopsy','phonefound']], ph:'wound', desc:'他血里没有毒，手机是被室友偷去换毒品的。他和金三角空地上的那摊脏事，从头到尾没有关系。', note:'有人会想往他身上泼脏水。这一条要守住。'},
+  d_dump:  {name:'为什么扔在金三角', combos:[['joke','mud'],['joke','report'],['joke','sms']], ph:'map', desc:'凶手知道那片空地是毒品交易点：扔在那儿，查的人会往贩毒、斗殴上想，分局也巴不得草草了事。', note:'他借的是别人的刀，别人的烂摊子。'},
+  d_hidden:{name:'那只套袖', combos:[['sleevephoto','basement'],['fire','basement']], ph:'lamp', desc:'旧照片上傻子只剩一只套袖，另一只在赵浩昌的玻璃罐里，标签写着「解脱」。那场火之后，他在现场。', note:'他收藏的不是东西，是他亲手关上的门。'}
+};
+
+const CHARS = {
+  luo: {group:'燕城市局 · 刑侦支队', name:'骆闻舟', role:'刑侦支队 队长（你）', desc:'嘴欠，手快，心细。骑自行车上班，养了一只叫骆一锅的猫。七年前查过一个案子，从此对一个姓费的年轻人格外警惕——也格外没辙。'},
+  tao: {group:'燕城市局 · 刑侦支队', name:'陶然', role:'刑侦支队 副队', desc:'脾气温和，做事妥帖，支队的定海神针。不知为什么，总有人给他送花。'},
+  lang:{group:'燕城市局 · 刑侦支队', name:'郎乔', role:'刑侦支队 刑警', desc:'嘴快手更快，瞪人的时候眼睛像要喷火。查监控、跑腿、搜屋子，一样不落。'},
+  lu:  {group:'燕城市局 · 刑侦支队', name:'陆有良', role:'市局 副局长', desc:'看着骆闻舟长大的老领导。张局避嫌之后，这个案子归他管。'},
+  fei: {group:'旁观者', name:'费渡', role:'费氏集团 掌舵人', desc:'年轻，客气，优雅得挑不出错。心理学出身，看人像翻档案。七年前母亲去世，那之后，骆闻舟一直觉得这孩子心里住着点什么。', more:[['feiPhoto','他认出了证件照上那道月牙形的疤。'],['hand','他的手按在换挡拨片上的时候，是凉的。'],['screen','他在天幕上，说了一件七年没对人说过的事。']]},
+  he:  {group:'案件相关人', name:'何忠义', role:'死者 / 外卖配送员', desc:'二十岁出头，从老家来燕城打工，在一家连锁店做配送。省吃俭用，母亲尿毒症，常年透析。', more:[['d_repay','他是去还钱的。'],['d_clean','他没碰过毒品。']]},
+  ma:  {group:'案件相关人', name:'马小伟', role:'死者室友', desc:'瘦，眼神发飘，小偷小摸惯了。身份证上写着十八，其实才十六。', more:[['clue:mxw','手机是他偷的。他以为何忠义是被他害死的。'],['xiaoDead','他没能走出花市区分局。']]},
+  zdl: {group:'案件相关人', name:'张东来', role:'富家子 / 承光公馆的常客', desc:'张局的侄子，费渡的「朋友」。嘴上没把门，脑子不太够用，打过何忠义一顿。'},
+  zt:  {group:'案件相关人', name:'张婷', role:'张东来的妹妹', desc:'温柔，体面，对人客气。男朋友是个律师。'},
+  zhao:{group:'案件相关人', name:'赵浩昌', role:'荣顺律所 二级合伙人 / 张婷的男友', desc:'衣着考究，说话得体，奶油小生的模样。燕城本地人——至少他自己这么说。', more:[['d_fengnian','原名赵丰年。'],['clue:basement','风情酒庄 12 号，地下室。']]},
+  wang:{group:'花市区分局', name:'王洪亮', role:'花市区分局 局长', desc:'满脸堆笑，八面玲珑。一口咬定这是「熟人作案」。', more:[['clue:cuiying','U 盘里的视频，够他把牢底坐穿。']]},
+  xiao:{group:'花市区分局', name:'肖海洋', role:'分局刑警（新人）', desc:'戴眼镜，说话太快，一句话里能带三个否定。分局里没人喜欢他。他自己好像也不在乎。', more:[['clue:xiaohy','他一个人盯了黄敬廉一年。']]},
+  chen:{group:'案件相关人', name:'陈振', role:'黑车司机 / 举报人', desc:'他姐姐陈媛死在花市区。他开着黑车，在交通枢纽附近一圈一圈地等一个肯听他说话的警察。', more:[['chenDead','他没等到。']]},
+  wxj: {group:'案件相关人', name:'王秀娟', role:'何忠义的母亲', desc:'从老家赶来燕城，带着透析的病历和一身洗得发白的衣服。她只想知道一件事：她儿子是不是好人。'}
+};
+const SPEAKER_CLASS = {'骆闻舟':'c-luo','费渡':'c-fei','陶然':'c-tao','郎乔':'c-tao','肖海洋':'c-tao','陆局':'c-tao'};
+const POV_NAME = {luo:'骆闻舟', fei:'费渡', tao:'陶然', lang:'郎乔', lu:'陆局'};
+
+const ACH = {
+  survey: {name:'全勘察', desc:'金三角空地六处标记，全部亲自蹲下去看过。'},
+  rain:   {name:'雨前', desc:'借费渡的手，赶在暴雨之前捡回了那几个烟蒂。'},
+  sky:    {name:'天幕之下', desc:'倒计时归零之前，第一次就找对了那栋楼。'},
+  clean:  {name:'零失误审讯', desc:'第一次审讯一次没错，击穿三道防线。'},
+  reader: {name:'读心者', desc:'借费渡的眼睛，三次「读人」全部读对。'},
+  puzzle: {name:'拼图人', desc:'找出全部十条推论。'},
+  trusted:{name:'同一把伞', desc:'费渡对你的信任到了顶。墓园里下雨的时候，他折回来了。'}
+};
+const ENDINGS = {
+  e1:{name:'默读', desc:'凶手认罪，真相完整。王秀娟问她儿子有没有干过坏事，费渡说：没有。'},
+  e2:{name:'盖棺', desc:'凶手认了罪，可「何忠义涉毒」这几个字，跟着他一起进了卷宗。'},
+  e3:{name:'沉默', desc:'赵浩昌一个字也没再说。证据能证明他松了护栏，证明不了那天晚上。'},
+  e4:{name:'灭口', desc:'案子破了。那个十六岁的孩子，没能走出花市区分局。'},
+  e5:{name:'错案', desc:'白板上有一根线，按着凶手的意思连上了。'},
+  e6:{name:'天幕', desc:'倒计时归零的时候，没有人在楼顶。'}
+};
+/* =========================================================
+   剧本节点
+   line：[说话人, 文本, 条件?, 伏笔?]   '' = 旁白；'~' = 感官开场
+   特殊：@clue @char @flag @trust @score @time @ach（即时）  @phone @bilu @pov @sys（可见）
+   ========================================================= */
+const NODES = {
+
+prologue:{ch:0, title:'承光公馆', pov:'fei', amb:'city', at:1120,
+ memo:'——以下据费渡事后所述补记。',
+ sense:['东区这家咖啡店的拿铁偏苦，好在窗边的位置能看见整条街。我一向喜欢能看清整条街的座位。','五月的风里飘着柳絮，混着尾气。燕城在开国际会议，单双号限行，街上的车比平时少了一半。'],
+ lines:[
+  ['','五月二十日，傍晚，燕城东区。'],
+  ['@char','fei'],
+  ['','费渡在等一个电话。张东来新开了一家会所，叫承光公馆，今晚暖场，非要拉他去捧场。'],
+  ['','柜台那头，一个年轻人正跟店员搭话：皮肤晒得黝黑，额角有一道月牙形的小疤，嘴甜得很，一口一个「姐」。'],
+  ['送货的年轻人','姐，跟您打听个地方——承光公馆，是在这附近吧？听说那边招快递员，我想过去问问。'],
+  ['','店员说不知道。年轻人还是笑着，可脚底下没挪窝。']
+ ],
+ read:{key:'read1', title:'读人 · 柜台前的年轻人', sub:'费渡不关心他问了什么，只关心他哪一句不是真话。点出那个破绽。',
+  segs:['他',{id:'scar',t:'额角那道月牙形的疤已经褪成了浅粉'},'；',{id:'sweet',t:'一张口就是「姐」，笑得很讨喜'},'；',{id:'scratch',t:'说到「招快递员」的时候，抬手挠了挠后脑勺，眼睛看向了别处'},'；',{id:'shoe',t:'脚上一双运动鞋刷得发白'},'。'],
+  ans:'scratch',
+  ex:{scar:'旧疤只说明他小时候淘过气。过去不是破绽，眼下才是。',
+      sweet:'嘴甜是讨生活的本事。在这座城里，一个外地孩子不嘴甜，连路都问不到。',
+      scratch:'话说到一半去摸后脑勺，是身体替他心虚。承光公馆今晚办的是私人酒会，不招快递员。',
+      shoe:'刷得发白的鞋说明他把今天看得很重。这是真的，算不上破绽。'},
+  ok:{flag:'feiSawBoy', score:2}, bad:{},
+  after:[
+   ['费渡','承光公馆今晚是私人酒会，不招人。','feiSawBoy'],
+   ['','年轻人一愣，脸一下红到耳根，含含糊糊道了声谢，几乎是跑着出的门。','feiSawBoy'],
+   ['','年轻人又跟店员磨了几句，最后还是没问出来，失望地走了。费渡没太在意，看了一眼时间。','!feiSawBoy'],
+   ['','几个小时后，费渡坐在承光公馆的露台上，听张东来吹嘘这儿的酒有多贵。院子里灯火通明，来的都是燕城叫得出名号的人。'],
+   ['@char','zdl'],
+   ['张东来','费爷，再坐会儿嘛！今晚这么多美女——'],
+   ['费渡','十二点了。我的规矩，你知道。'],
+   ['','零点刚过，他准时离场。司机开车，他靠在后座上，耳机里放着一本有声书，是《红与黑》：一个木匠的儿子，想挤进一个不属于他的世界。', null, ['于连。这一卷的名字。','reread']],
+   ['','车过路口时，一辆开着远光灯的车迎面擦了过去，晃得人睁不开眼，一头扎进了西区那片黑黢黢的老城。'],
+   ['','费渡皱了皱眉，闭上眼睛。他很快就睡着了，没再想起傍晚那个问路的年轻人。'],
+   ['@pov','luo'],
+   ['','——五月二十一日，凌晨，花市西区。一只野猫钻过群租楼后面的荒地，在一个一动不动的人身边停住了。'],
+   ['','天还没亮，已经有人拍了照片发到网上。']
+  ]},
+ next:'bureau'},
+
+bureau:{ch:1, title:'一束花', pov:'luo', amb:'city', at:1920,
+ memo:'有人给陶然送花。卡片上只有一个字：费。',
+ sense:['自行车链条该上油了，一路吱吱呀呀地响。车把上挂着的煎饼果子还烫手。','市局大院门口，郎乔站在台阶上拼命冲我招手，脸色跟见了鬼差不多。'],
+ lines:[
+  ['','五月二十一日，早上，燕城市局。'],
+  ['@char','luo'],['@char','lang'],
+  ['郎乔','老大！花市西区出了命案，照片都上网了，分局删一条冒出来十条——张局让你一到就上楼！'],
+  ['骆闻舟','急什么，煎饼还没吃完。'],
+  ['','刑侦支队办公室里，陶然桌上摆着一大捧鲜花，香得整层楼都知道了。'],
+  ['郎乔','陶副队又收花了，卡片上就一个字，「费」。'],
+  ['','骆闻舟捏起卡片看了一眼，又扔了回去。'],
+  ['骆闻舟','（那小子又在打什么主意。）'],
+  ['@char','tao'],
+  ['陶然','人家就是谢我上回帮了个小忙。你别摆那张脸。'],
+  ['','张局办公室在顶楼。张局开门见山：照片里，死者额头上贴着一张纸条，网上已经传成了「仇杀」「黑社会警告」，花市区分局局长王洪亮压不住了。'],
+  ['张局','你去，名义上是技术指导。'],
+  ['','后半句他没说出口，骆闻舟听懂了：王洪亮那一摊烂账，市局盯了很久。这一趟，是去找把柄的。'],
+  ['骆闻舟','明白。我带两个人去。']
+ ],
+ choices:[
+  {t:'「陶然、郎乔，跟我走。」', fx:{flag:'lang', min:10}, say:[
+    ['郎乔','好嘞！我去拿勘查箱！'],
+    ['陶然','花我先放一边。……别看了，走吧。']]},
+  {t:'「陶然跟我去。郎乔，你在家盯着网上那些帖子。」', fx:{flag:'langNet', min:10}, say:[
+    ['郎乔','……我也想去现场！'],
+    ['骆闻舟','照片是谁先发的，从哪儿流出来的，给我查清楚。这也是现场。']]}
+ ], next:'scene'},
+
+scene:{ch:1, title:'金三角空地', pov:'luo', amb:'city', at:2010,
+ memo:'先看东西，再听人话。',
+ sense:['西区的巷子窄得掉不开头。一条黄狗蹲在路当中瞅了我们一眼，没有让路的意思。','空地上一股烂菜叶、积水和尿骚混在一块儿的味道，太阳一出来，更冲了。'],
+ lines:[
+  ['','花市西区。一片夹在群租楼、平房和废仓库之间的荒地，坑坑洼洼，积着前一夜的雨水。'],
+  ['@char','wang'],
+  ['王洪亮','骆队！辛苦辛苦，还劳动市局亲自跑一趟。我们这小地方乱，让您见笑了。'],
+  ['','王洪亮满脸堆笑地迎上来，握手握得格外用力。他身后站着一群分局的人，其中一个戴眼镜的年轻人，眼睛一直往尸体那边瞟。'],
+  ['@char','he'],
+  ['','死者仰面躺在空地当中，二十岁上下，穿一件半新的外衣。额头上贴着一张纸条，已经被雨水泡皱了。'],
+  ['王洪亮','初步看，熟人作案。外地来打工的，跟人结了仇，或者是图钱——您看这钱包，掏得一干二净。'],
+  ['骆闻舟','王局经验丰富。我先自己转转。']
+ ],
+ survey:{min:3, cost:6,
+  intro:'点草图上的红圈，骆闻舟会亲自蹲下去看。至少看三处才能收队，每处大约 6 分钟。王洪亮在边上看着表，网上的帖子也还在发酵。',
+  done:[['骆闻舟','行，现场先到这儿。'],['','王洪亮在一旁跟人说笑，眼睛却一直跟着骆闻舟转。']],
+  all:[['','六处都看过了。陶然在本子上记下最后一笔，冲他点了点头。']],
+  quips:[
+   ['陶然','那边就是个垃圾堆，分局的人已经翻过了。'],
+   ['骆闻舟','（再往那边就是仓库墙根，全是碎砖头。）'],
+   ['王洪亮','骆队，那地方没什么好看的，晚上连个鬼影都没有。'],
+   ['陶然','闻舟，你是在勘查现场，还是在找地方晒太阳？']
+  ],
+  spots:[
+   {id:'note', n:1, x:150, y:126, label:'额头的纸条', clue:'note', fx:{}, say:[
+    ['','纸条是从什么纸袋上撕下来的一角，边缘毛毛糙糙，用透明胶粘在死者额头上，上面歪歪扭扭写着一个「钱」字。'],
+    ['王洪亮','您看，这不明摆着嘛，图钱，或者欠了钱——'],
+    ['骆闻舟','王局，这字写得挺用心，一笔一画的。'],
+    ['','网上管这叫「警告」。可这个字写得太认真了，不像是写给别人看的威胁。', null, ['它确实不是威胁。是死者自己写的。','d_repay']],
+    ['@clue','note']],
+    miss:[['陶然','额头那张纸条我取下来了，就一个「钱」字。'],['@clue','note']]},
+   {id:'neck', n:2, x:184, y:180, label:'死者颈部', clue:'neck', fx:{}, say:[
+    ['','骆闻舟蹲下去，轻轻拨开死者的领口。'],
+    ['','脖子上一道勒痕，宽而匀，边缘看不出绳子的纹路，像是软布带子勒的。后脑勺的头发里摸得到一个肿块，已经破了。'],
+    ['陶然','指甲缝是干净的，手上也没有抵抗伤。'],
+    ['骆闻舟','先一下把人敲晕，再慢慢勒。下手的人不想跟他面对面。', null, ['不想跟他面对面，多半是因为认识他。','neck']],
+    ['@clue','neck']],
+    miss:[['陶然','颈部勒痕、后脑钝器伤，法医都记下了。'],['@clue','neck']]},
+   {id:'wallet', n:3, x:222, y:124, label:'敞开的钱包', clue:'wallet', fx:{}, say:[
+    ['','钱包就扔在尸体边上，敞着口，里面一分钱都没剩，身份证和配送站的工牌倒还在。'],
+    ['陶然','手机没找到。'],
+    ['骆闻舟','抢了钱，拿走手机，还要费劲往人脑门上贴张纸条？这贼挺讲究仪式感。'],
+    ['@clue','wallet']],
+    miss:[['陶然','钱包被掏空了，手机不见了，证件都还在。'],['@clue','wallet']]},
+   {id:'shoes', n:4, x:262, y:176, label:'死者的鞋', clue:'shoes', fx:{}, say:[
+    ['','死者脚上是一双半旧的运动鞋，刷得很干净。'],
+    ['','骆闻舟抬头看了看四周。昨夜下过雨，这片空地全是烂泥，他自己的鞋帮上已经糊了一层。'],
+    ['陶然','你看他鞋底。'],
+    ['骆闻舟','纹路里几乎没有泥。这双鞋，没在这块地上走过。'],
+    ['@clue','shoes']],
+    miss:[['陶然','对了，死者的鞋很干净，鞋底几乎没有泥，我拍下来了。'],['@clue','shoes']]},
+   {id:'mud', n:5, x:306, y:220, label:'泥地上的脚印', clue:'mud', fx:{}, say:[
+    ['','骆闻舟围着尸体走了一圈。泥地上没有拖拽的痕迹，却印着好几种鞋印，新的旧的叠在一起。'],
+    ['骆闻舟','这么个鸟不拉屎的地方，晚上来的人倒不少。'],
+    ['王洪亮','嗐，西区嘛，人杂，小年轻晚上在这儿喝酒打牌的多了去了。'],
+    ['','王洪亮接得太快了。骆闻舟看了他一眼，笑笑，什么都没说。', null, ['这片空地，在有些人嘴里叫「金三角」。','report']],
+    ['@clue','mud']],
+    miss:[['陶然','空地上脚印很乱，没有拖拽痕迹。技术队在一个个比对。'],['@clue','mud']]},
+   {id:'window', n:6, x:128, y:68, label:'平房后窗', fx:{score:1, flag:'window'}, say:[
+    ['','空地北边是一排平房，后窗正对着这片荒地，离尸体不到五十米。'],
+    ['骆闻舟','这么近，昨晚要是有人吵架打架，屋里不可能一点都听不见。'],
+    ['陶然','我回头挨家问问。'],
+    ['骆闻舟','别穿制服去。这一片的人，看见警服就关门。']],
+    miss:[['骆闻舟','（北边那排平房离这儿不远，回头得找人去问问。）']]}
+  ]},
+ next:'wang'},
+
+wang:{ch:1, title:'熟人作案', pov:'luo', amb:'city', dt:4,
+ lines:[
+  ['@char','xiao'],
+  ['','分局那个戴眼镜的年轻人终于憋不住了，挤过来汇报，语速快得像在背课文。'],
+  ['肖海洋','骆队，我初步判断，我们不能排除这里不是第一现场的可能性，因为死者鞋底不符合在泥地上行走过的特征，而且尸体周围没有——'],
+  ['王洪亮','肖海洋！骆队问你了吗？'],
+  ['','王洪亮脸上的笑一下子收了，又一下子挂了回去，回头冲骆闻舟直摆手。'],
+  ['王洪亮','刚来的小孩，不懂事，说话颠三倒四的，您别跟他计较。'],
+  ['','肖海洋的脸涨得通红，嘴唇抿成一条线，人却没往后退。']
+ ],
+ choices:[
+  {t:'「刚工作的小孩想法多，多听听挺有意思。」——「不过王局说得对，熟人作案，方向没错。」', fx:{flag:'xiaoOk', score:2, min:3}, say:[
+    ['王洪亮','哎，还是骆队有水平！'],
+    ['','王洪亮笑得眼睛眯成了缝，拍了拍骆闻舟的胳膊。肖海洋飞快地看了骆闻舟一眼，没吭声，眼镜片后头有什么东西松动了一点。'],
+    ['','（顺着他说，让他以为市局就是来走个过场的。）']]},
+  {t:'「小孩子懂什么。王局，您接着说。」', fx:{min:2}, say:[
+    ['王洪亮','对对对，现在的年轻人啊……'],
+    ['','肖海洋低下头，往后退了一步。从那以后，他再没往骆闻舟这边看过一眼。']]},
+  {t:'「他说的有道理。王局，这儿多半不是第一现场。」', fx:{flag:'wangAlert', score:1, min:8}, say:[
+    ['','空地上安静了一瞬。'],
+    ['王洪亮','……骆队说的是，说的是。我们再好好查查。'],
+    ['','他嘴上应着，眼神却冷了下来。那天下午，分局在马小伟身上下的「功夫」，明显加了码。'],
+    ['@flag','xiaoOk']]}
+ ], next:'fenju'},
+
+fenju:{ch:2, title:'五块钱', pov:'luo', amb:'city', at:2250,
+ memo:'五块钱，打出一场群架。',
+ sense:['分局走廊里挤满了人，有哭的，有骂的，有蹲在墙根抽烟的。空气里全是汗味和隔夜的烟味。','耳朵里嗡嗡的，吵得像菜市场。'],
+ lines:[
+  ['','五月二十一日，下午，花市区分局。'],
+  ['','回来的车上陶然一直没说话，快到分局了才开口。'],
+  ['陶然','闻舟，花的事……费渡就是想谢谢我。你别老针对他。'],
+  ['骆闻舟','我针对他？他七年前什么样子，你又不是没见过。那小子离谁近，谁就得多长个心眼。'],
+  ['陶然','他那时候才多大。'],
+  ['骆闻舟','所以我才得盯着他。'],
+  ['','分局门口，一群人推推搡搡地被押进来。中午西区有人偷了五块钱被抓了个正着，两拨老乡越打人越多，最后打成了群架。'],
+  ['','偷钱的那个瘦小子叫马小伟，是死者何忠义的室友。'],
+  ['@char','ma'],
+  ['','人堆里有个穿保安制服的年轻人，脑门磕破了，还梗着脖子喊：「那天晚上我听见了！我听见有人吵架！」'],
+  ['','他叫于磊，在附近一所学校当保安。骆闻舟把他拉到一边，给学校的韩校长打了个电话，把他今天旷工的事兜了下来。于磊这才安静了。'],
+  ['@bilu',{title:'询问笔录（节录）', who:'于磊', lines:[{t:'问：二十号晚上你听到了什么？'},{t:'答：九点多，具体几点我',del:'记得',ins:'记不清了，九点到九点半吧。'},{t:'空地那边有两个男的在吵，都是外地口音，'},{t:'吵什么听不清。我还以为又是喝多了的。'}], sign:'于磊', note:'两个男的，外地口音。他说这句的时候没犹豫。——骆'}],
+  ['@clue','yulei'],
+  ['','隔壁屋里，马小伟缩在椅子上，眼睛一个劲往门口瞟。'],
+  ['骆闻舟','陶然，这个小的，咱俩一起问。']
+ ],
+ hub:{limit:3, prompt:'马小伟只肯把嘴张开这么一条缝——能问几句是几句', done:[['','马小伟被带了下去。走到门口他回头看了一眼，那眼神不像心虚，倒像害怕。'],['骆闻舟','他怕的不是我们。']], opts:[
+  {id:'alibi', t:'问他二十号晚上在哪儿', fx:{min:10}, say:[
+    ['马小伟','在、在家看电视。一晚上都没出门。'],
+    ['骆闻舟','看的什么？'],
+    ['马小伟','……就、就那个，电视剧。'],
+    ['','片名他报不上来。陶然在本子上画了个圈。']]},
+  {id:'heard', t:'问他听没听见吵架', fx:{min:12}, say:[
+    ['马小伟','听、听见了……九点一刻，楼后头有人吵……'],
+    ['','话一出口，他自己先僵住了。'],
+    ['骆闻舟','九点一刻？挺准啊，看电视还掐着表？'],
+    ['马小伟','我……我下楼看了一眼，路灯坏了，什么都没看见！一个人都没有！真的！'],
+    ['@bilu',{title:'询问笔录（节录）', who:'马小伟', lines:[{t:'问：二十号晚上九点以后你在哪里？'},{t:'答：',del:'在家看电视',ins:'九点一刻听见楼后面有人吵，下楼看了一眼，'},{t:'路灯坏了，什么都没看见，就上楼了。'},{t:'问：看见什么人没有？答：没有。一个都没有。'}], sign:'马小伟', note:'「一个都没有」，他说了四遍。——骆'}],
+    ['@clue','nine15']]},
+  {id:'room', t:'问他何忠义平时跟谁来往', fx:{min:8}, say:[
+    ['马小伟','他……他有个老乡叫赵玉龙，前两天回老家奔丧去了。'],
+    ['马小伟','别的我不知道。他这人整天就知道干活攒钱，跟我们说不到一块儿。'],
+    ['陶然','你们住一个屋，他攒的钱放在哪儿，你知道吗？'],
+    ['','马小伟的脸一下子白了。'],
+    ['@flag','yulongName']]},
+  {id:'press', t:'「偷东西够你进去好几回了。想清楚再说。」', fx:{min:6, flag:'pressMa'}, say:[
+    ['','马小伟浑身一抖，把脸埋进胳膊里，再也不肯抬头。'],
+    ['陶然','（低声）闻舟，他吓坏了。再这么问，他只会把嘴闭得更紧。'],
+    ['骆闻舟','……行，你来。']]},
+  {id:'stop', t:'（够了，先到这儿）', end:true, fx:{}, say:[['陶然','行，回头再说。']]}
+ ]}, next:'gate'},
+
+gate:{ch:2, title:'分局门口', pov:'luo', amb:'city', at:2550,
+ memo:'今天单号。他那辆车，尾号是双数。',
+ lines:[
+  ['','傍晚，骆闻舟走出分局大门，一眼看见马路对面停着一辆扎眼的跑车。'],
+  ['','车窗降下来，费渡冲陶然点点头，笑得斯斯文文。'],
+  ['费渡','陶警官辛苦了。顺路，送你回家？'],
+  ['','骆闻舟停住了脚。'],
+  ['骆闻舟','（燕城就没有哪条路跟他顺。）']
+ ],
+ choices:[
+  {t:'「费总不在公司数钱，跑分局门口来干什么？」', fx:{min:4}, say:[
+    ['费渡','来接人。骆队也搭一程？'],
+    ['骆闻舟','不用，我骑车。'],
+    ['费渡','那真遗憾。'],
+    ['','两个人隔着一扇车窗，客气得像两把出了鞘的刀。陶然夹在中间叹了口气。'],
+    ['陶然','我跟他走吧。你也早点回去，别又熬一宿。']]},
+  {t:'「今天单号，你这车尾号是双数。要不要我叫交警来贴张条？」', fx:{trust:-1, min:4, flag:'ticket'}, say:[
+    ['费渡','骆队记性真好。'],
+    ['','他笑了一下，瞥了眼后视镜。'],
+    ['费渡','罚款我交。人我接走。'],
+    ['陶然','……闻舟，你幼不幼稚。']]},
+  {t:'（冲陶然摆摆手）「去吧。路上把案子跟他聊两句也行——他眼睛毒。」', fx:{trust:1, min:3, flag:'letTao'}, say:[
+    ['','费渡难得地愣了一下。'],
+    ['费渡','骆队今天心情不错。'],
+    ['骆闻舟','少废话。把人安全送到家。'],
+    ['','车开走了。骆闻舟在路边站了一会儿，才想起自己的自行车还锁在分局院子里。']]}
+ ], next:'carFei'},
+
+carFei:{ch:2, title:'车上', pov:'fei', amb:'city', dt:20,
+ memo:'——以下据费渡事后所述补记。',
+ sense:['陶然身上有分局走廊的烟味，还有一点西区的泥腥气。他自己大概闻不出来。','我不喜欢血，照片上的也不喜欢。'],
+ lines:[
+  ['','车开上高架。陶然的包搁在脚边，拉链没拉严，一沓现场照片滑出来，散在了座椅底下。'],
+  ['陶然','哎，别看——'],
+  ['','晚了。费渡已经弯腰捡起了一张。照片上有血，他的脸色白了一下，可没把照片放下。'],
+  ['费渡','我只看衣服和鞋。陶警官放心，不看脸。']
+ ],
+ hub:{limit:2, prompt:'费渡只翻了几张——', done:[
+   ['','陶然把照片收回包里，从兜里摸出两颗奶糖，塞给他一颗。'],
+   ['陶然','低血糖吧？脸都白了。'],
+   ['','费渡看着那颗糖，没剥，攥在了手心里。'],
+   ['','照片收拢的时候，最底下一张露出了一角：死者的证件照。'],
+   ['','一张黝黑的脸，额角一道月牙形的小疤。'],
+   ['@flag','feiPhoto'],
+   ['','费渡的手指停住了。'],
+   ['','傍晚，咖啡店。「承光公馆，是在这附近吧？」']], opts:[
+  {id:'coat', t:'看外衣', fx:{min:3}, say:[
+    ['','外衣是新的，样式有点土，领口里却露出一截没剪的吊牌。'],
+    ['费渡','衣服是新买的。吊牌留着，打算穿一次就拿去退。'],
+    ['陶然','……这也看得出来？'],
+    ['费渡','一个过日子精打细算的人，特意花钱买了新衣服，又舍不得真把这钱花出去——他那天要见的人，让他觉得非体面不可。'],
+    ['@clue','tag']]},
+  {id:'shoe', t:'看鞋', fx:{min:3}, say:[
+    ['','鞋刷得很干净。左脚鞋帮外侧磨得厉害，右脚却几乎没怎么磨。'],
+    ['费渡','这双鞋不是他的。他走路的样子和鞋的磨损对不上。'],
+    ['陶然','借的？'],
+    ['费渡','借来的鞋，配一身新衣服。'],
+    ['@clue','borrowed']]},
+  {id:'paper', t:'看那张纸条', fx:{min:3}, say:[
+    ['','那个「钱」字写得很笨拙，一笔一画，像小学生在作业本上写的。'],
+    ['费渡','网上说这是警告。可警告不会写得这么认真。'],
+    ['费渡','倒像是……一个不怎么会写字的人，给自己记的一笔账。'],
+    ['@flag','feiPaper']]}
+ ]}, next:'carFei2'},
+
+carFei2:{ch:2, title:'楼下', pov:'fei', amb:'city', dt:15,
+ lines:[
+  ['','车停在陶然家楼下。陶然道了谢，拎着包下车，又弯下腰敲了敲车窗。'],
+  ['陶然','花，谢谢。……下回别送了，闻舟看见能念叨一个礼拜。'],
+  ['','费渡笑着应了。车窗升上去，他看着陶然走进楼道。']
+ ],
+ choices:[
+  {t:'（把那张脸记在心里，什么都不说）', fx:{flag:'feiKept'}, say:[
+    ['','一面之缘，几句话，说出来也帮不上什么忙。'],
+    ['','他这样告诉自己，把车开走了。'],
+    ['','后来他想，那天晚上他其实只是不想让骆闻舟知道：死者生前最后几个钟头，曾经从他眼前走过去。']]},
+  {t:'（给陶然发一条消息：「照片上那个人，我傍晚见过。」）', fx:{flag:'feiToldEarly', trust:1}, say:[
+    ['@phone',[['fei','照片上那个人，我傍晚在东区见过。他在打听承光公馆在哪儿。'],['tao','承光公馆？……我明早跟闻舟说。谢谢你。']]],
+    ['@clue','askedway']]}
+ ], next:'morning'},
+
+morning:{ch:3, title:'人赃并获', pov:'luo', amb:'city', at:3390,
+ memo:'他笑，我也笑。看谁先笑不下去。',
+ lines:[
+  ['','五月二十二日，早上。'],
+  ['@phone',[['lang','老大，分局把马小伟拘了！说在他身上搜出了死者的手机，上面有两个人的指纹。','08:12'],['lang','他身份证是改过的，其实才十六。','08:13'],['luo','知道了。盯着，别让人动他。','08:15']]],
+  ['@clue','phonefound'],
+  ['','花市区分局。王洪亮红光满面，亲自给骆闻舟倒了杯茶。'],
+  ['王洪亮','骆队，您看，人赃并获！小崽子偷了室友的东西，被发现了，一言不合就动了手——典型的熟人作案嘛。'],
+  ['','郎乔站在骆闻舟身后，眼睛瞪得快冒火了。'],
+  ['王洪亮','您回去跟张局说一声，这事儿啊，我们分局就办了。']
+ ],
+ choices:[
+  {t:'（端起茶喝了一口）「王局效率高。那我们就不添乱了。」', fx:{score:2, flag:'wangCalm', min:10}, say:[
+    ['王洪亮','哪里哪里，都是为了工作！'],
+    ['','一出分局大门，郎乔就炸了。'],
+    ['郎乔','老大！他那是屈打成招！一个十六岁的孩子——'],
+    ['骆闻舟','我知道。'],
+    ['骆闻舟','让他高兴两天。人一高兴，手就容易松。你帮我盯着马小伟，别让他在里面出事。']]},
+  {t:'「一部手机就定案了？凶器呢？第一现场呢？王局，程序得走全。」', fx:{flag:'wangAlert', min:15}, say:[
+    ['','王洪亮的笑僵了一下，很快又恢复了。'],
+    ['王洪亮','骆队说得对，说得对，我们一定补齐。'],
+    ['','他补得很快。当天下午，马小伟就被单独关了起来，谁都见不着了。'],
+    ['郎乔','老大，这下我们连人都见不着了。']]},
+  {t:'「人我带回市局问。」', fx:{flag:'wangAlert', min:12}, say:[
+    ['王洪亮','这……不合规矩吧？案子还在我们分局手上呢。'],
+    ['','他不软不硬地把话挡了回来。骆闻舟手里没有移交手续，只好作罢。'],
+    ['','走的时候王洪亮送到门口，笑容一分没少，眼神却像在掂量什么。']]}
+ ], next:'heiche'},
+
+heiche:{ch:3, title:'黑车', pov:'luo', amb:'city', at:3540,
+ memo:'车费三十。他没收。',
+ sense:['车里一股廉价香水混着烟灰缸的味道，后视镜上挂的平安符已经褪成了粉色。','后面那辆面包车，跟了我们三个路口。'],
+ lines:[
+  ['','交通枢纽附近，黑车一辆挨一辆地趴着等活。骆闻舟随手拦了一辆，上车报了个地名。'],
+  ['','开车的男人三十来岁，眉头一直拧着。开出去两条街，他忽然从座位底下抽出一个牛皮纸袋，扔到了副驾驶上。'],
+  ['@char','chen'],
+  ['陈振','你是市局的骆队长吧？我在这儿等了你好几天了。'],
+  ['陈振','花市区分局有人给卖毒品的打掩护。我姐叫陈媛，她就是因为这个死的。他们说她吸毒过量……她根本不吸毒！'],
+  ['','骆闻舟翻了翻纸袋里的东西，没急着开口。后视镜里，那辆白色面包车又跟着拐了个弯。'],
+  ['@clue','report']
+ ],
+ choices:[
+  {t:'「后面有人跟着你。东西我收下了，你记我电话，有事直接打。」', fx:{score:2, flag:'chenNum', min:20}, say:[
+    ['','陈振看了一眼后视镜，脸色变了，攥着方向盘的指节发白。'],
+    ['陈振','……好。'],
+    ['','骆闻舟把号码写在烟盒上，塞进他的储物格。下车的时候，陈振没收他车钱。']]},
+  {t:'「这事你别再管了，交给我们。」', fx:{flag:'chenWarn', min:15}, say:[
+    ['陈振','交给你们？我交过！交给分局，交给信访办，交到最后，我姐成了吸毒的！'],
+    ['','他把车停到路边，示意骆闻舟下去。骆闻舟犹豫了一下，还是把号码留在了座位上。']]},
+  {t:'「你姐姐的事，我会查。我保证。」', fx:{flag:'chenPromise', min:18}, say:[
+    ['','陈振愣了很久，眼圈慢慢红了。'],
+    ['陈振','……这句话，我等了一年。'],
+    ['','骆闻舟把号码留给了他。车开走的时候，陈振没敢回头去看那辆面包车。']]}
+ ], next:'rain'},
+
+rain:{ch:3, title:'暴雨之前', pov:'fei', amb:'city', at:3630,
+ memo:'——那天下午他去了哪儿，费渡没跟任何人说过。',
+ sense:['天阴得厉害，云压得很低，像一床泡了水的棉被。','办公室的冷气开得太足。我把那颗奶糖从西装口袋里拿出来，又放了回去。'],
+ lines:[
+  ['','五月二十二日，中午，费氏集团顶层。'],
+  ['','费渡给承光公馆的老板打了个电话，那人欠他一个人情。半小时后，一块移动硬盘送到了他桌上。'],
+  ['','二十号晚上，公馆里里外外所有摄像头的录像。'],
+  ['费渡','（他要去承光公馆见一个人。见谁？那天晚上院子里的人，我都认识。）'],
+  ['@sys','提示：每看一组录像约 20 分钟。天边已经开始打闷雷了。']
+ ],
+ hub:{limit:3, prompt:'录像太多，只能挑着看——', done:[['','窗外一道闪电劈下来，几秒钟后，雷声从整栋楼上滚过去。'],['费渡','（垃圾桶上的烟头。）','clue:nest']], opts:[
+  {id:'park', t:'看停车场', fx:{min:20}, say:[
+    ['','豪车一辆接一辆，泊车的小弟跑得满头大汗。'],
+    ['','没有那张脸。一个骑电动车送外卖的，进不了这种停车场。']]},
+  {id:'gate', t:'看正门', fx:{min:20}, say:[
+    ['','门口的保安拦下过两个想进来看热闹的路人，都不是他。'],
+    ['费渡','（他没走正门。他知道自己进不去。）']]},
+  {id:'yard', t:'看院子里', fx:{min:20}, say:[
+    ['','院子里灯红酒绿。张东来端着杯子来回乱窜，九点前后出门送了一拨饭局散场的客人，又晃了回来，再没离开过。'],
+    ['费渡','（张东来一晚上都在这儿。）'],
+    ['@clue','cctvz']]},
+  {id:'path', t:'看外围那条石子小路', fx:{min:20}, say:[
+    ['','画面边上是一团模糊的枝叶。这是一个伪装成鸟窝的隐蔽摄像头，大概是公馆老板拿来防贼的。'],
+    ['','20:50 左右，一个年轻人走进了画面。他抱着一个牛皮纸袋，在路边来回踱步，点了一根烟，又点了一根。'],
+    ['','他接了个电话，把烟头摁灭在垃圾桶盖上，转身走了。'],
+    ['','费渡把画面放大。额角，一道月牙形的疤。'],
+    ['@clue','nest']]}
+ ]}, next:'rain2'},
+
+rain2:{ch:3, title:'第一滴雨', pov:'fei', amb:'rain', dt:0,
+ lines:[['','雨还没落下来，风已经起了，楼下的树被吹得东倒西歪。']],
+ choices:[
+  {if:'clue:nest', t:'（抓起车钥匙，马上去那条小路）', fx:{min:40, check:{flag:'buttsOk', cond:'time<=3700'}}, say:[
+    ['','费渡一路把车开得飞快。拐进那条石子小路时，第一滴雨正好砸在挡风玻璃上。','buttsOk'],
+    ['','垃圾桶盖上还留着几个烟头。他戴上手套，一个一个捡进盒子里。刚扣上盖子，暴雨就倾盆而下。','buttsOk'],
+    ['@clue','butts','buttsOk'],['@ach','rain','buttsOk'],
+    ['','等他赶到，雨已经下了好一阵。垃圾桶盖上的积水漫过了边沿，烟头早被冲得不知去向。','!buttsOk'],
+    ['费渡','（晚了。）','!buttsOk'],
+    ['','他浑身湿透地站在雨里，手机响了，是陶然。']]},
+  {if:'clue:nest', t:'（先把录像剪出来，发给陶然）', fx:{min:30, flag:'sentFirst'}, say:[
+    ['','费渡把那段画面截下来，连同时间码一起发给了陶然。等他赶到那条小路，暴雨已经下了半个钟头。'],
+    ['','垃圾桶盖上的烟头，早被冲没了。'],
+    ['','手机响了，是陶然。']]},
+  {if:'!clue:nest', t:'（合上电脑。也许是自己想多了）', fx:{min:5}, say:[
+    ['','雨终于下来了，噼里啪啦地砸在落地窗上。'],
+    ['','手机响了，是陶然。']]}
+ ], next:'zhang'},
+
+zhang:{ch:3, title:'张局的侄子', pov:'luo', amb:'rain', at:3780,
+ memo:'「七年整了。」',
+ lines:[
+  ['@pov','fei'],
+  ['陶然','（电话里）费渡，问你个事。二十号晚上，你是不是在承光公馆，跟张东来在一起？'],
+  ['','窗外炸开一声雷。'],
+  ['费渡','……在。怎么了？'],
+  ['陶然','我们查到，死者生前跟张东来起过冲突。张东来打过他。'],
+  ['@pov','luo'],
+  ['','这天上午，陶然和肖海洋找到了死者的同乡赵玉龙。'],
+  ['陶然','（电话里）闻舟，赵玉龙说那双鞋是他借给何忠义的。何忠义说要去承光公馆见一个人，见谁没说。'],
+  ['陶然','还有那部白手机——何忠义跟他说，是挨了打以后人家赔礼送的。我们顺着他的送餐路线找到了监控：打他的，是张东来。'],
+  ['骆闻舟','……你再说一遍，谁？'],
+  ['陶然','张东来。张局的侄子。'],
+  ['@clue','zhaoyl'],
+  ['','赵玉龙说完这些，就说要赶回老家去了。', null, ['这个「赵玉龙」是谁，后面几卷另有交代。','zhaoyl']],
+  ['','下午三点，张东来被带进了市局，一路骂骂咧咧，说要给他叔打电话，说他什么都不知道。'],
+  ['','一个钟头后，费渡来了，衣服半湿，客客气气地说是来「配合调查」的。'],
+  ['','骆闻舟亲自给他做询问。他摸出烟盒，刚抽出一根，费渡轻轻咳了一声。'],
+  ['费渡','抱歉，最近有点咽炎。']
+ ],
+ choices:[
+  {t:'（把打火机放下）「二十号晚上，你和张东来一直在一起？想好了再说。」', fx:{trust:1, flag:'lighter', min:20}, say:[
+    ['','费渡看了一眼那只被放下的打火机，像是有点意外。'],
+    ['费渡','在。八点到十二点，他一直在院子里，人来人往，少说有几十个人能作证。']]},
+  {t:'「咽炎？还得先把你哄高兴了才开口？要不我给你唱首歌，再去楼下买袋糖？」', fx:{min:20}, say:[
+    ['费渡','糖就不必了，骆队。'],
+    ['','他笑了一下，像是被逗乐了，又像在看一个闹脾气的小孩。'],
+    ['费渡','二十号晚上，张东来一直在公馆院子里，很多人都能作证。']]},
+  {t:'（把烟点上）「费总，你跟张东来什么关系？」', fx:{trust:-1, min:20}, say:[
+    ['','烟雾飘过去，费渡往后靠了靠，脸上的笑一丝没变。'],
+    ['费渡','酒肉朋友。骆队要是想问他那天晚上在哪儿——在院子里，一直在，很多人看见。'],
+    ['','他答得滴水不漏，多一个字都不给。']]}
+ ], next:'zhang2'},
+
+zhang2:{ch:3, title:'U 盘', pov:'luo', amb:'rain', dt:0,
+ lines:[
+  ['费渡','而且骆队，张东来这个人，打架只会扇巴掌。'],
+  ['费渡','先把人敲晕，再拿布带慢慢勒死——这得有耐心，得冷静，得心里有数。他没这个本事。'],
+  ['骆闻舟','你倒挺了解你这个朋友。'],
+  ['费渡','看清一个人有多大本事，比看清他有什么脾气容易。'],
+  ['','他从口袋里摸出一个 U 盘，放在桌上，推了过来。','trust>=0'],
+  ['费渡','公馆院里的监控。我想骆队用得上。','trust>=0'],
+  ['@clue','cctvz','trust>=0'],
+  ['','他什么都没再拿出来。骆闻舟知道他手里还有东西，也知道今天是问不出来了。','trust<0'],
+  ['费渡','还有一件事。这案子一出来，照片就传遍了网，分局删都删不干净；转眼又扯上了张局的侄子。'],
+  ['费渡','骆队不觉得太巧了吗？是巧合，还是有人在整你们？'],
+  ['','骆闻舟看着他。窗外还在下雨，雨水打在玻璃上，一道一道往下淌。'],
+  ['骆闻舟','费渡，你妈那件事，七年整了吧。'],
+  ['','费渡脸上的笑没变，只是垂下眼睛，看了看桌上的 U 盘。'],
+  ['费渡','……骆队记得真清楚。'],
+  ['','他起身告辞，走得很慢很稳，从背影上一点也看不出衣服是半湿的。']
+ ], next:'luju'},
+
+luju:{ch:3, title:'避嫌', pov:'luo', amb:'rain', at:3900,
+ memo:'张局避嫌，这案子归陆局了。',
+ lines:[
+  ['@char','lu'],
+  ['','张局主动提出避嫌。副局长陆有良接手了这个案子，把骆闻舟叫进了办公室。'],
+  ['陆局','说吧，你小子又憋着什么主意？'],
+  ['骆闻舟','陆叔，我觉得这是两个案子绞在了一块儿：一个是何忠义的死，一个是花市区那摊烂事。王洪亮急着拿马小伟结案，一半是想捂住他自己的盖子。'],
+  ['骆闻舟','可我只要一伸手碰分局，王洪亮就会把脖子缩回去。'],
+  ['陆局','那你打算怎么办？']
+ ],
+ choices:[
+  {t:'「先把张东来挂成重点嫌疑人。让王洪亮以为市局的眼睛已经从西区挪开了。」', fx:{score:2, flag:'split', min:15}, say:[
+    ['陆局','……你这是拿张局的侄子当幌子。'],
+    ['骆闻舟','他打过死者，本来就说不清。挂几天，委屈不死他。'],
+    ['','陆局盯着他看了半天，叹了口气，签了字。'],
+    ['陆局','给我当心点。']]},
+  {t:'「张东来有不在场证明，先放了吧。」', fx:{flag:'cleared', min:10}, say:[
+    ['陆局','放了也好，省得别人说我们包庇。'],
+    ['','张东来当晚就被他叔叔的人接走了。第二天，市局澄清他「已排除嫌疑」的消息传得到处都是。'],
+    ['','（暗处有人听到了这个消息。他原先的打算，得改一改了。）']]},
+  {t:'「直接申请查王洪亮。证据我慢慢补。」', fx:{flag:'wangAlert', min:20}, say:[
+    ['陆局','证据呢？就凭一个黑车司机的举报材料？'],
+    ['陆局','你前脚递申请，后脚王洪亮就知道了。闻舟，别冲动。'],
+    ['','申请被压了下来。可这阵风，还是从哪道缝里漏了出去。']]}
+ ], next:'night'},
+
+night:{ch:3, title:'顺便', pov:'luo', amb:'rain', at:4230,
+ memo:'「顺便。」——他顺便办的事，比别人专门办的都多。',
+ sense:['楼道的声控灯又坏了。我摸黑上楼，听见门里骆一锅在挠门。','猫粮味，雨水味，还有门口一个快递盒子带上来的凉气。'],
+ lines:[
+  ['','深夜，骆闻舟拖着一身湿气回到家，门口放着一个快递盒子。'],
+  ['','骆一锅蹲在盒子上，一副「这是朕的」的架势。','clue:butts'],
+  ['','盒子里是一个密封好的证物盒，装着几个烟蒂，还有一张打印出来的照片：承光公馆外那条石子小路，树杈里藏着一个鸟窝摄像头。','clue:butts'],
+  ['','附了一张卡片，只写了两个字：「顺便」。','clue:butts'],
+  ['骆闻舟','（……这小子下午到底干什么去了。）','clue:butts'],
+  ['','骆一锅蹲在门口，一脸嫌弃地看着他。家里什么都没多，什么也没少。','!clue:butts'],
+  ['','骆闻舟换了件干衣服，又回了市局。陶然还在办公室，一帧一帧地翻承光公馆周边的录像。'],
+  ['陶然','费渡下午发了一段录像给我，公馆外面一条小路上，有个鸟窝摄像头拍到了死者。','sentFirst'],
+  ['','两个人顺着那条石子小路往外推：路口，路灯，公交站——「南平大道东」。','clue:nest'],
+  ['','公交站的摄像头拍到，那个抱着牛皮纸袋的年轻人上了一辆 34 路，时间是九点十分前后。','clue:nest'],
+  ['','没有鸟窝那一段，他们只能一个路口一个路口地硬找。快天亮的时候，才在一个公交站的录像里看到那个抱着纸袋的年轻人上了一辆 34 路。','!clue:nest'],
+  ['@time',60,'!clue:nest'],
+  ['@clue','bus34'],
+  ['陶然','他九点多就走了。张东来一直在院子里，这两个人那天晚上压根没碰上面。'],
+  ['骆闻舟','那他抱着那个纸袋，是要去见谁？'],
+  ['陶然','也许他要见的人一直没出来见他。他等不到，就自己找过去了。'],
+  ['','骆闻舟掏出手机，把陶然刚才那段话录了下来，想了想，发给了一个号码。'],
+  ['@phone',[['luo','【语音 0:42】'],['luo','礼尚往来。'],['fei','多谢。']]],
+  ['','这时候的费渡，正坐在一间安静的咨询室里。他的心理咨询师白老师问他最近睡得好不好，他说很好。'],
+  ['','手机亮了一下。他听完那段语音，嘴角弯了弯，回了两个字。白老师看了他一眼，什么都没问。']
+ ], next:'quiz1'},
+
+quiz1:{ch:3, title:'两碗泡面', pov:'luo', amb:'clock', dt:10,
+ lines:[
+  ['','凌晨，支队办公室里只剩两个人。陶然泡了两碗面，推了一碗给骆闻舟。'],
+  ['陶然','你捋一遍，我听着。'],
+  ['@sys','提示：证物袋里可以「组合推理」：挑两件证物合在一起，也许能推出新的结论。']
+ ],
+ quiz:{title:'第二夜', sub:'骆闻舟自问自答，陶然在旁边听。每题 3 分；想岔一题，多耗 5 分钟。', qs:[
+  {q:'死者鞋底几乎没有泥，最合理的解释是？', opts:['他是被人背进空地的','他死在别处，死后才被扔到这片空地上','雨把鞋底冲干净了'], rx:['陶然','雨冲得干净鞋底，冲不干净鞋帮。你自己蹲下去看过的。'], ans:1, ex:'鞋没在泥地上走过，现场也没有挣扎和拖拽的痕迹：金三角空地是抛尸的地方，不是第一现场。'},
+  {q:'借来的鞋、没剪吊牌的新衣服，说明他那天？', opts:['打算离开燕城','要去见一个他心里很看重的人','想冒充有钱人混进承光公馆'], rx:['陶然','真要冒充有钱人，就不会去借老乡的旧鞋了。'], ans:1, ex:'一个处处省钱的人特意打扮了一番，是想体体面面地去见一个人。'},
+  {q:'二十号晚上九点以后，张东来和死者？', opts:['在承光公馆外起了冲突','根本没碰上面：一个在院里，一个已经上了 34 路','张东来开车追了出去'], rx:['陶然','录像里，张东来那天晚上连院门都没出过几步。'], ans:1, ex:'时间线对不上。张东来打过他，可那天晚上，两个人连面都没见着。'}
+ ], feedback:[
+  [['陶然','……先吃面吧。吃完再想。'],['骆闻舟','面都坨了。']],
+  [['陶然','有一道门开了条缝，顺着往下想。']],
+  [['陶然','大方向对了，细节再磨一磨。']],
+  [['陶然','嗯，跟我想的一样。'],['骆闻舟','那当然，我是你队长。'],['陶然','你是我队长，所以面钱你出。']]
+ ]}, next:'fengnian'},
+fengnian:{ch:4, title:'冯年哥', pov:'luo', amb:'city', at:4830,
+ memo:'冯年哥。',
+ lines:[
+  ['','五月二十三日，早上。'],
+  ['@char','zt'],
+  ['','张婷来了。一身白裙子，眼圈有点红，旁边跟着拎公文包的刘律师。费渡走在最后，替她拉开了门。'],
+  ['张婷','我哥他……脾气是不好，可他不会杀人的。'],
+  ['张婷','那个男孩子我其实见过。他在我公司楼下拦过我，问我认不认识一个叫「冯年哥」的人。我说不认识，他还不肯走，正好我哥来接我，看见了，就……'],
+  ['骆闻舟','就打了他一顿。'],
+  ['张婷','……那天我男朋友也开车来接我，是他把我哥拉开的。'],
+  ['@bilu',{title:'询问笔录（节录）', who:'张婷', lines:[{t:'问：死者拦住你时说了什么？'},{t:'答：他问我认不认识一个叫'},{t:'「冯年哥」的人，说有急事要找他。'},{t:'问：当时还有谁在场？答：我哥，',del:'还有',ins:'后来我男朋友赵浩昌开车来了。'}], sign:'张婷', note:'「冯年哥」。有些地方的口音念「丰年」，也是这个音。——骆'}],
+  ['@clue','fengnian'],
+  ['@char','zhao'],
+  ['','问完话，张婷跟着刘律师去办手续。走廊里只剩下骆闻舟和费渡。'],
+  ['费渡','骆队昨天说，七年整了。'],
+  ['费渡','我想听听骆队当年查到的东西。全部。']
+ ],
+ choices:[
+  {t:'（把当年的证据一条一条说给他听，不加一句安慰）', fx:{trust:1, flag:'told', min:15}, say:[
+    ['','骆闻舟没躲。现场的痕迹、时间、遗书、药——他一条一条往下说，像在念一份早就背熟了的卷宗。'],
+    ['骆闻舟','证据就这些。我知道你不信。可一个人要是死揪着一件早有结论的事不放，最后伤着的只会是他自己。'],
+    ['','费渡听完，很久没说话。'],
+    ['费渡','我不接受这个结论。'],
+    ['费渡','……不过骆队的忠告，也未必没有道理。'],
+    ['','他说完就走了。骆闻舟在走廊里站着，觉得刚才那几句话比审一整夜还累。']]},
+  {t:'「这事以后再说。你眼下该操心的是张东来。」', fx:{min:5}, say:[
+    ['费渡','也是。'],
+    ['','他笑了笑，那笑礼貌得像一扇关上的门。'],
+    ['费渡','那就以后再说吧，骆队。']]},
+  {t:'「当年……也许是我们漏了什么。」', fx:{trust:-1, flag:'falseHope', min:8}, say:[
+    ['','费渡抬起头看着他。'],
+    ['费渡','骆队，你是在可怜我吗？'],
+    ['','那双眼睛里有一瞬间什么都没有，冷得像一口井。'],
+    ['费渡','不必，我不需要。']]}
+ ], next:'mother'},
+
+mother:{ch:4, title:'520', pov:'luo', amb:'city', at:4980,
+ memo:'她从口袋里掏出一张存折，说是给儿子办事用的。',
+ lines:[
+  ['@char','wxj'],
+  ['','中午，何忠义的母亲王秀娟到了燕城。她瘦得厉害，脸色蜡黄，手腕上全是常年透析留下的针眼。'],
+  ['','她不哭也不闹，只是一遍一遍地问：「我家忠义是好孩子，他是不是让人欺负了？」'],
+  ['','同一天，花市区分局把「520」案正式移交给了市局。王洪亮在电话里笑得很爽快，像终于甩掉了一个烫手山芋。','split'],
+  ['','同一天，花市区分局把「520」案移交给了市局。王洪亮的电话打得很客气，客气得让人心里发毛。','!split'],
+  ['@phone',[['tao','34 路的终点是文昌路口。他在那儿下的车，之后就找不着了。'],['tao','法医报告出来了：死亡时间九点到十点。血里查不出毒品。'],['tao','还有，死者手机的通讯记录里，二十号晚上九点五十，有一条黑号发来的短信——'],['luo','电话里别说了。回来当面讲。']]],
+  ['@clue','autopsy'],
+  ['@clue','sms'],
+  ['','骆闻舟挂了电话，在路边站了一会儿，拦了一辆黑车。开车的，又是陈振。'],
+  ['','陈振跟他讲起姐姐陈媛：在燕西政法念书，一心想当警察；后来去夜总会打工，说是要「找证据」；再后来，就成了一具「吸毒过量」的尸体。'],
+  ['骆闻舟','金三角空地，你听说过吗？'],
+  ['','陈振握方向盘的手猛地一紧，车差点蹭上马路牙子。'],
+  ['陈振','……你从哪儿听来的这个名字？'],
+  ['','他再没说别的。下车时，骆闻舟看见他在后视镜里盯着自己，嘴唇动了动，像是有话到了嘴边，又咽了回去。']
+ ], next:'zhaoOffice'},
+
+zhaoOffice:{ch:4, title:'老家', pov:'fei', amb:'city', at:5460,
+ memo:'他说他是燕城本地人。',
+ sense:['他的古龙水很贵，贵得有点刻意。','会议室的灯太亮，照得每个人都像一张证件照。'],
+ lines:[
+  ['','傍晚，费氏集团会议室。荣顺律师事务所来谈一个法律顾问的项目，带头的是个年轻的合伙人。'],
+  ['赵浩昌','费总，久仰。我是赵浩昌，张婷的男朋友——我们其实在她哥那儿见过一面。'],
+  ['','他西装笔挺，谈吐得体，讲起合同条款滔滔不绝，脸上总带着一点学生似的腼腆。'],
+  ['','正事谈完，费渡亲自送他到电梯口，像是随口一问。'],
+  ['费渡','听赵律师的口音，不太像燕城人？老家是哪儿的？']
+ ],
+ read:{key:'read2', title:'读人 · 电梯口的赵浩昌', sub:'再普通不过的一个问题。费渡在等：他身上哪一处会先说实话。',
+  segs:['他',{id:'smile',t:'笑着说「就是燕城本地的」'},'；',{id:'pause',t:'开口之前喉结动了一下，停了快一秒'},'；',{id:'cuff',t:'顺手理了理本来就很平整的袖扣'},'；',{id:'joke',t:'接着开了个玩笑，说燕城人最怕被人问老家'},'。'],
+  ans:'pause',
+  ex:{smile:'笑是练过的，答案也是练过的。练过的东西不算破绽。',
+      pause:'本地人回答「老家在哪儿」，用不着想。他停的那一秒，是在把一个名字咽回去。',
+      cuff:'理袖扣是他的习惯动作，紧不紧张都会做。',
+      joke:'玩笑是给那一秒打的补丁。补丁本身不是伤口。'},
+  ok:{flag:'readZhao', score:2}, bad:{},
+  after:[
+   ['','电梯门合上了。费渡在门外站了一会儿。','readZhao'],
+   ['费渡','（他在撒谎。一个连老家都要藏起来的人。）','readZhao'],
+   ['','费渡没多想，转身回了办公室。','!readZhao'],
+   ['@pov','luo']
+  ]},
+ next:'release'},
+
+release:{ch:4, title:'钓鱼', pov:'luo', amb:'city', at:6300,
+ memo:'放人，钓鱼。',
+ lines:[
+  ['','五月二十四日，周五，限行的最后一天。'],
+  ['','陈振托人送来了姐姐陈媛留下的一本相册。翻到最后几页，有一张合影，背面写着：「和小崔，燕西政法」。'],
+  ['@flag','cuiName'],
+  ['','询问室里，张东来已经待了快两天，胡子拉碴，嗓子都喊哑了。','!cleared'],
+  ['张东来','我真没杀人！我就是踹了他几脚！谁知道他……谁知道他会死啊！','!cleared'],
+  ['骆闻舟','你踹他那天，他手机碎了没有？','!cleared'],
+  ['张东来','我哪知道！……碎、碎了吧？我妹后来好像让人赔了他一个？','!cleared'],
+  ['','他说完还挺得意，像是终于想起了一个有用的细节。骆闻舟看着他，头一回有点同情张局。','!cleared'],
+  ['','张东来早就被放走了。市局对外澄清他「已排除嫌疑」，他叔叔的面子算是保住了。','cleared'],
+  ['陆局','（电话里）闻舟，张东来那边到时间了。你怎么打算？','!cleared']
+ ],
+ choices:[
+  {if:'!cleared', t:'「证据不足，放人。别的一个字都不说。」', fx:{score:2, flag:'bait', min:10}, say:[
+    ['陆局','一个字都不说？外头可都盯着呢。'],
+    ['骆闻舟','就是要让他们盯着。'],
+    ['','张东来被他的律师接走了。市局只说了四个字：证据不足。'],
+    ['','（躲在暗处的那个人，会不会觉得这是个机会？）']]},
+  {if:'!cleared', t:'「放人，对外说清楚：他有不在场证明，嫌疑已经排除。」', fx:{flag:'cleared', min:10}, say:[
+    ['','张东来放出去了，市局的澄清第二天就上了新闻。'],
+    ['','（暗处的那个人，大概松了口气，也收了手。）']]},
+  {if:'cleared', t:'（不管他了，接着往下查）', fx:{min:5}, say:[
+    ['','骆闻舟把张东来的卷宗推到了一边。']]}
+ ], next:'hemu'},
+
+hemu:{ch:4, title:'账本', pov:'luo', amb:'city', at:6600,
+ memo:'「钱」——他记得每一块钱。',
+ lines:[
+  ['','下午，张东来带着几个朋友来市局取东西，在大厅里正好撞上了王秀娟。'],
+  ['','不知道谁说了一句「这就是死了的那个外卖员他妈」。王秀娟一下扑上去，攥住了张东来的袖子。'],
+  ['王秀娟','是你吗？是不是你害死了我儿子？'],
+  ['','大厅里乱成一团。费渡站在人群边上，犹豫了一下，走过去轻轻扶住了老人的胳膊。'],
+  ['费渡','阿姨，我陪您坐一会儿。'],
+  ['','后来他一直陪着她，听她说儿子小时候的事：怎么懂事，怎么省钱，怎么在电话里说「妈，我在燕城挺好的」。'],
+  ['','王秀娟从包里摸出一个小本子，是儿子的账本，每一笔几块钱都记着：早饭两块，公交一块，给妈买药三百二。'],
+  ['','最后几页有一笔大的：十万。借钱给他的人，只写了个代号。'],
+  ['王秀娟','我做透析的钱，忠义说是单位给预支的……'],
+  ['','陶然拿着账本看了很久，忽然翻到某一页，指着一个字给骆闻舟看。'],
+  ['陶然','闻舟，你看这个「钱」字。'],
+  ['','跟死者额头上那张纸条上的字，写得一模一样。'],
+  ['@clue','ledger'],
+  ['','傍晚，陶然要去赴一场推不掉的相亲。走之前，费渡叫住了他。'],
+  ['费渡','陶然……哥。'],
+  ['','陶然愣了一下，随即笑了，伸手揉了揉他的头发。'],
+  ['陶然','早该这么叫了。'],
+  ['','骆闻舟靠在门框上，看着费渡一个人站在走廊里。天快黑了，这个人今晚大概又是一个人吃饭。']
+ ],
+ choices:[
+  {t:'「喂。今晚没人陪你吃饭吧？市局食堂，我请。」', fx:{trust:1, flag:'dinner', min:5}, say:[
+    ['费渡','骆队请客？'],
+    ['骆闻舟','食堂一份红烧肉十二块，我还请得起。'],
+    ['','费渡看了他一会儿，笑了。这一回，笑得没那么客气。']]},
+  {t:'（什么都没说，回办公室加班）', fx:{min:5}, say:[
+    ['','骆闻舟转身走了。到楼梯口回头看了一眼，费渡已经不在那儿了。']]}
+ ], next:'canteen'},
+
+canteen:{ch:5, title:'一盘虾', pov:'luo', amb:'city', at:6870,
+ memo:'一盘虾，剥了一半。',
+ lines:[
+  ['','市局食堂。费渡坐在油腻腻的塑料椅子上，西装笔挺，像一件被摆错了地方的展品。','dinner'],
+  ['费渡','这个不吃，那个太油，那个……骆队，这儿有不放香菜的菜吗？','dinner'],
+  ['骆闻舟','有，白米饭。','dinner'],
+  ['','骆闻舟嘴上不客气，手上却把一盘油焖虾挪到自己跟前，一只一只剥好，推了过去。','dinner'],
+  ['','费渡看着那盘剥好的虾，难得一句漂亮话都没说出来。','dinner'],
+  ['','骆闻舟一个人在食堂扒了两口饭。费渡发来一条消息，说他对案子有点想法，可以打电话聊。','!dinner'],
+  ['费渡','我在想何忠义要找的那个人。'],
+  ['费渡','他来燕城才一年多，认识的人不多。能借给他十万块、又让他觉得非得穿新衣服去见的——是他来燕城之前就认识的人。老乡，长辈，或者是他从小仰着脸看的人。'],
+  ['费渡','这个人现在混得很好，好到不想再被人记起来。说不定，连名字都换了。'],
+  ['','骆闻舟没说话，筷子在碗沿上敲了两下。']
+ ],
+ choices:[
+  {t:'（把那条短信和西区的线报告诉他）', fx:{trust:1, flag:'shared', min:8}, say:[
+    ['骆闻舟','死者手机上有条短信：「结账地点改在金三角空地」。那片空地，是西区卖毒品的交易点。'],
+    ['费渡','……所以凶手把尸体扔在那儿，不是随手一扔。'],
+    ['费渡','他知道那地方是干什么的，也知道那儿一出事，有人会比他更怕警察去查。'],
+    ['骆闻舟','这话出了这个门，就当我没说过。'],
+    ['费渡','骆队放心，我嘴很严。']]},
+  {t:'「行了，查案是我们的事。」', fx:{min:3}, say:[
+    ['费渡','当然。'],
+    ['','他放下筷子，没再往下说。']]}
+ ], next:'sos'},
+
+sos:{ch:5, title:'救命', pov:'luo', amb:'city', dt:15,
+ lines:[
+  ['','同一时刻，刘律师正在张东来的车里找一份文件。后座缝隙里卡着个东西，他抽出来一看：一条银灰色条纹领带，上面有一块深色的污渍。','!cleared'],
+  ['','刘律师犹豫了很久，最后拿塑料袋把它装了起来，没告诉任何人。','!cleared'],
+  ['','晚上七点多，骆闻舟的手机响了，是个陌生号码。'],
+  ['陈振','（电话里，声音压得很低，在发抖）骆队长……救命，他们——'],
+  ['','电话断了。'],
+  ['骆闻舟','（是陈振。）']
+ ],
+ choices:[
+  {t:'（一边往外跑，一边打给陆局：「帮我定位这个号码，派人跟上！」）', fx:{score:2, flag:'backup', min:5}, say:[
+    ['陆局','你给我站住！一个人去？……位置发你了，鸿福大观，我这就派人过去！'],
+    ['','骆闻舟已经冲出了食堂。']]},
+  {t:'（一个人冲出去，路上再说）', fx:{min:3}, say:[
+    ['','骆闻舟冲出食堂，跳上一辆出租车。定位是他托技术科的熟人私下查的：花市区，鸿福大观。'],
+    ['','他谁都没告诉。']]}
+ ], next:'hongfu'},
+
+hongfu:{ch:5, title:'鸿福大观', pov:'luo', amb:'hall', at:6940,
+ memo:'「有人等着堵你。」',
+ sense:['KTV 的走廊里，劣质音箱把每一首情歌都唱成了哭丧。','烟味，啤酒味，空气清新剂味。地毯黏鞋底。'],
+ lines:[
+  ['','鸿福大观，花市区一家半死不活的娱乐城。门口趴着几辆黑车，司机们靠在车门上抽烟，眼睛却一直往门里瞟。'],
+  ['','骆闻舟走进大堂。前台的小姑娘低着头递给他一张会员卡，卡底下压着一张纸条：「有人等着堵你，快走。」'],
+  ['','他把纸条揉进手心，冲小姑娘笑了笑，往楼上走去。'],
+  ['','三楼包厢。一个浓妆的女人推门进来，说自己叫 Linda。她坐下点歌，手指却在桌面上一下一下地敲，敲的是一个字的笔画。'],
+  ['','陈。'],
+  ['吴雪春','（压低声音）我叫吴雪春。你要找的人不在这儿。他们知道你要来。']
+ ],
+ hub:{limit:2, prompt:'包厢外面有脚步声，只来得及问两句——', done:[
+   ['','走廊里的脚步声停在了门口。'],
+   ['','骆闻舟一把把吴雪春推进卫生间。门被踹开的同时，他已经抄起了一个啤酒瓶。'],
+   ['','后来的事乱成了一锅粥：五六个人，钢管，有人在喊「储物间」。他追着一个人影冲进储物间，门在身后「砰」地关上了。'],
+   ['','黑暗里有人笑了一声。他听出了那个声音：花市区分局刑侦支队长，黄敬廉。'],
+   ['','背上一阵剧痛。他撞开卫生间那扇小窗，翻身跳了下去。'],
+   ['','落地的时候，身后已经响起了摩托车的轰鸣。']], opts:[
+  {id:'chen', t:'「陈振在哪儿？」', fx:{min:4}, say:[
+    ['吴雪春','我不知道……下午有人把他带走了。我只听见他们说要「处理干净」。'],
+    ['','她的手抖了一下。']]},
+  {id:'who', t:'「他们是谁？」', fx:{min:4}, say:[
+    ['吴雪春','你心里清楚。……分局的，姓黄的那个。'],
+    ['吴雪春','我孩子的作业本上，被人写过一个地名，叫「金三角」。从那以后，我再不敢让孩子一个人回家。']]},
+  {id:'her', t:'「你帮了我，你自己怎么办？」', fx:{min:4, flag:'askedWu'}, say:[
+    ['吴雪春','我？'],
+    ['','她愣住了，像是很久没被人这么问过。'],
+    ['吴雪春','……我早就想走了。']]}
+ ]}, next:'chase'},
+
+chase:{ch:5, title:'防卫过当', pov:'luo', amb:'city', dt:8,
+ memo:'那只手是凉的。',
+ lines:[
+  ['@pov','fei'],
+  ['','这天晚上，费渡原本是想去西区看看：何忠义住过的屋子，那片空地。'],
+  ['','他迷了路。导航领着他钻进一条又一条一模一样的窄巷，最后把他扔在了鸿福大观后头。'],
+  ['','然后他看见一个人从三楼窗户跳下来，背上一大片深色，在路灯底下亮得刺眼。'],
+  ['','是血。'],
+  ['','费渡的胃里一阵翻腾。没时间吐，他一脚油门冲了过去。'],
+  ['@pov','luo'],
+  ['','一辆跑车横着甩到骆闻舟跟前，副驾驶的门弹开了。'],
+  ['费渡','上车！'],
+  ['','摩托车追上来了。有人朝车尾开了一枪，后挡风玻璃碎成蛛网。费渡脸白得像纸，嘴唇咬出了血，车却开得又快又稳。'],
+  ['','巷子越来越窄。前面是死路，后面的摩托车一辆接一辆堵了上来。'],
+  ['','费渡停下车，看着后视镜里那些人影，手指慢慢扣在了换挡拨片上。'],
+  ['费渡','骆队，我要是倒回去，把他们挨个碾一遍——算不算防卫过当？'],
+  ['','他问这话的口气很平静，像在问明天天气怎么样。']
+ ],
+ choices:[
+  {t:'（伸手按住他扣在拨片上的那只手）', fx:{trust:2, flag:'hand', score:2, min:4}, say:[
+    ['','那只手冰凉，还在微微发抖。'],
+    ['骆闻舟','费渡，看着我。'],
+    ['骆闻舟','不值得。'],
+    ['','费渡看着他，看了很久，手指一点一点松开了。'],
+    ['','远处传来了警笛声。','backup'],
+    ['','警笛声来得很晚。郎乔是半路才知道他一个人跑来了，赶紧打了电话。','!backup'],
+    ['@time',15,'!backup']]},
+  {t:'「倒！」', fx:{trust:-1, flag:'rammed', min:10}, say:[
+    ['','费渡一脚油门倒了回去。巷子里一片惨叫，还有金属扭曲的声音。'],
+    ['','几个人被撞倒在地，剩下的四散跑了。'],
+    ['','警察赶到时，费渡还坐在驾驶座上，两只手搭着方向盘，一动不动。'],
+    ['','后来的调查拖了很久。骆闻舟一个字一个字地写情况说明，写到最后，发现自己的手一直在抖。']]},
+  {t:'（推门下车）「你待在车里。」', fx:{flag:'outCar', min:8}, say:[
+    ['','骆闻舟拎着从地上捡的钢管下了车，背上的伤口一扯，血顺着腰往下淌。'],
+    ['','他挡在车前头，跟那帮人对峙了好一阵。'],
+    ['','直到警笛声响起来，那些人才骂骂咧咧地散了。','backup'],
+    ['','郎乔带人赶到的时候，他已经快站不住了。','!backup'],
+    ['@time',15,'!backup']]}
+ ], next:'ambulance'},
+
+ambulance:{ch:5, title:'救护车', pov:'luo', amb:'city', dt:10,
+ lines:[
+  ['','救护车上。骆闻舟趴在担架上，背上的伤口被人按住，疼得他直抽冷气。'],
+  ['','郎乔和陶然前后脚赶到了。陶然是从相亲的饭桌上直接跑过来的，衬衫扣子都扣错了一颗。'],
+  ['郎乔','老大！陈振……找到了，在鸿福大观的一个包厢里。'],
+  ['郎乔','已经没气了。说是……吸毒过量。'],
+  ['@flag','chenDead'],
+  ['','车厢里安静了几秒。']
+ ],
+ choices:[
+  {t:'（扒着车门喊）「封了鸿福大观！还有——马上去分局，把马小伟提出来！」', fx:{score:2, flag:'orderMa', min:2}, say:[
+    ['郎乔','马小伟？'],
+    ['骆闻舟','陈振刚死，下一个会是谁？快去！'],
+    ['','郎乔扭头就跑。']]},
+  {t:'「先别管我，去查陈振是怎么死的。」', fx:{min:2}, say:[
+    ['陶然','你先管好你自己！'],
+    ['','车门关上了。']]}
+ ], next:'hospital'},
+
+hospital:{ch:5, title:'锦旗', pov:'luo', amb:'hall', at:7110,
+ memo:'锦旗上写什么，他还没想好。',
+ lines:[
+  ['','医院急诊。骆闻舟背上缝了十几针，脸色发白，嘴却一刻没闲着。'],
+  ['骆闻舟','费总英雄救美，回头我叫人给你送面锦旗——写「见义勇为」，还是「车技一流」？'],
+  ['费渡','骆队要是真想谢我，就先把嘴闭上，省点力气。'],
+  ['','费渡坐在病床边，脸色比他还白，衬衫袖子上沾着一块别人的血，他一直没低头看。','hand|outCar'],
+  ['','费渡坐在走廊尽头的长椅上，没有进来。他的车被拖走了，人也被叫去做了好几份笔录。','rammed'],
+  ['','同一时间，陶然坐出租车回市局，司机在放有声书。一本书讲完，主播说：下面请领读员「朗诵者」来分享一段赏析。'],
+  ['','陶然说不上为什么，心里猛地跳了一下。', null, ['「朗诵者」——这个名字后面还会出现。','reread']],
+  ['','十一点，花市区分局。有人收到了一条短信：「处理掉马小伟。」'],
+  ['','肖海洋看见了那条短信。他犹豫了一秒，抓起车钥匙冲进了看守所。','xiaoOk'],
+  ['','郎乔赶到分局的时候，正好撞上看守所的人在往外推一副担架——马小伟口吐白沫，还有气。她二话不说把人抢了过来。','!xiaoOk&orderMa'],
+  ['','没有人看见那条短信。','!xiaoOk&!orderMa'],
+  ['@flag','xiaoDead','!xiaoOk&!orderMa']
+ ], next:'tie'},
+
+tie:{ch:5, title:'领带', pov:'luo', amb:'clock', at:7140,
+ memo:'只有一个人的指纹。',
+ lines:[
+  ['','骆闻舟趁护士不注意，揣着一兜消炎药，从医院溜回了市局。'],
+  ['','肖海洋把马小伟带进了刑侦支队。两个人都浑身是汗，马小伟嘴唇发紫，一路都在打哆嗦。','xiaoOk'],
+  ['肖海洋','骆队！分局有人要灭他的口，我把他带出来了。手续我没有，处分我认！','xiaoOk'],
+  ['','马小伟从医院洗完胃被直接送到了市局，郎乔寸步不离地守着他。','!xiaoOk&orderMa'],
+  ['','郎乔接了一个电话，脸色一下子变了。','xiaoDead'],
+  ['郎乔','马小伟……死在分局看守所里了。说是毒瘾犯了，吞了什么东西。','xiaoDead'],
+  ['','骆闻舟攥着手机，在走廊里站了很久。他想起那天在空地上，那个戴眼镜的年轻人想说话，被王洪亮一句话堵了回去，而他自己也什么都没说。','xiaoDead'],
+  ['','王秀娟听说有人来了，从休息室里出来。马小伟一看见她，扑通一声跪了下去。','!xiaoDead'],
+  ['马小伟','阿姨……是我，是我害死忠义哥的……','!xiaoDead'],
+  ['','他哭得上气不接下气，断断续续地说清楚了：那部手机是他偷的，九点多拿到金三角空地，跟那儿的人换了毒品。后来听说忠义哥死了，他一直以为是那些人顺着手机找上了忠义哥。','!xiaoDead'],
+  ['@bilu',{title:'询问笔录（节录）', who:'马小伟', lines:[{t:'问：死者的手机是怎么到你手上的？'},{t:'答：',del:'捡的',ins:'是我偷的。二十号晚上九点多，'},{t:'我拿去金三角空地换了东西。他不知道。'},{t:'他从来不碰那个。他还劝过我。'}], sign:'马小伟', note:'「他还劝过我。」这句是他自己加上的。——陶'},'!xiaoDead'],
+  ['@clue','mxw','!xiaoDead'],
+  ['','肖海洋也交了底：陈媛死的时候，衣服是反着穿的，分局有人塞了他两千块，让他少多嘴；他咽不下这口气，偷偷在黄敬廉车上装了 GPS——五月二十号晚上，黄敬廉一伙就在金三角空地。','xiaoOk'],
+  ['@clue','xiaohy','xiaoOk'],
+  ['','技术科送来一个证物袋。刘律师交上来的那条领带，检验结果出来了。','!cleared'],
+  ['郎乔','领带上有张东来的指纹，宽窄跟勒痕对得上，上面有血，DNA 还在等。','!cleared'],
+  ['@clue','tie','!cleared'],
+  ['','费渡不知道什么时候也来了，站在门口盯着那个证物袋。','!cleared'],
+  ['费渡','这条领带是张婷送给张东来的。他嫌丑，从来不戴。','!cleared'],
+  ['费渡','一条他自己都懒得碰的领带，上面偏偏只有他一个人的指纹——连送礼的张婷都没留下一个？','!cleared'],
+  ['骆闻舟','有人戴着手套把它塞进去的。','!cleared'],
+  ['','那天把张东来从市局接出去的，一共四个人：刘律师、张婷、张家的司机，还有张婷的男朋友。','!cleared'],
+  ['','费渡从钱包里抽出一张名片，放到桌上：荣顺律师事务所，赵浩昌。地址：文昌路 103 号。'],
+  ['@clue','card'],
+  ['费渡','34 路的终点，就是文昌路口。'],
+  ['费渡','还有件事，我早该说的。二十号傍晚，我在东区见过何忠义，他在打听承光公馆在哪儿。','!feiToldEarly'],
+  ['@clue','askedway'],
+  ['','话音刚落，值班室的电话响了：王秀娟不见了。'],
+  ['郎乔','傍晚有人往休息室打了个电话，声音怪怪的，像变过声。她接完电话就走了，谁都没说。']
+ ], next:'deduce'},
+
+deduce:{ch:6, title:'她在哪儿', pov:'luo', amb:'clock', at:7220,
+ memo:'她会被带到哪儿去？',
+ lines:[
+  ['','五月二十五日，凌晨。支队办公室的灯全亮着。'],
+  ['','白板上写着三个字：王秀娟。旁边画了个大大的问号。'],
+  ['陶然','凶手为什么要动她？'],
+  ['费渡','一个丧子的母亲，在张东来常去的地方出了事——明天的新闻会怎么写？'],
+  ['骆闻舟','（他要的是最后一块拼图。）']
+ ],
+ quiz:{title:'后半夜', sub:'每答错一题，多耗 5 分钟。她等不起。', qs:[
+  {q:'凶手把领带塞进张东来的车，又把王秀娟引走，他想要的是？', opts:['让张东来顶罪：再添一个「被张东来逼死」的母亲','向张家勒索一大笔钱','让案子并进花市区的贩毒案'], rx:['费渡','光一条领带不够定罪。再加上一个走投无路的母亲，就够了。'], ans:0, ex:'他想把所有的线都引到张东来身上。'},
+  {q:'何忠义坐 34 路去了文昌路，这说明什么？', opts:['他去那附近找一个人，而那个人当晚的「不在场」，正好要靠他别离开承光公馆','他回配送站拿东西','他坐过了站'], rx:['陶然','他在承光公馆等不到人，就去了那个人一定会回去的地方。'], ans:0, ex:'凶手的不在场证明，建立在「人还在承光公馆附近」上。可何忠义自己找过去了。'},
+  {q:'王秀娟最可能被带去哪儿？', opts:['花市西区，她儿子出事的地方','花市东区，张东来常去、全城最显眼的地方','张家'], rx:['费渡','要让张东来背这个锅，就得选在最多人看得见的地方。'], ans:1, ex:'东区，天幕底下。今晚那里有闭幕式预演。'}
+ ], feedback:[
+  [['陶然','……闻舟，快想！'],['骆闻舟','我在想！']],
+  [['费渡','方向对了一半。']],
+  [['陶然','走！']],
+  [['费渡','东区。'],['骆闻舟','走！']]
+ ]}, next:'skyline'},
+
+skyline:{ch:6, title:'天幕', pov:'luo', amb:'city', dt:20,
+ memo:'五分钟。',
+ lines:[
+  ['','花市东区。全城最高的几栋楼围着一个巨大的广场，广场正中是「天幕」，燕城最大的户外大屏，此刻亮了起来。'],
+  ['','闭幕式预演。屏幕上打出了巨大的数字：05:00。'],
+  ['','倒计时开始了。'],
+  ['陶然','她就在附近哪栋楼的楼顶上。倒计时一完，烟花一放，所有人都抬头看天——'],
+  ['骆闻舟','一个人从楼上掉下来，谁也不会注意。'],
+  ['','骆闻舟边跑边吼：「封广场！所有高楼的楼顶，一栋一栋搜！」']
+ ], next:'feiSky'},
+
+feiSky:{ch:6, title:'04:31', pov:'fei', amb:'city', dt:1,
+ sense:['广场上的人越聚越多，有人举着手机等着拍烟花。屏幕上的数字一秒一秒往下跳。','我想起七年前的那个下午。我在楼梯上，什么都没做。'],
+ lines:[
+  ['','费渡站在广场边上。04:31。'],
+  ['','她站在楼顶边上的时候，会看见什么？'],
+  ['','她会看见天幕，全燕城最大、最亮的那块屏幕。']
+ ],
+ choices:[
+  {t:'（拨通经贸中心李总的电话：「天幕，现在，我买下来。多少钱都行。」）', fx:{flag:'screen', score:3, trust:1}, say:[
+    ['','电话那头只犹豫了几秒。'],
+    ['','03:48。天幕上的倒计时没了，换成了一张照片：一个皮肤黝黑的年轻人，额角一道月牙形的疤，冲着镜头腼腆地笑。'],
+    ['','广场上的人群一下子安静了。'],
+    ['','照片底下打出一行字：阿姨，忠义是个好孩子，他是清白的。'],
+    ['','接着，费渡本人出现在了屏幕上。他站在镜头前，脸色苍白，声音很稳。'],
+    ['费渡','阿姨，我叫费渡。我也有过一个妈妈。'],
+    ['费渡','她是从楼上走的。那天下午，我就在家里。'],
+    ['费渡','她走了以后，再没有人告诉我，我做得对不对，我算不算一个好孩子。这么多年，我一直在等一个答案。'],
+    ['费渡','您别让忠义也这么等着。您得留下来，替他把这个答案要回来。'],
+    ['','屏幕一角，有一行小字在不停地滚动：一个出租车的车牌号，就是接走她的那辆。'],
+    ['@flag','feiSpoke']]},
+  {t:'（跟上骆闻舟，去搜楼）', fx:{}, say:[
+    ['','费渡跟着人流往最近的一栋楼跑，电梯口挤满了人。'],
+    ['','他回头看了一眼天幕。上面的数字，还在一秒一秒往下跳。']]},
+  {t:'（给张东来打电话，叫他马上离开东区）', fx:{flag:'callZdl'}, say:[
+    ['','电话响了很久才接通，张东来在那头大着舌头问他怎么了。'],
+    ['费渡','不管你在哪儿，马上离开东区，找个人多的地方待着，别一个人。'],
+    ['','挂掉电话，天幕上的数字已经跳到了 02:10。']]}
+ ], next:'luoSky'},
+
+luoSky:{ch:6, title:'楼顶', pov:'luo', amb:'city', dt:1,
+ lines:[
+  ['','骆闻舟跑过广场时，天幕上的倒计时不见了。','screen'],
+  ['','他看见了那张照片，听见了费渡的声音。脚下顿了一下，然后跑得更快了。','screen'],
+  ['@sys','天幕替你争取到了时间：还能搜两栋楼。','screen&time<=7250'],
+  ['@sys','天幕替你争取到了时间，可推理时耽搁得太久，只来得及搜一栋楼。','screen&time>7250'],
+  ['@sys','倒计时还在走，只来得及搜一栋楼。','!screen&time<=7250'],
+  ['@sys','倒计时还在走，你又在白板前耽搁得太久……来不及了。','!screen&time>7250'],
+  ['对讲机','（沙沙声）骆队，双子大楼那边说今晚检修，停电一个钟头，楼里电梯和监控都停了……'],
+  ['骆闻舟','（停电。而且正对着天幕。）']
+ ],
+ hub:{limit:S=>Math.max(0,(S.flags.screen?2:1)-(S.time>7250?1:0)), prompt:'东区四栋楼——', done:[
+   ['','倒计时归零了。广场上，烟花一朵接一朵炸开。','!foundHer'],
+   ['','她往回退的那一步，脚下的护栏「咔」的一声，断了。','foundHer']], opts:[
+  {id:'jm', t:'经贸中心大楼，全东区最高的那栋', fx:{min:2, flag:'skyMiss'}, say:[
+    ['','楼顶灯火通明，保安在巡逻，没有人。'],
+    ['骆闻舟','（太亮了。他不会挑一个这么亮的地方。）']]},
+  {id:'tall', t:'临街那栋超高层，先调楼顶监控', fx:{min:2, flag:'skyMiss'}, say:[
+    ['','监控画面一格格闪过去：空的，空的，空的。'],
+    ['骆闻舟','（有监控的地方，他不会去。）']]},
+  {id:'twin', t:'双子大楼 A 座：停电，没监控，正对天幕', fx:{min:2, flag:'foundHer'}, say:[
+    ['@ach','sky','!skyMiss'],
+    ['','楼梯一层一层往上，骆闻舟的背像被人撕开了，血顺着腰往下淌。他没有停。'],
+    ['','推开天台门的那一刻，他看见王秀娟站在护栏外面。'],
+    ['','她望着天幕，望着屏幕上那张年轻的脸，一步一步往回缩。','screen'],
+    ['','她背对着他，望着脚下的广场，一只脚已经悬空了。','!screen']]},
+  {id:'cg', t:'承光公馆那边，张东来的地盘', fx:{min:2, flag:'skyMiss'}, say:[
+    ['','承光公馆今晚没营业，大门紧锁。'],
+    ['骆闻舟','（不对，太远了。她站在楼顶，得看得见广场才行。）']]}
+ ]}, next:S=>S.flags.foundHer?'saved':'fallen'},
+
+saved:{ch:6, title:'脚踝', pov:'luo', amb:'city', dt:3,
+ lines:[
+  ['','骆闻舟扑了过去。'],
+  ['','他的手抓住了她的脚踝，整个人被带着往前滑了半米，肚子撞在楼顶边沿上，背上刚缝好的伤口一下子全崩开了。'],
+  ['','他没松手。'],
+  ['','陶然和郎乔冲了上来，三个人一起，把王秀娟拖了回来。'],
+  ['王秀娟','……我看见忠义了，在那块大屏幕上。','screen'],
+  ['王秀娟','那个孩子说，忠义是清白的。','screen'],
+  ['','老人瘫坐在地上，死死抱着骆闻舟的胳膊，哭不出声来。'],
+  ['','对讲机又响了：「骆队！公园那边有群众举报，一辆可疑车辆，像是嫌疑人的！」']
+ ],
+ choices:[
+  {t:'「不可能，他不会跑那么偏。——备用电源合上，这两栋楼的监控全打开，死角给我蹲住！」', fx:{score:3, flag:'caught', min:20}, say:[
+    ['','备用电源一合闸，整栋楼的监控同时亮了。'],
+    ['','两分钟后，郎乔在对讲机里喊：「B 座！有人从 B 座往空中走廊走！」'],
+    ['','空中走廊里，一个西装笔挺的男人被按倒在地。他脸贴着冰凉的地砖，还在努力维持体面的表情。'],
+    ['','是赵浩昌。'],
+    ['','从他兜里搜出一副手套，上面沾着铁屑和新鲜的油漆。'],
+    ['@clue','gloves']]},
+  {t:'「去公园！所有人都去公园！」', fx:{flag:'lateArrest', min:40}, say:[
+    ['','公园里什么都没有。那辆「可疑车辆」的车主，是个半夜出来遛狗的老头。'],
+    ['','等他们反应过来，双子大楼里早就没人了。'],
+    ['','第二天上午，赵浩昌在自己家里被带走。他衣冠整齐，非常配合，身上什么都没搜到。']]}
+ ], next:'garden'},
+
+fallen:{ch:6, title:'烟花', pov:'luo', amb:'city', dt:5,
+ lines:[
+  ['','烟花还在放。广场上的人都仰着头，欢呼，拍照。'],
+  ['','过了很久，才有人发现双子大楼底下围了一圈人。'],
+  ['','骆闻舟站在警戒线外。背上的伤口裂开了，血把衬衫浸透了，他一点都没觉得疼。'],
+  ['','费渡站在天幕底下。屏幕上的倒计时早跳完了，换成了一行字：「闭幕式彩排圆满成功」。'],
+  ['','他盯着那行字看了很久。'],
+  ['@flag','fell']
+ ], next:'final'},
+
+garden:{ch:6, title:'小花园', pov:'luo', amb:'city', at:7380,
+ memo:'他想道歉。没说完。',
+ sense:['医院的小花园里，青草味混着消毒水味。','我在发烧，自己知道。'],
+ lines:[
+  ['','凌晨三点，医院的小花园。骆闻舟背上重新缝了针，死活不肯躺着，非要出来透口气。'],
+  ['','费渡坐在他旁边的长椅上，一言不发。天幕上那些话，他一个字都没再提。'],
+  ['','骆闻舟也没提。过了很久，他开口了。'],
+  ['骆闻舟','几年前你爸出车祸那阵子，我查过你。'],
+  ['骆闻舟','我知道那段时间你一直盯着他的行程。我一直以为……'],
+  ['','他没说下去。费渡转过头来看他。']
+ ],
+ choices:[
+  {t:'「这些年我一直防着你。今天……我是想跟你道个歉。」', fx:{trust:2, flag:'apology', score:2}, say:[
+    ['费渡','……骆队？'],
+    ['骆闻舟','为这些年的偏见，还有那些怀疑。我——'],
+    ['','话没说完，他身子一歪，脑袋重重地砸在了费渡肩膀上。'],
+    ['','烫得吓人。'],
+    ['','费渡僵了好几秒，才摸出手机打给陶然。'],
+    ['费渡','陶然哥，我这儿捡到一个发高烧的老大爷，你看怎么处理比较好？']]},
+  {t:'「我一直觉得那场车祸跟你有关系。到现在也不敢说不是。」', fx:{trust:-2, flag:'suspect'}, say:[
+    ['','费渡看着他，看了很久，笑了一下。'],
+    ['费渡','骆队真诚实。'],
+    ['','他站起来走了。骆闻舟一个人在长椅上坐到天亮，烧得迷迷糊糊，最后是护士发现了他。']]},
+  {t:'（不说了，就陪他坐着，等天亮）', fx:{trust:1}, say:[
+    ['','两个人谁都没再说话。远处的天一点一点亮了起来。'],
+    ['','骆闻舟靠着椅背睡着了。费渡脱下外套，盖在了他身上。']]}
+ ], next:'ward'},
+
+ward:{ch:7, title:'赵丰年', pov:'luo', amb:'hall', at:7800,
+ memo:'丰年，冯年。',
+ lines:[
+  ['','五月二十五日，周六，上午。'],
+  ['','陆局拎着一篮水果冲进病房，把骆闻舟从头到脚骂了一遍，骂完，又亲手给他削了个苹果。'],
+  ['陆局','赵浩昌只认一件事：护栏是他弄松的，说是「恶作剧」，不知道有人要跳楼。'],
+  ['陆局','二十号晚上，他说离开承光公馆以后，就一直在律所加班到半夜。'],
+  ['陆局','还有个坏消息：领带上的血，DNA 出来了，是何忠义的。现在外面都在传，张东来就是凶手。','clue:tie'],
+  ['陆局','手套上的油漆跟护栏对得上，可那只能说明护栏的事。何忠义的案子，我们手里没有一样能钉死他。','clue:gloves'],
+  ['陆局','他身上什么都没搜到。护栏的事我们都快钉不住了，何忠义的案子就更别提。','!clue:gloves'],
+  ['','下午，王秀娟来病房看他。坐了一会儿，她忽然说起楼顶上那个男人。'],
+  ['王秀娟','那个人……我想起来了，他像我们村的赵丰年。'],
+  ['王秀娟','丰年小时候书念得可好了，是我们村第一个考出去的大学生。后来……后来就再没回来过。'],
+  ['@bilu',{title:'询问笔录（节录）', who:'王秀娟', lines:[{t:'问：您说楼顶那个人像谁？'},{t:'答：像我们村的赵丰年。',del:'他小时候',ins:'他家出过事，'},{t:'一场火，烧死了一家五口，就他那天晚上不在家。'},{t:'忠义小时候老跟在他屁股后头，喊他「丰年哥」。'}], sign:'王秀娟（按手印）', note:'丰年哥。冯年哥。——骆'}],
+  ['@clue','zhaofn'],
+  ['@clue','fire'],
+  ['','郎乔已经带人去搜了赵浩昌的家。电话打回来：干净得像样板间，什么都没有。']
+ ], next:'dig'},
+
+dig:{ch:7, title:'玻璃罐', pov:'luo', amb:'city', dt:60,
+ memo:'风情酒庄，是郎乔从他的租车记录里翻出来的。',
+ lines:[
+  ['','骆闻舟拔了针头，换上衣服，在病房门口被陶然堵了个正着。'],
+  ['陶然','你要去哪儿？'],
+  ['骆闻舟','去把他的地下室挖出来。'],
+  ['陶然','……我开车。'],
+  ['@sys','赵浩昌只能扣到今天夜里。能跑的地方有限。']
+ ],
+ hub:{limit:3, prompt:'天黑以前，只来得及跑这几个地方——', done:[['','天黑了。陶然把车停在市局楼下，熄了火。'],['陶然','回去理一遍吧。理完了，就去会会他。']], opts:[
+  {id:'cui', t:'去燕西政法，找陈媛的同学「小崔」', fx:{min:120}, say:[
+    ['','燕西政法大学。陶然拿着陈媛那本相册，在宿舍楼下找到了崔颖。'],
+    ['','她一看见陈媛的照片，眼泪就下来了。'],
+    ['崔颖','媛媛走之前把一个 U 盘交给我，说她要是出了事，就交给一个靠得住的警察。'],
+    ['崔颖','我不知道谁靠得住……这件事我只跟一个人说过，是我男朋友的朋友，一个律师。他说他会帮我想办法。'],
+    ['','她说出了那个名字：赵浩昌。'],
+    ['崔颖','他还跟我开过一个玩笑……说要是杀了人，就扔到卖毒品的地方去，那儿的人不敢报警，警察也懒得细查。'],
+    ['','U 盘里的视频只有几分钟，画面晃得厉害，可那两张脸看得清清楚楚：王洪亮，黄敬廉。'],
+    ['@clue','cuiying'],['@clue','joke']]},
+  {id:'old', t:'让郎乔去调赵家那场火的镇派出所旧档', fx:{min:90}, say:[
+    ['','镇派出所的旧档已经发黄了，卷宗里夹着几张现场照片。'],
+    ['','其中一张，是那个被认定放火的傻子。他站在一片灰堆前面咧着嘴笑，两条胳膊上只剩一只套袖。'],
+    ['郎乔','另一只呢？现场物品清单里没有。'],
+    ['@clue','sleevephoto']]},
+  {id:'wine', if:'clue:cuiying', t:'去郊区的风情酒庄 12 号', fx:{min:150}, say:[
+    ['','风情酒庄 12 号，一栋租出去很久的小楼。赵浩昌用一个假名，租了整整三年。'],
+    ['','地下室的门锁着。撬开以后，郎乔打着手电走在最前面，走了两步，忽然不动了。'],
+    ['','一排排玻璃罐，整整齐齐码在架子上，每一个都贴了标签。'],
+    ['','一只旧套袖，标签上写着：「解脱」。'],
+    ['','一部屏幕碎了的旧手机，是何忠义原来用的那部。'],
+    ['','一支钢笔。费渡认了出来，是他前一阵丢的。','trust>=2'],
+    ['','屋子正中立着一盏落地灯，灯架做成一棵树的样子，灯罩是火焰的颜色。开关一按，整棵树像烧了起来。'],
+    ['郎乔','……这人有病。'],
+    ['陶然','他不是有病。他是在纪念。'],
+    ['@clue','basement']]},
+  {id:'peek', t:'先去审讯室门口看一眼赵浩昌', fx:{min:40, flag:'peek'}, say:[
+    ['','单向玻璃后面，赵浩昌坐得笔直，领带系得一丝不苟。'],
+    ['','他像是知道有人在看他，抬起头，冲着玻璃礼貌地笑了笑。'],
+    ['骆闻舟','（他一点都不急。他以为我们手里什么都没有。）']]}
+ ]}, next:'board'},
+
+board:{ch:7, title:'白板', pov:'luo', amb:'clock', dt:10, board:true,
+ memo:'线连错一根，人就抓错一个。',
+ lines:[
+  ['','会议室的白板上贴满了照片：何忠义，张东来，马小伟，赵浩昌，还有一张打了问号的白纸。'],
+  ['陆局','上面的意思是，领带 DNA 都出来了，张东来那边该有个说法了。你们要是有别的结论，今晚就得拿出来。','clue:tie'],
+  ['陆局','上面催得紧，今晚就要一个结论。','!clue:tie'],
+  ['陶然','你连，我们看。']
+ ], next:S=>S.flags.wrongman?'wrongman':'interroPre'},
+
+wrongman:{ch:7, title:'签字以后', pov:'luo', amb:'rain', dt:60,
+ lines:[
+  ['','张东来又被带了回来。这一回他连骂都骂不出来了，只是一遍一遍地说「我没有」。','accZdl'],
+  ['','张婷哭着来求情。赵浩昌陪在她身边，搂着她的肩膀，轻声安慰，替她擦眼泪。','accZdl'],
+  ['','张婷被叫来问话。她不明白为什么，赵浩昌陪着她，替她请好了律师。','accZt'],
+  ['','「520」案被并进了花市区的贩毒案。黄敬廉认了一大串，可他说，何忠义的事他不知道。','accHuang'],
+  ['','马小伟又被定成了嫌疑人。他缩在看守所里，谁跟他说话都只会哭。','accMa&!xiaoDead'],
+  ['','白板上写着马小伟的名字。可他已经死了，一个死人，什么都没法辩解。','accMa&xiaoDead'],
+  ['','赵浩昌在拘留期满那天晚上被放了出去。他的律师很体面，手续很齐全。'],
+  ['','三天以后，陶然推门进来。'],
+  ['陶然','闻舟，风情酒庄那边……人去楼空。地下室被清得干干净净，只剩一盏烧坏的灯。','clue:basement'],
+  ['陶然','闻舟，赵浩昌辞职了，听说出国了。','!clue:basement'],
+  ['','骆闻舟坐在白板前，看着自己画的那几根红线。其中有一根，是照着别人的意思连上去的。'],
+  ['骆闻舟','是我签的字。']
+ ], next:'final'},
+
+interroPre:{ch:8, title:'审讯室', pov:'luo', amb:'clock', at:8280,
+ memo:'他说话的样子，像在法庭上。',
+ lines:[
+  ['','傍晚六点，审讯室。'],
+  ['','赵浩昌坐在桌子对面，西装外套搭在椅背上，衬衫袖口扣得整整齐齐。他看了一眼表，像在算还得陪他们耗多久。'],
+  ['','单向玻璃后面，费渡站在观察室里。是陆局特批的，用陆局的话说：「那小子看人比测谎仪还准。」','trust>=2'],
+  ['','观察室里只有陶然和郎乔。费渡没来。','trust<2'],
+  ['骆闻舟','赵律师，咱们从头聊。']
+ ], next:'interro'},
+
+interro:{ch:8, title:'对峙', pov:'luo', amb:'clock', dt:5, interro:{max:3, round:1},
+ memo:'别急。他比你更想说。',
+ lines:[
+  ['','赵浩昌冲他笑了笑：礼貌，从容，挑不出一点毛病。'],
+  ['@sys','审讯：每一轮选一件证物、一种问法，三道防线要一道一道击穿。错三次，他就闭嘴，要求见律师。']
+ ], next:S=>S.flags.interWon?'truth':'lawyer'},
+
+lawyer:{ch:8, title:'「我要见律师」', pov:'luo', amb:'clock', dt:0,
+ lines:[
+  ['赵浩昌','骆队长，我累了。我是律师，我清楚自己的权利。'],
+  ['赵浩昌','我的律师来之前，我不会再回答任何问题。'],
+  ['','他靠回椅背，闭上眼睛，像是睡着了。'],
+  ['陶然','（推门进来，低声）律师在路上了。闻舟，手里这些不够，还得再找一样。']
+ ],
+ hub:{limit:1, prompt:'只来得及再做一件事——', done:[['','律师还没到。骆闻舟推开了审讯室的门。'],['骆闻舟','赵律师，最后再聊一次。']], opts:[
+  {id:'wine2', if:'!clue:basement', t:'让郎乔连夜顺着租车记录，找到他的第二处房子', fx:{min:60}, say:[
+    ['','郊区，风情酒庄 12 号。地下室的门被撬开以后，郎乔在对讲机里半天没出声。'],
+    ['郎乔','……老大，你自己来看吧。一屋子玻璃罐，一只旧套袖，一部旧手机。还有一盏像着了火的树一样的灯。'],
+    ['@clue','basement']]},
+  {id:'ma2', if:'!clue:mxw&!xiaoDead', t:'去问马小伟，那部手机到底是怎么回事', fx:{min:30}, say:[
+    ['马小伟','是我偷的……忠义哥从来不碰那个东西，他还劝过我。'],
+    ['@clue','mxw']]},
+  {id:'old2', if:'!clue:sleevephoto', t:'调赵家那场火的旧档', fx:{min:40}, say:[
+    ['','旧档里有张照片：傻子站在灰堆前，只剩一只套袖。'],
+    ['@clue','sleevephoto']]},
+  {id:'coffee', if:'trust>=3', t:'让费渡端一盘咖啡进去', fx:{min:10, flag:'softened'}, say:[
+    ['@pov','fei'],
+    ['','费渡端着一个骨瓷托盘走进审讯室：一杯咖啡，一小碟方糖，一块叠得方方正正的热毛巾。'],
+    ['','他把托盘放在赵浩昌面前，什么都没说，冲他微微点了下头，像在自己公司的会议室里招待一位客户。'],
+    ['','赵浩昌睁开眼睛，盯着那块毛巾看了很久。'],
+    ['','他拿毛巾擦了擦脸，又把袖口重新扣好。一个讲究体面的人，总算又找回了一点体面。'],
+    ['@pov','luo'],
+    ['费渡','（出门时，低声）他现在肯说话了。他最在乎的，是别人怎么看他。']]}
+ ]}, next:'interro2'},
+
+interro2:{ch:8, title:'第二次', pov:'luo', amb:'clock', dt:3, interro:{max:2, round:2},
+ lines:[
+  ['','赵浩昌睁开眼，看了看墙上的挂钟。离律师到，还有不到二十分钟。'],
+  ['@sys','第二次审讯：只能再错两次。','!softened'],
+  ['@sys','第二次审讯：可以再错三次——那盘咖啡让他松动了一点。','softened']
+ ], next:S=>S.flags.interWon?'truth':'final'},
+
+truth:{ch:8, title:'正当防卫', pov:'luo', amb:'clock', dt:10,
+ lines:[
+  ['','赵浩昌靠在椅背上，忽然笑了一下。'],
+  ['赵浩昌','好吧，我承认，那天晚上我见过他。'],
+  ['赵浩昌','可我是正当防卫。何忠义吸毒、贩毒，敲诈了我十万块。他跟到承光公馆，又跟到我律所楼下，说我要是不给钱，就把我的过去告诉婷婷。'],
+  ['赵浩昌','我在金三角空地装过摄像头，就在他住的那栋楼外面。录像拍得清清楚楚，他跟那帮卖毒品的混在一起。'],
+  ['赵浩昌','我是被逼的。'],
+  ['','审讯室里安静了几秒。'],
+  ['骆闻舟','两件事。'],
+  ['骆闻舟','第一，尸检报告：何忠义的血和头发里，一点毒品成分都没有。他的手机是被室友偷去换毒品的，室友的笔录就在这儿。','cleanName'],
+  ['骆闻舟','第一，尸检报告：何忠义的血里，一点毒品都没有。','!cleanName'],
+  ['骆闻舟','第二，你的摄像头，为什么偏偏装在何忠义的窗户外头？你是想拍什么，还是想让别人看见什么？'],
+  ['','赵浩昌脸上的笑，一点一点地没了。'],
+  ['费渡','（观察室里，低声）他把录像寄给了王洪亮那伙人。他想借刀杀人，让那些人以为何忠义是内鬼。','trust>=2'],
+  ['费渡','可那把刀没落在何忠义身上。黄敬廉查内鬼，查到了身上藏着摄像头的陈媛。','trust>=2'],
+  ['陶然','……她替何忠义死了。','trust>=2'],
+  ['','赵浩昌的手指慢慢蜷起来，指甲掐进了掌心，掐出了血，他自己好像都没察觉。'],
+  ['赵浩昌','你们不懂。'],
+  ['赵浩昌','我从那个村子里爬出来，花了十几年。改了名字，换了口音，连做梦都不敢说一句家乡话。'],
+  ['赵浩昌','然后有一天，一个泥腿子跑到我女朋友公司楼下，一口一个「冯年哥」。'],
+  ['赵浩昌','他还要还钱。两万块装在牛皮纸袋里，抱着跑来找我，说「丰年哥，我先还你一点」。'],
+  ['赵浩昌','他凭什么觉得，他有资格还我的钱？'],
+  ['','没有人回答他。'],
+  ['@bilu',{title:'讯问笔录（末页）', who:'赵浩昌', lines:[{t:'问：你为什么要杀害何忠义？'},{t:'答：',del:'正当防卫',ins:'他认出了我。'},{t:'他要还我钱。'},{t:'以上笔录我已看过，与我所说相符。'}], sign:'赵浩昌', note:'他自己划掉了「正当防卫」四个字。字写得很漂亮，像律师函。——骆'},'cleanName'],
+  ['@bilu',{title:'讯问笔录（末页）', who:'赵浩昌', lines:[{t:'问：你为什么要杀害何忠义？'},{t:'答：他吸毒，敲诈我，',del:'我',ins:'我是被逼的。'},{t:'以上笔录我已看过。'}], sign:'赵浩昌', note:'「吸毒」两个字他没划。我手里没有能让他划掉的东西。——骆'},'!cleanName'],
+  ['','当天夜里，黄敬廉看了 U 盘里的视频，一句话没说，把王洪亮的事全交代了。','clue:cuiying'],
+  ['','黄敬廉还在硬扛。没有陈媛那个 U 盘，王洪亮那一层暂时还撬不开。','!clue:cuiying'],
+  ['','只有一件事谁都没问出来：二十号晚上九点五十，那条「结账地点改在金三角空地」的短信，到底是谁发的。', null, ['这条短信是谁发的，这一卷里没有答案。','sms']],
+  ['','赵浩昌说不是他。骆闻舟信了一半。']
+ ], next:'final'},
+
+final:{ch:9, title:'朗读', pov:'luo', amb:'rain', at:10620, ending:true,
+ lines:[
+  ['','周一。何忠义的遗体交还给家属。','e1|e2|e4'],
+  ['','来的人不多：马小伟，赵玉龙，还有张东来。张东来站在最后，憋了半天，冲王秀娟鞠了一躬，说了声「对不起」，脸红到了脖子根。','e1'],
+  ['','王秀娟抱着儿子的骨灰盒，问了一句话。','e1|e2'],
+  ['王秀娟','我家忠义……有没有干过坏事？','e1|e2'],
+  ['费渡','没有，阿姨。他一件坏事都没干过。','e1'],
+  ['','费渡张了张嘴，没能说出话来。卷宗里写着「死者生前疑似涉毒」，那几个字，谁都划不掉。','e2'],
+  ['王秀娟','我从小教他待人要好，做人要实在，借了人家的钱要还……','e1|e2'],
+  ['王秀娟','我是不是教错了？','e1|e2'],
+  ['','没有人答得上来。','e1|e2'],
+  ['','后来，骆闻舟把这个案子从头到尾捋了一遍。','e1'],
+  ['','几年前王秀娟病重，何忠义找到早已在燕城站稳了脚跟的「丰年哥」，借了十万块。丰年哥只提了一个条件：不许跟任何人提起他。何忠义答应了，也一直守着。','e1'],
+  ['','他省吃俭用攒下两万，想先还上一点。可丰年哥换了号码，他找不着人，只好跑到张婷公司楼下去打听。结果挨了一顿打，他的丰年哥就站在旁边，像不认识他一样。','e1'],
+  ['','那部「赔礼」的白手机，是丰年哥后来塞给他的。他打听到了承光公馆，借了老乡的鞋，买了一件新衣服，吊牌都没舍得剪，抱着装了两万块的纸袋，去还钱。','e1'],
+  ['','他从纸袋上撕下一角，写了一个「钱」字。大概是想着当面交给他的时候，告诉他：这是还你的。','e1'],
+  ['','律师到了。赵浩昌从那一刻起，再没说过一个字。','e3'],
+  ['','护栏的事证据确凿，何忠义的案子却卡在了「缺乏直接证据」上。检察院把卷宗退了回来：补充侦查。','e3'],
+  ['','网上还在骂张东来。何忠义的照片，慢慢没人再转了。','e3'],
+  ['','马小伟的遗体比何忠义早两天火化，没有人来送他。','e4'],
+  ['','赵浩昌认了罪。可分局那条「处理掉马小伟」的短信，查到最后只查到一张已经注销的电话卡。','e4'],
+  ['','分局那个戴眼镜的年轻人递了辞职报告，被陆局压了下来。后来开会，他再没开过一次口。','e4'],
+  ['','张东来案移送起诉的那天，赵浩昌和张婷订了婚。','e5'],
+  ['','骆闻舟在报纸上看到了订婚照：赵浩昌西装笔挺，笑得腼腆又体面。','e5'],
+  ['','王秀娟的遗体和她儿子的骨灰，一起被送回了老家。','e6'],
+  ['','赵浩昌第二天被带走问话，第三天又被放了出来。没有证据证明，那天晚上他去过双子大楼。','e6'],
+  ['','网上有人说，是张东来逼死了一个老太太；也有人说，这娘俩都是自己想不开。','e6'],
+  ['','骆闻舟翻开笔记本，在新的一页上写：'],
+  ['','「卷一 · 于连 —— 何忠义案。」'],
+  ['','「结案。」——停了停，他在下面又添了一行小字：「短信。未结。」','e1'],
+  ['','「结案。」——「疑似涉毒」那四个字，他用笔圈了起来，打了个问号。','e2'],
+  ['','「移送起诉：护栏。何忠义：未结。」','e3'],
+  ['','「结案。马小伟，十六岁。」——写完，他又把这一行描了一遍。','e4'],
+  ['','只有一个字：「错。」','e5'],
+  ['','「未结。」——下面一行：「王秀娟。」','e6']
+ ]}
+};
+
+/* =========================================================
+   白板 / 审讯 / 封存 配置
+   ========================================================= */
+const BOARD = {
+ people:[{id:'he',n:'何忠义'},{id:'zdl',n:'张东来'},{id:'ma',n:'马小伟'},{id:'zhao',n:'赵浩昌'},{id:'unk',n:'身份不明者'}],
+ tps:[
+  {id:'t1', time:'5.20 20:50', ev:'承光公馆外的小路上，抱着纸袋抽烟、等人', who:'he', ok:['nest','butts','d_dressed','tag','borrowed','zhaoyl','askedway','d_repay']},
+  {id:'t2', time:'21:00 前后', ev:'在院里送走饭局散场的客人，再没出门', who:'zdl', ok:['cctvz','d_left']},
+  {id:'t3', time:'21:10', ev:'上了 34 路，往文昌路去', who:'he', ok:['bus34','d_left','d_wenchang']},
+  {id:'t4', time:'21:15', ev:'在金三角空地，拿一部白手机换了毒品', who:'ma', ok:['mxw','nine15','phonefound','yulei','xiaohy']},
+  {id:'t5', time:'21:30–22:00', ev:'文昌路一带，先打晕、再勒死何忠义', who:'zhao', ok:['d_wenchang','card','neck','autopsy','basement','d_fengnian','d_hidden']},
+  {id:'t6', time:'21:50', ev:'发出「结账地点改在金三角空地」的短信', who:'unk', ok:['sms']},
+  {id:'t7', time:'深夜', ev:'把尸体扔进金三角空地，贴上那张纸条', who:'zhao', ok:['d_dumped','d_dump','joke','shoes','mud','note']},
+  {id:'t8', time:'5.24', ev:'把领带塞进张东来的车，又引走王秀娟', who:'zhao', ok:['tie','d_frame','gloves']}
+ ],
+ culprits:[{id:'zhao',t:'律师 赵浩昌'},{id:'zdl',t:'富家子 张东来'},{id:'ma',t:'室友 马小伟'},{id:'zt',t:'张婷'},{id:'huang',t:'黄敬廉一伙（花市区分局）'}],
+ answer:'zhao',
+ motives:[
+  {id:'rob',t:'为了钱：抢手机、抢现金'},
+  {id:'grudge',t:'为了气：冲突升级，失手打死'},
+  {id:'silence',t:'灭口：他撞见了毒品交易'},
+  {id:'past',t:'为了过去：他认出了「赵丰年」，还非要当面还钱', if:'zhaofn|d_fengnian|fire'}
+ ],
+ motiveScore:{past:3, silence:1},
+ bestMotive:'past',
+ motiveNag:['陶然','动机那一栏……闻舟，再想想他额头上那张纸条。'],
+ noEvTip:['陶然','这一格不用证物。'],
+ culpritTip:'人都连对了。剩下的是你的事。'
+};
+
+const INTER = {
+ suspect:'赵浩昌',
+ hintEv:['d_clean','autopsy','d_repay'], hintTac:['silent'],
+ tactics:[{id:'press',n:'施压',d:'往前一倾，专戳他最疼的地方'},{id:'soft',n:'共情',d:'放软语气，听他说'},{id:'silent',n:'摆证据',d:'不吵不闹，一条一条往桌上摆'},{id:'bluff',n:'诈',d:'说一句半真半假的话，看他接不接'}],
+ tacLine:{press:'骆闻舟往前一倾，手肘撑在桌上，盯住了他的眼睛。', soft:'骆闻舟把椅子往后挪了挪，语气缓了下来。', silent:'骆闻舟没说话，把东西一样一样摆到了桌上。', bluff:'骆闻舟笑了一下，像手里还捏着一张没亮出来的牌。'},
+ stages:[
+  {id:'who', name:'出身', claim:'「我不明白骆队长为什么老问我老家。我是燕城人，跟那个送外卖的孩子素不相识。」',
+   ev:{d_fengnian:2, zhaofn:2, fire:1, sleevephoto:1, fengnian:1, d_hidden:1}, tac:{press:2, bluff:1, silent:1, soft:0},
+   evLine:{d_fengnian:'赵丰年。换个口音一念，就成了「冯年」。何忠义在张婷楼下找的「冯年哥」，就是你。', zhaofn:'王秀娟认出你了。赵丰年，你们村第一个考出去的大学生。', fire:'赵家那场火，一家五口。那天晚上，只有你不在家。', sleevephoto:'镇派出所的旧档里有一张照片：那个傻子，只剩一只套袖。', fengnian:'何忠义在张婷楼下打听一个叫「冯年哥」的人。打完架，是你开车来接的。', d_hidden:'那只套袖在你的玻璃罐里，标签上写着「解脱」。', none:'你老家那个村子，我们去过了。'},
+   brk:[['赵浩昌','……'],['','他脸上的笑僵住了，过了好几秒，才慢慢重新挂回去。'],['赵浩昌','好吧，我是从那儿出来的。离开很多年了，不想提，这不犯法。认识一个同乡，也不犯法。']],
+   failEv:[['赵浩昌','骆队长，这就是你们的证据？']],
+   failTac:{soft:['赵浩昌','同情我？不必了，我过得很好。']}},
+  {id:'alibi', name:'不在场', claim:'「二十号晚上，我离开承光公馆，回律所加班到半夜。你们拍到他在文昌路口下了车——然后呢？下车以后的事，你们什么都不知道。」',
+   ev:{basement:2, d_hidden:2, cuiying:1, joke:1}, tac:{bluff:2, press:2, silent:1, soft:0},
+   evLine:{basement:'风情酒庄 12 号。你租了三年，用的是假名。', d_hidden:'风情酒庄的地下室，一只套袖，「解脱」。', bus34:'34 路，九点十分上车，文昌路口下车，离你的律所走路五分钟。', d_wenchang:'他在文昌路口下的车。你的律所，就在文昌路 103 号。', card:'文昌路 103 号，你名片上印的。', gloves:'你兜里那副手套，铁屑，油漆。', cuiying:'崔颖说，陈媛的事她只跟你一个人讲过。', joke:'「杀了人就扔到卖毒品的地方去」——你这个玩笑，崔颖还记得。', none:'谁跟你说，我们找不到他下车以后去了哪儿？'},
+   brk:[['赵浩昌','……'],['','他的脸一点一点白了下去。'],['赵浩昌','你们……搜了那个地方。']],
+   slip:{ev:['basement','d_hidden'], tac:['bluff','press'], need:'clue:tie', flag:'slip', lines:[
+     ['赵浩昌','搜了又怎么样？一间地下室，几个罐子——'],
+     ['赵浩昌','领带上张东来的指纹清清楚楚，血也是何忠义的，你们凭什么——'],
+     ['','声音戛然而止。'],
+     ['','审讯室里静得能听见挂钟走字。'],
+     ['骆闻舟','领带的事，我们从来没往外说过。连张东来自己都不知道。'],
+     ['骆闻舟','赵律师，上面有谁的指纹，你是从哪儿知道的？'],
+     ['','赵浩昌的脸，一下子没了血色。']]},
+   failEv:[['赵浩昌','（他笑了，像是松了口气）就这个？骆队长，我在那附近上班，那条路上每天下车的人有好几千。']],
+   failTac:{soft:['赵浩昌','骆队长不必跟我套近乎。']}},
+  {id:'defense', name:'正当防卫', claim:'「……好，我承认那晚见过他。可我是正当防卫。他吸毒、贩毒，敲诈了我十万，一直缠着我不放——我在金三角装的摄像头都拍下来了。」',
+   ev:{d_clean:2, autopsy:2, d_repay:2, mxw:1, ledger:1, phonefound:1}, tac:{silent:2, press:1, bluff:1, soft:0},
+   evLine:{d_clean:'尸检：他血里没有毒品。手机是他室友偷的，室友的笔录在这儿。他跟金三角一点关系都没有。', autopsy:'尸检报告。他的血和头发里，一点毒品成分都没有。', d_repay:'他额头上那个「钱」字是他自己写的。账本上欠着十万，他抱着纸袋去找你，是去还钱的。', mxw:'那部手机，是他室友偷去换毒品的。', ledger:'他的账本：早饭两块，公交一块。一个敲诈了十万块的人，还记这个？', phonefound:'那部手机，是在他室友身上找到的。', none:'你的摄像头，为什么偏偏装在他窗户外头？'},
+   brk:[['赵浩昌','……'],['','他张了张嘴，第一次没能接上话。']],
+   failEv:[['赵浩昌','这能说明什么？他就是个吸毒的。']],
+   failTac:{soft:['赵浩昌','你同情我？那你就该明白，我是被逼的。']}}
+ ],
+ evMiss:['','这一下打空了。赵浩昌的肩膀反倒松了下来——律师最拿手的，就是看出对面手里没牌。'],
+ read:{key:'read3', title:'读人 · 单向玻璃后', sub:'赵浩昌在讲他的过去。费渡要找的是：哪一句是假的。',
+  segs:['「我很爱婷婷。」——',{id:'a',t:'说这句时，他直视着骆闻舟，一眨不眨'},'。「那场火以后，我对村里人毫无怨恨，只盼他们过得好。」——',{id:'b',t:'说到「毫无怨恨」，他的嘴角飞快地往下一扯，又提了回来'},'。「那些人，一辈子都是泥腿子。」——',{id:'c',t:'嗓门陡然拔高，像终于说了一句痛快话'},'。'],
+  ans:'b',
+  ex:{a:'他是真「爱」她——或者说，爱她身后那个世界。这一句不是谎话。',
+      b:'一个毫无怨恨的人，不会给那场火留纪念品。地下室那只套袖的标签上，写的是「解脱」。',
+      c:'嗓门拔高的那句是真话。他是打心底看不起他们，也看不起从前的自己。'},
+  ok:{flag:'read3Ok', score:2}, bad:{}},
+ readIntro:[['@pov','fei'],['','观察室里，费渡往前走了一步，几乎贴到了单向玻璃上。'],['赵浩昌','我很爱婷婷。那场火以后，我对村里人毫无怨恨，只盼他们过得好。可那些人，一辈子都是泥腿子。']],
+ readOk:[['@phone',[['fei','他在「毫无怨恨」这句上撒了谎。'],['fei','别跟他吵，也别可怜他。把他的「正当防卫」一条一条拆了。']]],['@pov','luo']],
+ readBad:[['@phone',[['fei','……我没看准。骆队，你自己判断。']]],['@pov','luo']],
+ winLines:[['','挂钟的秒针走过了十二。'],['','（他终于不再像在法庭上说话了。）']],
+ loseLines:[['','赵浩昌靠回椅背，不再看任何人。']],
+ onWin:function(S){ S.flags.cleanName = has('autopsy') && (has('mxw') || has('d_clean')); }
+};
+
+function decideEndingKey(f){
+  if(f.fell) return 'e6';
+  if(f.wrongman) return 'e5';
+  if(f.xiaoDead) return 'e4';
+  if(!f.interWon) return 'e3';
+  if(f.cleanName && f.slip) return 'e1';
+  return 'e2';
+}
+const END_STAMP = {e1:'CASE CLOSED', e2:'CASE CLOSED', e3:'INSUFFICIENT', e4:'SILENCED', e5:'MISCARRIAGE', e6:'TOO LATE'};
+const RANK_CAP = {e1:0, e2:1, e3:2, e4:2, e5:3, e6:3};
+const RANK_CUT = [96, 76, 56];
+const RANKS = [
+  ['S','默 读 者','你把每一处沉默都读完了。陶然把这份报告多复印了一份，说要留给新来的人看。'],
+  ['A','老刑警','关键线索几乎一个没漏。郎乔说「老大今天有点帅」，被你罚去写了三页笔录。'],
+  ['B','把案子办完的人','案子破了，有几处靠的是运气和陶然。下一回，要比他们都早一步。'],
+  ['C','一个漫长的周末','真相在你够不着的地方停了一会儿，又走远了。陶然什么都没说，把一袋包子放在了你桌上。']
+];
+function trustLine(){
+  const t=S.trust;
+  if(t>=7) return '费渡发来消息：「周末有空吗？想去何忠义的老家看看。我开车。」';
+  if(t>=4) return '费渡发来消息：「辛苦。背上的伤，别沾水。」';
+  if(t>=1) return '费渡发来消息：「结案了？恭喜。」';
+  return '费渡没再联系你。';
+}
+/* 封存页：字符串，或 [字符串, 条件] */
+const SEAL = {
+ e1:['周一下午，下起了雨。',
+     '费渡去墓园看他母亲，这是第七年。他在碑前站了很久，一个字都没说。',
+     '他走了以后，骆闻舟才从远处的树后面走过来，在那块碑前放下一束小白菊。',
+     '雨下大了，他没带伞。',
+     ['一把伞撑到了他头顶上。费渡不知道什么时候折了回来，站在他身后，伞往他那边歪了一大半。','trust>=5'],
+     ['他就那么站着，淋了一会儿，才慢慢往回走。墓园门口停着一辆车，车里没人，副驾驶上放着一把伞。','trust<5'],
+     '真实，这残酷的真实。'],
+ e2:['卷宗归档那天，骆闻舟在封皮上停了很久。',
+     '证据链很完整：领带，手套，地下室，旧手机。每一样都摆在它该在的地方。',
+     '只有「死者生前疑似涉毒」那一行字，像一根刺。他知道那不是真的，可手里没有能把它拔出来的东西。',
+     '王秀娟带着骨灰回了老家。临走前，她把儿子的账本留给了陶然，说：「他记得每一笔账。你们也替他记着。」',
+     '有些案子结了，不等于说完了。'],
+ e3:['赵浩昌在看守所里一个字都没再说过。',
+     '他的律师很体面，每次会见都准时到，每次出来都摇头。',
+     '风情酒庄的地下室贴上了封条。那盏像着了火的树一样的灯被装进了证物袋，在仓库里一放就是好几个月。',
+     '起诉书上，何忠义那一栏写着：「证据不足，另案处理。」',
+     '真相就在那儿，只是那天晚上，没有人从他嘴里把它拿出来。'],
+ e4:['马小伟没有家人来认领，是肖海洋去签的字。',
+     '分局看守所的监控，那天晚上「恰好」坏了一个钟头。',
+     '后来陆局问骆闻舟：那天在空地上，你为什么没替那个小子说一句话？',
+     '骆闻舟没有回答。他想起马小伟缩在椅子上一个劲瞟门口的样子——那时候他就知道，这孩子怕的不是警察。',
+     '有一个人，本来可以活下来的。'],
+ e5:['骆闻舟后来很少提起这个案子。',
+     '张东来在看守所里瘦了二十斤，见人就说「我没有」，说到后来，连他自己都不太确定了。',
+     '风情酒庄的地下室空了。那些玻璃罐，那盏灯，那只写着「解脱」的套袖，再也没人见过。',
+     '订婚宴上，赵浩昌挨桌敬了酒。',
+     '错的那一笔，他记在了自己账上。'],
+ e6:['那年夏天，天幕照常亮着。',
+     '广告，新闻，节日祝福，一条接一条滚过去。',
+     '费渡再没买过它的一秒钟。',
+     '有一回骆闻舟开车经过东区，天幕上在放一条公益广告：一个老人，一个孩子，一行字——「回家」。',
+     '他把车停在路边，坐了很久。']
+};
+const SEAL_PHONE = {cond:'(e1|e2)&trust>=5', msgs:[['fei','伞别忘了还我。'],['luo','你那把伞多少钱？'],['fei','骆队还得起。'],['luo','……那我不还了。']]};
+
+/* =========================================================
+   引擎
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const story = $('#story'), controls = $('#controls');
+let S = null, snap = null;
+let queue = [], afterQueue = null, contCb = null;
+let META = loadMeta();
+
+function newState(reread){
+  return {v:1, node:'prologue', clues:[], freshClues:[], deds:[], freshDeds:[], chars:[], freshChars:[], score:0,
+    quiz:{right:0,total:0}, flags:{}, choices:0, hubUsed:[], visited:[], time:1120, spent:0, survey:[],
+    trust:0, reads:{ok:0,total:0}, combos:0, comboWrong:0, board:null, inter:null, pov:'luo', reread:!!reread, ending:null};
+}
+/* 存档校验：补齐字段（本卷独立存档键 moodu_game_vol1_*） */
+function normalize(s){
+  if(!s || typeof s!=='object') return null;
+  if(!NODES[s.node]) s.node = 'prologue';
+  ['clues','freshClues','deds','freshDeds','chars','freshChars','hubUsed','visited','survey'].forEach(k=>{ if(!Array.isArray(s[k])) s[k]=[]; });
+  s.clues = s.clues.filter(id=>CLUES[id]); s.freshClues = s.freshClues.filter(id=>CLUES[id]);
+  s.deds = s.deds.filter(id=>DEDS[id]); s.freshDeds = s.freshDeds.filter(id=>DEDS[id]); s.chars = s.chars.filter(id=>CHARS[id]);
+  if(!s.flags || typeof s.flags!=='object') s.flags = {};
+  if(!s.quiz || typeof s.quiz!=='object') s.quiz = {right:0,total:0};
+  ['score','choices','spent','combos','comboWrong','trust'].forEach(k=>{ if(typeof s[k]!=='number') s[k]=0; });
+  if(typeof s.time!=='number') s.time = NODES[s.node].at || 1120;
+  if(!s.reads) s.reads = {ok:0,total:0};
+  if(!s.pov) s.pov = NODES[s.node].pov || 'luo';
+  s.reread = !!s.reread; s.v = 1;
+  return s;
+}
+function has(id){ return S.clues.includes(id) || S.deds.includes(id); }
+function cond(c){
+  if(!c) return true;
+  if(c.indexOf('|')>=0) return c.split('|').some(cond);
+  if(c.indexOf('&')>=0) return c.split('&').every(cond);
+  const neg = c[0]==='!'; const k = neg ? c.slice(1) : c;
+  let v, m;
+  if(k.startsWith('clue:')) v = has(k.slice(5));
+  else if((m = k.match(/^(time|spent|trust)(>=|<=|>|<)(-?\d+)$/))){
+    const a = S[m[1]], b = +m[3];
+    v = m[2]==='>=' ? a>=b : m[2]==='<=' ? a<=b : m[2]==='>' ? a>b : a<b;
+  }
+  else v = !!S.flags[k] || has(k);
+  return neg ? !v : v;
+}
+/* ---- 时间 ---- */
+function clockStr(m){ const p=n=>String(n).padStart(2,'0'); return (CLOCK_DAY0+Math.floor(m/1440))+'日 '+p(Math.floor(m/60)%24)+':'+p(m%60); }
+function cnNum(n){ const d='零一二三四五六七八九'; if(n<10) return d[n]; if(n<20) return '十'+(n%10?d[n%10]:''); return d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''); }
+function cnTime(m){
+  const d=CLOCK_DAY0+Math.floor(m/1440), h=Math.floor(m/60)%24, mi=m%60;
+  const pre = h<5 ? '凌晨' : h<8 ? '清晨' : h<12 ? '上午' : h<13 ? '中午' : h<18 ? '下午' : '晚上';
+  const h12 = h>12 ? h-12 : h;
+  const hs = h12===0 ? '零点' : h12===2 ? '两点' : cnNum(h12)+'点';
+  const ms = mi===0 ? '' : mi===30 ? '半' : (mi<10 ? '零'+cnNum(mi) : cnNum(mi))+'分';
+  return '五月'+cnNum(d)+'日'+pre+hs+ms;
+}
+function tpl(t){ return typeof t==='string' ? t.replace(/\{cn\}/g, cnTime(S.time)).replace(/\{clock\}/g, clockStr(S.time)) : t; }
+function renderClock(delta){
+  $('#clockVal').textContent = clockStr(S.time);
+  if(delta){
+    const dt=$('#clockDt'), c=$('#clock');
+    dt.textContent='+'+delta+'′';
+    dt.classList.remove('go'); c.classList.remove('tick'); void dt.offsetWidth;
+    dt.classList.add('go'); c.classList.add('tick');
+  }
+}
+function addTime(m){ if(!m) return; S.time+=m; S.spent+=m; renderClock(m); }
+
+/* ---- 效果 ---- */
+function doFx(L){
+  switch(L[0]){
+    case '@clue': gainClue(L[1]); break;
+    case '@char': gainChar(L[1]); break;
+    case '@flag': S.flags[L[1]] = true; break;
+    case '@trust': S.trust += L[1]; break;
+    case '@score': S.score += L[1]; break;
+    case '@time': addTime(L[1]); break;
+    case '@ach': unlockAch(L[1]); break;
+  }
+}
+function applyFx(fx){
+  if(!fx) return;
+  if(fx.check) S.flags[fx.check.flag] = cond(fx.check.cond);
+  if(fx.score) S.score += fx.score;
+  if(fx.flag) S.flags[fx.flag] = true;
+  if(fx.trust) S.trust += fx.trust;
+  if(fx.clue) gainClue(fx.clue);
+  let m = fx.min||0;
+  if(fx.minIf && cond(fx.minIf[0])) m = fx.minIf[1];
+  if(m) addTime(m);
+}
+function gainClue(id){
+  if(!CLUES[id] || S.clues.includes(id)) return;
+  S.clues.push(id); S.freshClues.push(id); S.score += 1;
+  toast('证物入袋 · ' + CLUES[id].name);
+  sysLine('〔证物〕' + CLUES[id].name + ' — 已附入案卷');
+  pulse('#btnClues'); updateBadges();
+}
+function gainDed(id){
+  if(!DEDS[id] || S.deds.includes(id)) return false;
+  S.deds.push(id); S.freshDeds.push(id); S.score += 2;
+  toast('推论成立 · ' + DEDS[id].name);
+  if(Object.keys(DEDS).every(k=>S.deds.includes(k))) unlockAch('puzzle');
+  updateBadges();
+  return true;
+}
+function gainChar(id){
+  if(!CHARS[id] || S.chars.includes(id)) return;
+  S.chars.push(id); S.freshChars.push(id);
+  toast('档案页增补 · ' + CHARS[id].name);
+  pulse('#btnChars'); updateBadges();
+}
+function itemName(id){ return id==='none' ? '空手' : (CLUES[id]||DEDS[id]||{}).name || id; }
+
+/* ---- 渲染 ---- */
+function clearStory(){ story.innerHTML=''; controls.innerHTML=''; }
+function scrollDown(){ requestAnimationFrame(()=>window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})); }
+function el(tag, cls, text){ const e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+function fsNote(fs){
+  if(!S.reread || !fs) return null;
+  const missed = META.last && Array.isArray(META.last.keys) && !META.last.keys.includes(fs[1]);
+  const n = el('span','fs-note'+(missed?' missed':''));
+  n.appendChild(el('i', null, missed ? '上回漏看' : '伏笔'));
+  n.appendChild(document.createTextNode(fs[0]));
+  return n;
+}
+function addLine(who, text, fs){
+  const d = document.createElement('div');
+  if(who==='~'){
+    d.className='line sense' + (S.pov==='fei'?' fei':'');
+    d.dataset.who = '〔' + (POV_NAME[S.pov]||'骆闻舟') + '〕';
+    (Array.isArray(text)?text:[text]).forEach((t,i)=>{ const p=el('p',null,tpl(t)); p.style.animationDelay=(i*0.55)+'s'; d.appendChild(p); });
+    story.appendChild(d); scrollDown(); return;
+  }
+  const p = el('p'); const span = el('span', S.reread&&fs?'fs-mark':null, tpl(text)); p.appendChild(span);
+  const note = fsNote(fs);
+  if(who===''){ d.className='line narr'; d.appendChild(p); if(note) p.appendChild(note); }
+  else if(who==='>'){ d.className='line act'+(S.pov==='fei'?' fei':''); d.appendChild(p); if(note) p.appendChild(note); }
+  else{
+    d.className='line talk';
+    const w = el('span', 'who ' + (SPEAKER_CLASS[who]||'c-oth'), who);
+    d.appendChild(w); d.appendChild(p); if(note) p.appendChild(note);
+  }
+  story.appendChild(d); scrollDown();
+}
+function sysLine(text){ const d=el('div','line sys'); d.appendChild(el('span',null,text)); story.appendChild(d); }
+function addPov(pov){
+  S.pov = pov;
+  story.classList.toggle('pov-fei', pov==='fei');
+  const d = el('div','pov-div'+(pov==='luo'?' luo':''));
+  d.appendChild(document.createTextNode('视角 · ')); d.appendChild(el('b',null,POV_NAME[pov]));
+  story.appendChild(d); scrollDown();
+}
+function addPhone(msgs, fs){
+  const owner = S.pov==='fei' ? 'fei' : 'luo';
+  const d = el('div','phone');
+  const h = el('div','ph-h'); h.appendChild(el('span',null,(owner==='fei'?'费渡':'骆闻舟')+'的手机')); h.appendChild(el('span',null,clockStr(S.time)));
+  d.appendChild(h);
+  const b = el('div','ph-b');
+  msgs.forEach((m,i)=>{
+    const me = m[0]===owner;
+    const x = el('div','msg'+(me?' me':'')+(m[0]==='fei'&&!me?' fei':''));
+    x.appendChild(el('small',null,(POV_NAME[m[0]]||m[0])+' · '+tpl(m[2]||clockStr(S.time))));
+    x.appendChild(document.createTextNode(tpl(m[1])));
+    x.style.animationDelay=(i*0.35)+'s';
+    b.appendChild(x);
+  });
+  d.appendChild(b);
+  d.appendChild(el('div','ph-f','通讯截屏 · 附页'));
+  const note = fsNote(fs); if(note){ note.style.margin='0 12px 8px'; d.appendChild(note); }
+  story.appendChild(d); scrollDown();
+}
+function addBilu(o){
+  const d = el('div','bilu');
+  d.appendChild(el('h4',null,o.title+' · 被询问人：'+o.who));
+  o.lines.forEach(l=>{
+    const r = el('div','bl'); r.appendChild(document.createTextNode(l.t||''));
+    if(l.del) r.appendChild(el('del',null,l.del));
+    if(l.ins) r.appendChild(el('ins',null,(l.del?' ':'')+l.ins));
+    d.appendChild(r);
+  });
+  const sg = el('div','sig'); sg.appendChild(el('span',null,'签名（捺印）：')); sg.appendChild(el('b',null,o.sign)); sg.appendChild(el('span','print'));
+  sg.appendChild(el('span',null,clockStr(S.time)));
+  d.appendChild(sg);
+  if(o.note) d.appendChild(el('span','mnote',o.note));
+  story.appendChild(d); scrollDown();
+}
+function render(L){
+  switch(L[0]){
+    case '@phone': addPhone(L[1], L[3]); break;
+    case '@bilu': addBilu(L[1]); break;
+    case '@pov': addPov(L[1]); break;
+    case '@sys': sysLine(L[1]); break;
+    default: addLine(L[0], L[1], L[3]);
+  }
+}
+const VIS = {'@phone':1,'@bilu':1,'@pov':2,'@sys':2};   // 1 = 需要翻页；2 = 直接显示
+function isVis(L){ return L[0][0]!=='@' || !!VIS[L[0]]; }
+function showContinue(cb, label){
+  contCb = cb || step;
+  controls.innerHTML='';
+  const b=el('button','btn-next'); b.innerHTML=(label||'翻页')+'<span class="k">空格 / 回车</span>';
+  b.onclick=()=>{ const f=contCb; contCb=null; f&&f(); };
+  controls.appendChild(b);
+}
+function visibleAhead(){ return queue.some(x=>isVis(x) && cond(x[2])); }
+function step(){
+  controls.innerHTML='';
+  while(queue.length){
+    const L = queue.shift();
+    if(!cond(L[2])) continue;
+    if(!isVis(L)){ doFx(L); continue; }
+    render(L);
+    if(VIS[L[0]]===2) continue;
+    if(!visibleAhead()){
+      while(queue.length){ const x=queue.shift(); if(cond(x[2]) && !isVis(x)) doFx(x); }
+      break;
+    }
+    showContinue(); return;
+  }
+  const f = afterQueue; afterQueue = null; f && f();
+}
+function playThen(lines, cb){ queue=(lines||[]).slice(); afterQueue=cb; step(); }
+function sayChoice(t){
+  const who = POV_NAME[S.pov]||'骆闻舟';
+  let m = t.match(/^（([^）]*)）\s*(.*)$/);
+  if(m){ addLine('>', m[1]); const sp=m[2].replace(/^「/,'').replace(/」$/,''); if(sp) addLine(who, sp); return; }
+  m = t.match(/^「(.*)」(（[^）]*）)?$/);
+  if(m){ addLine(who, m[1]); return; }
+  addLine('>', t);
+}
+function renderProgress(ch){
+  const box=$('#beats'); box.innerHTML='';
+  CHAPTERS.forEach((c,i)=>{ const s=el('div','beat'+(i<ch?' done':'')+(i===ch?' cur':'')); s.title=c; box.appendChild(s); });
+  $('#beatName').innerHTML = '案卷进度：<b>' + CHAPTERS[ch] + '</b>' + (S.reread?'<span class="reread-tag">重读</span>':'');
+  $('#beatCount').textContent = (ch+1) + ' / ' + CHAPTERS.length;
+}
+
+/* ---- 流程 ---- */
+function goNext(n){ const nx = typeof n.next==='function' ? n.next(S) : n.next; enter(nx); }
+function enter(id, fromLoad){
+  const n = NODES[id]; if(!n){ console.error('missing node', id); return; }
+  S.node = id;
+  if(!S.visited.includes(id)) S.visited.push(id);
+  if(!fromLoad){
+    if(n.dt) addTime(n.dt);
+    if(typeof n.at==='number' && S.time < n.at) S.time = n.at;
+    if(n.survey) S.survey = [];
+    if(n.interro){
+      const r = n.interro.round;
+      if(r===1 || !S.inter) S.inter = {stage:0, strikes:0, total:0, round:r, max:n.interro.max};
+      else { S.inter.round = r; S.inter.strikes = 0; S.inter.max = n.interro.max + (S.flags.softened?1:0); }
+    }
+    if(n.ending) decideEnding();
+  }
+  S.pov = n.pov || 'luo';
+  snap = JSON.parse(JSON.stringify(S));
+  writeSave(SAVE_AUTO, snap);
+  clearStory(); renderProgress(n.ch); renderClock();
+  story.classList.toggle('pov-fei', S.pov==='fei');
+  Amb.scene(n.amb||'rain');
+  $('#sceneTitle').textContent = '第' + S.visited.length + '页 · ' + n.title;
+  const card = el('div','chap-card'+(S.pov==='fei'?' fei':''));
+  card.appendChild(el('div','chap-stamp', S.pov==='fei' ? 'POV · FEI DU' : 'YANCHENG PSB · CID'));
+  card.appendChild(el('small',null, VOLUME + ' · ' + CHAPTERS[n.ch]));
+  card.appendChild(el('h2',null,n.title));
+  const tm = el('div','chap-time'); tm.innerHTML='案卷时刻 <b>'+clockStr(S.time)+'</b>'+(S.pov==='fei'?'　· 视角：费渡':'');
+  card.appendChild(tm);
+  if(n.memo) card.appendChild(el('span','mnote',n.memo));
+  story.appendChild(card);
+  window.scrollTo({top:0});
+  queue = (n.sense ? [['~', n.sense]] : []).concat(n.lines||[]);
+  afterQueue = ()=>nodeEnd(n);
+  step();
+}
+function nodeEnd(n){
+  if(n.choices) renderChoices(n);
+  else if(n.hub) renderHub(n);
+  else if(n.survey) renderSurvey(n);
+  else if(n.quiz) renderQuiz(n);
+  else if(n.read) renderRead(n.read, ()=>playThen(n.read.after, ()=>showContinue(()=>goNext(n),'翻至下一页')));
+  else if(n.board) renderBoard(n);
+  else if(n.interro) renderInterro(n);
+  else if(n.ending) showContinue(showEnding, '启封结案报告');
+  else if(n.next) showContinue(()=>goNext(n), '翻至下一页');
+}
+function decideEnding(){
+  const f = S.flags; const e = decideEndingKey(f);
+  Object.keys(ENDINGS).forEach(k=>{ delete f[k]; });
+  f[e] = true; S.ending = e;
+}
+function renderChoices(n){
+  controls.innerHTML='';
+  controls.appendChild(el('div','choice-prompt', S.pov==='fei' ? '〔费渡的选择〕请勾选一项' : '〔笔录选项〕请勾选一项'));
+  n.choices.filter(o=>cond(o.if)).forEach((o,i)=>{
+    const b=el('button','choice',o.t); b.dataset.n=String.fromCharCode(65+i);
+    if(o.lock && cond(o.lock[0])){
+      b.classList.add('locked'); b.disabled=true; b.appendChild(el('small',null,'（'+o.lock[1]+'）'));
+    } else b.onclick=()=>{
+      S.choices++; sayChoice(o.t); applyFx(o.fx);
+      playThen(o.say, ()=>{
+        const to = o.to ? (typeof o.to==='function' ? o.to(S) : o.to) : null;
+        showContinue(()=> to ? enter(to) : goNext(n), '翻至下一页');
+      });
+    };
+    controls.appendChild(b);
+  });
+  scrollDown();
+}
+function renderHub(n){
+  const h=n.hub, key=id=>S.node+':'+id;
+  const limit = typeof h.limit==='function' ? h.limit(S) : h.limit;
+  const avail=h.opts.filter(o=>cond(o.if) && !S.hubUsed.includes(key(o.id)));
+  const used=h.opts.filter(o=>!o.end && S.hubUsed.includes(key(o.id))).length;
+  const stopped=h.opts.some(o=>o.end && S.hubUsed.includes(key(o.id)));
+  const real=avail.filter(o=>!o.end);
+  if(stopped || used>=limit || !real.length){ playThen(h.done, ()=>showContinue(()=>goNext(n), '翻至下一页')); return; }
+  controls.innerHTML='';
+  controls.appendChild(el('div','choice-prompt','〔行动清单〕' + h.prompt + '（尚可勾选 ' + (limit-used) + ' 项）'));
+  avail.filter(o=>!o.end || used>0).forEach((o,i)=>{
+    const b=el('button','choice',o.t); b.dataset.n=String.fromCharCode(65+i);
+    b.onclick=()=>{ S.choices++; S.hubUsed.push(key(o.id)); addLine('>', o.t); applyFx(o.fx); playThen(o.say, ()=>renderHub(n)); };
+    controls.appendChild(b);
+  });
+  scrollDown();
+}
+function renderQuiz(n){
+  const qz=n.quiz, picks=new Array(qz.qs.length).fill(-1);
+  const box=el('div','quiz');
+  box.appendChild(el('h3',null,'推理笔录 · '+qz.title)); box.appendChild(el('div','qsub',qz.sub));
+  const btnSets=[];
+  qz.qs.forEach((q,qi)=>{
+    const qd=el('div','q'); qd.appendChild(el('div','qt',(qi+1)+'. '+q.q));
+    const set=[];
+    q.opts.forEach((o,oi)=>{
+      const b=el('button','opt',String.fromCharCode(65+oi)+'. '+o);
+      b.onclick=()=>{ if(box.classList.contains('done')) return; picks[qi]=oi; set.forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); refresh(); };
+      qd.appendChild(b); set.push(b);
+    });
+    if(q.rx){ const rx=el('div','rx'); rx.appendChild(el('span','who '+(SPEAKER_CLASS[q.rx[0]]||'c-oth'),q.rx[0])); rx.appendChild(el('p',null,q.rx[1])); qd.appendChild(rx); qd._rx=rx; }
+    qd.appendChild(el('div','explain','案卷批注：'+q.ex));
+    btnSets.push(set); box.appendChild(qd);
+  });
+  story.appendChild(box); scrollDown();
+  controls.innerHTML='';
+  const sub=el('button','btn-next','签署本页推理'); controls.appendChild(sub);
+  function refresh(){ const ok=picks.every(p=>p>=0); sub.disabled=!ok; }
+  refresh();
+  sub.onclick=()=>{
+    if(!picks.every(p=>p>=0) || box.classList.contains('done')) return;
+    let right=0;
+    qz.qs.forEach((q,qi)=>{
+      btnSets[qi].forEach((b,oi)=>{ b.disabled=true; if(oi===q.ans) b.classList.add('right'); else if(oi===picks[qi]) b.classList.add('wrong'); });
+      if(picks[qi]===q.ans) right++; else { const qd=btnSets[qi][0].parentNode; if(qd._rx) qd._rx.classList.add('on'); }
+    });
+    box.classList.add('done');
+    S.score += right*3; S.quiz.right += right; S.quiz.total += qz.qs.length;
+    const wrongN=qz.qs.length-right;
+    box.appendChild(el('div','qscore','笔录核对：' + right + ' / ' + qz.qs.length + ' 项成立　案情分 +' + (right*3) + (wrongN?'　· 想岔的地方多耗了 '+(wrongN*5)+' 分钟':'')));
+    if(wrongN) addTime(wrongN*5);
+    const fbIdx = Math.round(right / qz.qs.length * (qz.feedback.length-1));
+    playThen(qz.feedback[fbIdx], ()=>showContinue(()=>goNext(n), '翻至下一页'));
+  };
+}
+
+/* ---- 现场勘查：草图热点 ---- */
+const SVNS='http://www.w3.org/2000/svg';
+function svgEl(tag, attrs, parent){ const e=document.createElementNS(SVNS, tag); for(const k in attrs) e.setAttribute(k, attrs[k]); if(parent) parent.appendChild(e); return e; }
+function buildSketch(svg){
+  const ink='#2a241c', soft='#8a8174', red='#8b3a32', water='rgba(61,90,128,.13)';
+  svgEl('rect',{x:16,y:16,width:388,height:248,fill:'none',stroke:ink,'stroke-width':3},svg);
+  svgEl('rect',{x:21,y:21,width:378,height:238,fill:'none',stroke:ink,'stroke-width':.8},svg);
+  const lab=(x,y,t,o)=>{ const e=svgEl('text',Object.assign({x,y,'font-size':9,fill:soft,'font-family':'serif','text-anchor':'middle'},o||{}),svg); e.textContent=t; return e; };
+  // 北：一排平房，后窗朝向空地
+  svgEl('rect',{x:70,y:24,width:240,height:30,fill:'rgba(120,110,95,.10)',stroke:soft,'stroke-width':1},svg);
+  for(let i=0;i<8;i++){ svgEl('rect',{x:80+i*29,y:46,width:12,height:6,fill:'#f8f4ea',stroke:soft,'stroke-width':.7},svg); }
+  lab(190,38,'平房（后窗朝空地）',{'font-size':8.5});
+  // 西：群租楼
+  svgEl('rect',{x:24,y:66,width:46,height:150,fill:'rgba(120,110,95,.10)',stroke:soft,'stroke-width':1},svg);
+  for(let r=0;r<6;r++) for(let c=0;c<2;c++) svgEl('rect',{x:32+c*18,y:76+r*22,width:10,height:10,fill:'none',stroke:soft,'stroke-width':.6},svg);
+  lab(47,228,'群租楼',{'font-size':8.5});
+  // 东：废仓库
+  svgEl('rect',{x:340,y:62,width:58,height:140,fill:'rgba(120,110,95,.08)',stroke:soft,'stroke-width':1,'stroke-dasharray':'5 3'},svg);
+  svgEl('path',{d:'M340 62 L398 202 M398 62 L340 202',stroke:'rgba(138,129,116,.35)','stroke-width':.6},svg);
+  lab(369,214,'废仓库',{'font-size':8.5});
+  // 南：土路入口
+  svgEl('path',{d:'M170 264 Q180 240 190 228 M230 264 Q222 240 214 228',fill:'none',stroke:soft,'stroke-width':.9,'stroke-dasharray':'3 3'},svg);
+  lab(200,276,'土路（通西区巷子）');
+  // 积水
+  [[110,196,26,9],[300,100,20,7],[250,232,30,8],[140,96,16,6]].forEach(([cx,cy,rx,ry])=>svgEl('ellipse',{cx,cy,rx,ry,fill:water,stroke:'rgba(61,90,128,.3)','stroke-width':.6},svg));
+  // 垃圾堆
+  svgEl('path',{d:'M78 236 q10 -16 22 -6 q8 -12 18 0 q10 -4 12 8 z',fill:'rgba(120,110,95,.25)',stroke:soft,'stroke-width':.7},svg);
+  lab(102,252,'垃圾堆',{'font-size':8});
+  // 坏路灯
+  svgEl('line',{x1:300,y1:150,x2:300,y2:118,stroke:ink,'stroke-width':1.6},svg);
+  svgEl('circle',{cx:300,cy:114,r:5,fill:'none',stroke:ink,'stroke-width':1},svg);
+  svgEl('path',{d:'M296 110 l8 8 M304 110 l-8 8',stroke:red,'stroke-width':1},svg);
+  lab(318,146,'路灯（坏）',{'font-size':8,'text-anchor':'start'});
+  // 杂乱脚印
+  let seed=11; const rnd=()=>{ seed=(seed*9301+49297)%233280; return seed/233280; };
+  for(let i=0;i<26;i++){ const x=110+rnd()*220, y=80+rnd()*160; if(x>150&&x<275&&y>130&&y<175) continue; svgEl('ellipse',{cx:x.toFixed(1),cy:y.toFixed(1),rx:2.1,ry:3.6,fill:'rgba(90,80,65,.28)',transform:`rotate(${(rnd()*360).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})`},svg); }
+  // 尸体轮廓（头朝西）
+  svgEl('circle',{cx:168,cy:152,r:8,fill:'none',stroke:ink,'stroke-width':1.1,'stroke-dasharray':'3 2'},svg);
+  svgEl('path',{d:'M176 146 l44 -3 q8 0 10 6 l22 2 l8 -4 M176 158 l44 3 q8 0 10 -6 M230 155 l22 4 l8 5 M200 144 l6 -12 M200 160 l8 10',fill:'none',stroke:ink,'stroke-width':1.1,'stroke-dasharray':'3 2'},svg);
+  svgEl('rect',{x:161,y:144,width:7,height:5,fill:'#f8f4ea',stroke:red,'stroke-width':.7},svg);
+  svgEl('rect',{x:214,y:130,width:10,height:7,fill:'none',stroke:soft,'stroke-width':.8,transform:'rotate(-12 219 133)'},svg);
+  // 指北 / 比例尺
+  svgEl('path',{d:'M392 236 l5 14 l-5 -4 l-5 4z',fill:ink},svg); lab(392,232,'N',{'font-size':8,fill:ink});
+  svgEl('path',{d:'M300 252 h50 M300 249 v6 M350 249 v6',stroke:ink,'stroke-width':.8},svg); lab(325,248,'10 m',{'font-size':8});
+}
+function renderSurvey(n){
+  const sv=n.survey, spots=sv.spots;
+  const box=el('div','survey');
+  box.innerHTML='<div class="sv-stamp">SCENE SKETCH</div><h3>现场草图 · 花市西区「金三角空地」</h3>';
+  box.appendChild(el('div','sv-sub',sv.intro));
+  const svg=svgEl('svg',{viewBox:'0 0 420 282',role:'img','aria-label':'金三角空地现场草图'});
+  box.appendChild(svg); buildSketch(svg);
+  const legend=el('div','legend'); box.appendChild(legend);
+  const note=el('div','sv-note'); box.appendChild(note);
+  story.appendChild(box); scrollDown();
+  let busy=false, qi=0; const hsEls={};
+  spots.forEach(s=>{
+    const g=svgEl('g',{class:'hs','data-id':s.id,tabindex:0},svg);
+    svgEl('circle',{class:'ring',cx:s.x,cy:s.y,r:11},g);
+    svgEl('circle',{class:'dot',cx:s.x,cy:s.y,r:11},g);
+    svgEl('text',{class:'n',x:s.x,y:s.y},g).textContent=s.n;
+    svgEl('text',{class:'lb',x:s.x,y:s.y+22},g).textContent=s.label;
+    g.addEventListener('click',e=>{ e.stopPropagation(); inspect(s); });
+    g.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); e.stopPropagation(); inspect(s); } });
+    hsEls[s.id]=g;
+  });
+  svg.addEventListener('click',()=>{ if(busy) return; const q=sv.quips[qi++ % sv.quips.length]; say(q[0], q[1]); });
+  function say(who, text){ note.innerHTML=''; note.appendChild(el('span','who '+(SPEAKER_CLASS[who]||'c-oth'),who)); note.appendChild(el('p',null,text)); }
+  function refresh(){
+    legend.innerHTML='';
+    spots.forEach(s=>{
+      const seen=S.survey.includes(s.id);
+      hsEls[s.id].classList.toggle('seen', seen);
+      if(seen) hsEls[s.id].querySelector('text.n').textContent='✓';
+      const sp=el('span',seen?'seen':null); sp.innerHTML='<b>'+s.n+'</b>'; sp.appendChild(document.createTextNode(s.label));
+      if(!seen && s.clue) sp.appendChild(el('i',null,'可能有证物'));
+      legend.appendChild(sp);
+    });
+    box.classList.toggle('busy', busy);
+    renderSurveyControls();
+  }
+  function renderSurveyControls(){
+    controls.innerHTML='';
+    const cnt=S.survey.length, left=spots.length-cnt;
+    controls.appendChild(el('div','choice-prompt','〔现场勘查〕已查看 '+cnt+' / '+spots.length+' 处（至少 '+sv.min+' 处）· 点击草图上的红圈'));
+    const back=el('button','btn-ghost','↑ 回到现场草图'); back.onclick=()=>box.scrollIntoView({behavior:'smooth', block:'start'}); controls.appendChild(back);
+    const end=el('button','btn-next');
+    if(busy){ end.disabled=true; end.textContent='……'; }
+    else if(cnt<sv.min){ end.disabled=true; end.textContent='还需查看 '+(sv.min-cnt)+' 处才能收队'; }
+    else if(!left) end.textContent='勘查完毕 · 收队';
+    else end.textContent='结束勘查（其余 '+left+' 处不看了）';
+    end.onclick=()=>{ if(!end.disabled) finish(); };
+    controls.appendChild(end);
+  }
+  function inspect(s){
+    if(busy) return;
+    if(S.survey.includes(s.id)){ say('陶然','那儿你已经看过了。同一块地砖，看两遍也不会多长出线索。'); return; }
+    busy=true; S.survey.push(s.id); S.choices++;
+    note.innerHTML='';
+    addLine('>','蹲下查看：'+s.label);
+    addTime(sv.cost||3); applyFx(s.fx);
+    refresh();
+    playThen(s.say, ()=>{ busy=false; refresh(); scrollDown(); });
+  }
+  function finish(){
+    busy=true; box.classList.add('busy');
+    box.querySelectorAll('.hs').forEach(g=>g.style.pointerEvents='none');
+    const missed=spots.filter(s=>!S.survey.includes(s.id));
+    let lines=[];
+    const missedClue=missed.filter(s=>s.clue && !S.clues.includes(s.clue));
+    if(missedClue.length){
+      S.score -= missedClue.length; addTime(6*missedClue.length);
+      lines.push(['','骆闻舟正要往外走，陶然叫住了他。技术队补拍漏掉的位置，又耽搁了好几分钟。']);
+    }
+    missed.forEach(s=>{ lines=lines.concat(s.miss||[]); });
+    if(!missed.length){ lines=lines.concat(sv.all||[]); S.flags.surveyAll=true; unlockAch('survey'); }
+    lines=lines.concat(sv.done);
+    playThen(lines, ()=>showContinue(()=>goNext(n), '翻至下一页'));
+  }
+  refresh();
+}
+
+/* ---- 读人（费渡视角） ---- */
+function renderRead(cfg, done){
+  const box=el('div','read');
+  box.appendChild(el('h3',null,'〔读人〕'+cfg.title));
+  box.appendChild(el('div','rd-sub',cfg.sub));
+  const tx=el('div','rd-text'); const frags={};
+  cfg.segs.forEach(sg=>{
+    if(typeof sg==='string'){ tx.appendChild(document.createTextNode(sg)); return; }
+    const f=el('span','rd-frag',sg.t); f.tabIndex=0; frags[sg.id]=f;
+    f.onclick=e=>{ e.stopPropagation(); pick(sg.id); };
+    tx.appendChild(f);
+  });
+  box.appendChild(tx);
+  const ex=el('div','rd-ex'); box.appendChild(ex);
+  story.appendChild(box); scrollDown();
+  controls.innerHTML='';
+  controls.appendChild(el('div','choice-prompt','〔读人〕点出上文中带虚线的一处——只有一次机会'));
+  const back=el('button','btn-ghost','↑ 回到这段描写'); back.onclick=()=>box.scrollIntoView({behavior:'smooth',block:'center'}); controls.appendChild(back);
+  function pick(id){
+    if(box.classList.contains('done')) return;
+    box.classList.add('done');
+    const ok = id===cfg.ans;
+    S.reads.total++; S.flags[cfg.key+'Done']=true;
+    frags[id].classList.add(ok?'ok':'bad');
+    if(!ok) frags[cfg.ans].classList.add('ok');
+    ex.textContent = '费渡：' + cfg.ex[id] + (ok ? '' : '　——他真正该盯住的，是「' + frags[cfg.ans].textContent + '」。');
+    if(ok){ S.reads.ok++; applyFx(cfg.ok); } else applyFx(cfg.bad);
+    if(S.reads.ok>=3) unlockAch('reader');
+    controls.innerHTML='';
+    done && done(ok);
+  }
+}
+
+/* ---- 会议室白板 ---- */
+function renderBoard(n){
+  const links={}; BOARD.tps.forEach(t=>links[t.id]={p:null,e:null});
+  let active=BOARD.tps[0].id, culprit=null, motive=null, feiChecked=false, locked=false;
+  const box=el('div','board');
+  box.appendChild(el('h3',null,'市局会议室 · 白板'));
+  box.appendChild(el('div','wb-sub','先点一个时间点，再点「人」和「证物」把红线连上（再点一次可取消）。每个时间点只连一个人、一件证物；最后一格不需要证物。'));
+  const strings=svgEl('svg',{class:'strings'}); box.appendChild(strings);
+  box.appendChild(el('div','wb-sec','人'));
+  const pr=el('div','wb-row'); box.appendChild(pr);
+  const pEls={};
+  BOARD.people.forEach(p=>{ const c=el('button','chip',p.n); c.onclick=()=>linkP(p.id); pr.appendChild(c); pEls[p.id]=c; });
+  box.appendChild(el('div','wb-sec','时间点'));
+  const tpWrap=el('div','tps'); box.appendChild(tpWrap);
+  const tEls={};
+  BOARD.tps.forEach(t=>{
+    const c=el('button','tp'); c.innerHTML='<b></b><span></span><span class="tl"></span>';
+    c.querySelector('b').textContent=t.time; c.querySelector('span').textContent=t.ev;
+    c.onclick=()=>{ if(locked) return; active=t.id; refresh(); };
+    tpWrap.appendChild(c); tEls[t.id]=c;
+  });
+  box.appendChild(el('div','wb-sec','证物与推论（来自证物袋）'));
+  const er=el('div','wb-row'); box.appendChild(er);
+  const eEls={};
+  S.deds.concat(S.clues).forEach(id=>{ const c=el('button','chip ev'+(DEDS[id]?' ded':''),itemName(id)); c.onclick=()=>linkE(id); er.appendChild(c); eEls[id]=c; });
+  if(!S.deds.length) er.appendChild(el('span','board-meta','（还没有推论。可以先去证物袋里「组合推理」。）'));
+  const acc=el('div','wb-acc'); box.appendChild(acc);
+  acc.appendChild(el('div','wb-sec','指认 · 凶手'));
+  const cuBtns=[]; BOARD.culprits.forEach(c=>{ const b=el('button','opt',c.t); b.onclick=()=>{ if(locked) return; culprit=c.id; cuBtns.forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); refresh(); }; acc.appendChild(b); cuBtns.push(b); });
+  acc.appendChild(el('div','wb-sec','指认 · 动机'));
+  const moBtns=[]; BOARD.motives.filter(m=>cond(m.if)).forEach(m=>{ const b=el('button','opt',m.t); b.onclick=()=>{ if(locked) return; motive=m.id; moBtns.forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); refresh(); }; acc.appendChild(b); moBtns.push(b); });
+  const tip=el('div','wb-tip'); box.appendChild(tip);
+  story.appendChild(box); scrollDown();
+  function say(who, text){ tip.innerHTML=''; tip.appendChild(el('span','who '+(SPEAKER_CLASS[who]||'c-oth'),who)); tip.appendChild(document.createTextNode(text)); }
+  function linkP(id){ if(locked) return; const L=links[active]; L.p = L.p===id ? null : id; autoAdvance(); refresh(); }
+  function linkE(id){ if(locked) return; const t=BOARD.tps.find(x=>x.id===active); if(!t.ok){ say(BOARD.noEvTip[0], BOARD.noEvTip[1]); return; } const L=links[active]; L.e = L.e===id ? null : id; autoAdvance(); refresh(); }
+  function autoAdvance(){ const t=BOARD.tps.find(x=>x.id===active), L=links[active]; if(L.p && (L.e || !t.ok)){ const nx=BOARD.tps.find(x=>!links[x.id].p); if(nx) active=nx.id; } }
+  function center(e, side){ const b=box.getBoundingClientRect(), r=e.getBoundingClientRect(); const y=r.top-b.top+r.height/2; const x = side==='l' ? r.left-b.left+4 : side==='r' ? r.right-b.left-4 : r.left-b.left+r.width/2; return [x,y]; }
+  function draw(){
+    while(strings.firstChild) strings.removeChild(strings.firstChild);
+    const bw=box.clientWidth, bh=box.clientHeight; strings.setAttribute('viewBox','0 0 '+bw+' '+bh);
+    BOARD.tps.forEach(t=>{
+      const L=links[t.id]; const te=tEls[t.id];
+      const seg=(a,b2)=>{ const mx=(a[0]+b2[0])/2, my=Math.max(a[1],b2[1])+18; svgEl('path',{d:`M${a[0]} ${a[1]} Q${mx} ${my} ${b2[0]} ${b2[1]}`,fill:'none',stroke:'#a3402f','stroke-width':1.4,opacity:.75},strings); [a,b2].forEach(p=>svgEl('circle',{cx:p[0],cy:p[1],r:3,fill:'#8b3a32'},strings)); };
+      if(L.p && pEls[L.p]) seg(center(pEls[L.p],'c'), center(te,'l'));
+      if(L.e && eEls[L.e]) seg(center(te,'r'), center(eEls[L.e],'c'));
+    });
+  }
+  function refresh(){
+    BOARD.tps.forEach(t=>{
+      const L=links[t.id], c=tEls[t.id]; c.classList.toggle('on', t.id===active && !locked);
+      const tl=c.querySelector('.tl'); tl.innerHTML='';
+      tl.appendChild(document.createTextNode(L.p ? BOARD.people.find(p=>p.id===L.p).n : '')); if(!L.p) tl.appendChild(el('em',null,'人：未连'));
+      tl.appendChild(document.createTextNode(' · '));
+      if(!t.ok) tl.appendChild(el('em',null,'无需证物')); else if(L.e) tl.appendChild(document.createTextNode(itemName(L.e))); else tl.appendChild(el('em',null,'证物：未连'));
+    });
+    const L=links[active];
+    Object.keys(pEls).forEach(k=>pEls[k].classList.toggle('on', !locked && L.p===k));
+    Object.keys(eEls).forEach(k=>eEls[k].classList.toggle('on', !locked && L.e===k));
+    requestAnimationFrame(draw);
+    renderCtl();
+  }
+  function ready(){ return BOARD.tps.every(t=>links[t.id].p) && culprit && motive; }
+  function renderCtl(){
+    if(locked) return;
+    controls.innerHTML='';
+    const filled=BOARD.tps.filter(t=>links[t.id].p).length;
+    controls.appendChild(el('div','choice-prompt','〔白板〕已连 '+filled+' / '+BOARD.tps.length+' 个时间点'+(culprit?' · 已指认':'')+(motive?' · 已写动机':'')));
+    if(S.trust>=3 && !feiChecked){
+      const fb=el('button','btn-ghost','拍张照发给费渡，让他看一眼（约 3 分钟）');
+      fb.onclick=()=>{ feiChecked=true; addTime(3); const wrong=BOARD.tps.filter(t=>links[t.id].p && links[t.id].p!==t.who).length, empty=BOARD.tps.filter(t=>!links[t.id].p).length;
+        say('费渡', wrong ? '（短信）你连上的线里，有 '+wrong+' 根连错了人。'+(empty?'还有 '+empty+' 格空着。':'') : (empty ? '（短信）连上的都对。还有 '+empty+' 格空着。' : '（短信）'+BOARD.culpritTip));
+        renderCtl(); };
+      controls.appendChild(fb);
+    }
+    const sub=el('button','btn-next','在白板上签字'); sub.disabled=!ready();
+    sub.onclick=()=>{ if(ready()) submit(); };
+    controls.appendChild(sub);
+  }
+  function submit(){
+    locked=true; S.choices++; addTime(12);
+    let pc=0, ec=0;
+    BOARD.tps.forEach(t=>{ const L=links[t.id]; if(L.p===t.who) pc++; if(t.ok && L.e && t.ok.includes(L.e)) ec++; });
+    const cr = culprit===BOARD.answer;
+    const mo = BOARD.motiveScore[motive]||0;
+    S.score += pc + ec + (cr?4:0) + (cr?mo:0);
+    S.board={pc, ec, culprit, motive};
+    if(motive===BOARD.bestMotive) S.flags.boardMotive=true;
+    if(!cr){ S.flags.wrongman=true; S.flags['acc'+culprit[0].toUpperCase()+culprit.slice(1)]=true; }
+    if(cr){
+      BOARD.tps.forEach(t=>{ const L=links[t.id]; const ok=L.p===t.who && (!t.ok || (L.e && t.ok.includes(L.e))); const m=el('span','mk '+(ok?'y':'n'),ok?'✓':'✗'); tEls[t.id].appendChild(m); });
+    }
+    box.querySelectorAll('button').forEach(b=>b.disabled=true);
+    Object.keys(pEls).forEach(k=>pEls[k].classList.remove('on')); Object.keys(eEls).forEach(k=>eEls[k].classList.remove('on'));
+    BOARD.tps.forEach(t=>tEls[t.id].classList.remove('on'));
+    requestAnimationFrame(draw);
+    let lines;
+    if(!cr) lines=[['','陶然看了白板很久，没说话。'],['陶然','……你确定？'],['骆闻舟','我签字。']];
+    else if(pc===BOARD.tps.length && ec===BOARD.tps.filter(t=>t.ok).length) lines=[['陶然','……线都对。'],['郎乔','老大，这图能裱起来挂支队门口了。'],['骆闻舟','挂什么挂，擦了。审讯室那位等着呢。']];
+    else if(pc===BOARD.tps.length) lines=[['陶然','人都对了。有几根证物的线还虚着——审的时候，他会从那几处往外钻。']];
+    else lines=[['陶然','人是他没错。可这几根线……闻舟，审的时候小心。']];
+    if(cr && motive!==BOARD.bestMotive) lines.push(BOARD.motiveNag);
+    playThen(lines, ()=>showContinue(()=>goNext(n), '翻至下一页'));
+  }
+  window.addEventListener('resize', ()=>{ if(box.isConnected) requestAnimationFrame(draw); });
+  refresh();
+}
+
+/* ---- 审讯：对峙 ---- */
+function renderInterro(n){
+  const I=S.inter; let selEv=null, selTac=null, busy=false, hint=false;
+  const box=el('div','interro');
+  box.appendChild(el('h3',null,n.interro.round===2?'审讯室 · 第二次':'审讯室 · 对峙'));
+  const seals=el('div','it-seals'); box.appendChild(seals);
+  const meter=el('div','it-meter'); box.appendChild(meter);
+  const claim=el('div','it-claim'); box.appendChild(claim);
+  const pickWrap=el('div','it-pick'); box.appendChild(pickWrap);
+  story.appendChild(box); scrollDown();
+  function evList(){ return S.deds.concat(S.clues).concat(['none']); }
+  function draw(){
+    seals.innerHTML='';
+    INTER.stages.forEach((st,i)=>{ const s=el('div','it-seal'+(i<I.stage?' broken':'')+(i===I.stage?' cur':''),'第'+'一二三'[i]+'道 · '+st.name); seals.appendChild(s); });
+    meter.innerHTML='';
+    const left=I.max-I.strikes;
+    const m1=el('span'); m1.appendChild(document.createTextNode('他闭嘴之前，你还能错 ')); m1.appendChild(el('b',null,'●'.repeat(Math.max(0,left))+'○'.repeat(I.strikes))); m1.appendChild(document.createTextNode(' 次'));
+    meter.appendChild(m1); meter.appendChild(el('span',null,'每一轮约 5 分钟 · 现在 '+clockStr(S.time)));
+    const st=INTER.stages[Math.min(I.stage,2)];
+    claim.innerHTML=''; claim.appendChild(el('span','who c-oth',INTER.suspect)); claim.appendChild(document.createTextNode(' '+st.claim));
+    pickWrap.innerHTML='';
+    pickWrap.appendChild(el('div','lab','出示'));
+    const row=el('div','wb-row');
+    evList().forEach(id=>{ const c=el('button','chip ev'+(DEDS[id]?' ded':'')+(selEv===id?' on':'')+(hint&&INTER.hintEv.includes(id)?' hint':''),itemName(id)); c.onclick=()=>{ if(busy) return; selEv=id; draw(); }; row.appendChild(c); });
+    pickWrap.appendChild(row);
+    pickWrap.appendChild(el('div','lab','问法'));
+    const tg=el('div','it-tac');
+    INTER.tactics.forEach(t=>{ const b=el('button','tac'+(selTac===t.id?' on':'')+(hint&&INTER.hintTac.includes(t.id)?' hint':'')); b.appendChild(document.createTextNode(t.n)); b.appendChild(el('small',null,t.d)); b.onclick=()=>{ if(busy) return; selTac=t.id; draw(); }; tg.appendChild(b); });
+    pickWrap.appendChild(tg);
+    box.classList.toggle('busy', busy);
+    controls.innerHTML='';
+    controls.appendChild(el('div','choice-prompt','〔审讯〕第'+'一二三'[Math.min(I.stage,2)]+'道防线：「'+st.name+'」· 选一件证物和一种问法'));
+    const b=el('button','btn-next', selEv&&selTac ? '出示：'+itemName(selEv)+' · '+INTER.tactics.find(t=>t.id===selTac).n : '先选证物和问法');
+    b.disabled=!(selEv&&selTac)||busy; b.onclick=()=>{ if(!b.disabled) resolve(); };
+    const back=el('button','btn-ghost','↑ 回到审讯桌'); back.onclick=()=>box.scrollIntoView({behavior:'smooth',block:'start'});
+    controls.appendChild(back); controls.appendChild(b);
+  }
+  function resolve(){
+    busy=true; const st=INTER.stages[I.stage];
+    const evq = selEv==='none' ? (selTac==='bluff' && st.bluffEv ? st.bluffEv : 0) : (st.ev[selEv]||0);
+    const tq = st.tac[selTac];
+    addTime(5); S.choices++;
+    const lines=[['>',INTER.tacLine[selTac]]];
+    const line = st.evLine[selEv] || ('（出示：'+itemName(selEv)+'）');
+    if(line[0]==='（') lines.push(['>', line.replace(/^（|）$/g,'')]); else lines.push(['骆闻舟', line]);
+    if(evq===0){ strike(); lines.push(...st.failEv, INTER.evMiss); }
+    else if(tq===0){ strike(); lines.push(st.failTac[selTac] || [INTER.suspect,'……'], ['','他把嘴闭上了。骆闻舟知道，这一下用错了劲。']); }
+    else {
+      S.score += (evq+tq>=3) ? 3 : 2;
+      const sl = st.slip;
+      if(sl && sl.ev.includes(selEv) && sl.tac.includes(selTac) && cond(sl.need)){ S.flags[sl.flag]=true; lines.push(...sl.lines); }
+      else lines.push(...st.brk);
+      I.stage++;
+    }
+    selEv=null; selTac=null;
+    draw();
+    playThen(lines, ()=>{
+      if(I.strikes>=I.max) return end(false);
+      if(I.stage>=3) return end(true);
+      if(I.stage===2 && S.trust>=2 && !S.flags[INTER.read.key+'Done']) return doRead();
+      busy=false; draw(); scrollDown();
+    });
+  }
+  function strike(){ I.strikes++; I.total++; S.score -= 1; }
+  function doRead(){
+    playThen(INTER.readIntro, ()=>{
+      renderRead(INTER.read, ok=>{
+        hint = ok;
+        const after = ok ? INTER.readOk : INTER.readBad;
+        playThen(after, ()=>{ busy=false; draw(); scrollDown(); });
+      });
+    });
+  }
+  function end(won){
+    busy=true; draw(); controls.innerHTML='';
+    if(won){
+      S.flags.interWon=true;
+      INTER.onWin(S);
+      if(n.interro.round===1 && I.total===0) unlockAch('clean');
+      decideEnding();
+      playThen(INTER.winLines, ()=>showContinue(()=>goNext(n),'翻至下一页'));
+    } else {
+      if(n.interro.round===2){ S.flags.silent=true; decideEnding(); }
+      playThen(INTER.loseLines, ()=>showContinue(()=>goNext(n),'翻至下一页'));
+    }
+  }
+  draw();
+}
+
+/* ---- 证物「照片」：内联 SVG，手绘 + 轻微失焦 ---- */
+let phSeq=0;
+function photo(kind){
+  const id='pb'+(++phSeq);
+  const W=104,H=74;
+  const bg={glow:'#1d2230',frames:'#2a2f36',lobby:'#30353a',screen:'#1e2a2a',mirror:'#232833'}[kind]||'#d9d2c2';
+  let g='';
+  const R=(x,y,w,h,f,o)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${o||''}/>`;
+  const L=(d,s,w,o)=>`<path d="${d}" fill="none" stroke="${s}" stroke-width="${w||1}" ${o||''}/>`;
+  switch(kind){
+    case 'shards': g=`<ellipse cx="52" cy="46" rx="34" ry="14" fill="#6e2a22" opacity=".75"/>`+[[30,40],[46,36],[60,44],[72,38],[40,50],[56,52]].map(([x,y],i)=>`<path d="M${x} ${y} l${6+i%3} -4 l-2 ${7+i%2}z" fill="#eef2f4" opacity=".85" stroke="#9aa" stroke-width=".4"/>`).join(''); break;
+    case 'glow': g=`<radialGradient id="${id}g"><stop offset="0" stop-color="#a99cff" stop-opacity=".9"/><stop offset="1" stop-color="#3a3470" stop-opacity="0"/></radialGradient><circle cx="60" cy="40" r="30" fill="url(#${id}g)"/>`+R(22,46,34,7,'#c8ccd6','transform="rotate(-18 39 49)" rx="2"'); break;
+    case 'prints': g=[0,1,2,3,4,5].map(i=>`<ellipse cx="${16+i*15}" cy="${58-i*8+(i%2?4:-3)}" rx="4" ry="7" fill="#f5f2ea" opacity=".85" transform="rotate(55 ${16+i*15} ${58-i*8})"/>`).join('')+R(86,8,14,26,'none','stroke="#555" stroke-width="1"'); break;
+    case 'lock': g=R(14,14,76,48,'#e8eef0','stroke="#555"')+`<circle cx="52" cy="38" r="7" fill="none" stroke="#7a6a40" stroke-width="2"/>`+L('M52 38 l-14 -12 M52 38 l16 -10 M52 38 l-10 16 M52 38 l18 12 M52 38 l2 -22','#777',.7)+R(82,34,6,10,'#a08a50'); break;
+    case 'plaque': g=R(20,20,30,20,'#fbf8f0','stroke="#777"')+R(28,40,14,8,'#b8833a')+R(58,30,30,20,'#fbf8f0','stroke="#777" transform="rotate(24 73 40)"')+R(62,52,16,8,'none','stroke="#8b3a32" stroke-dasharray="2 1.5"')+[0,1,2,3].map(i=>`<circle cx="${64+i*4}" cy="56" r=".9" fill="#333"/>`).join(''); break;
+    case 'table': g=[0,1,2,3,4,5].map(i=>R(10,10+i*10,84,8,i===4?'#f1d6cf':'#fbfaf6','stroke="#bbb" stroke-width=".5"')).join('')+[0,1,2,3,4,5].map(i=>R(14,13+i*10,20+(i*7)%30,2,'#777')).join('')+L('M8 49 h88 M8 59 h88','#8b3a32',.8); break;
+    case 'frames': g=[[6,6],[54,6],[6,40],[54,40]].map(([x,y])=>R(x,y,44,28,'#3b4148','stroke="#889" stroke-width=".6"')+`<circle cx="${x+36}" cy="${y+8}" r="2" fill="#7f7"/><circle cx="${x+18}" cy="${y+16}" r="1.2" fill="#ddd"/>`).join(''); break;
+    case 'phone': g=R(32,6,40,62,'#222','rx="5"')+R(36,12,32,48,'#e9eef3')+[0,1,2,3].map(i=>R(38+(i%2)*6,16+i*11,24,7,i%2?'#cfe3c9':'#fff','rx="2"')).join(''); break;
+    case 'lobby': g=R(0,46,104,28,'#3c4248')+L('M0 46 L104 46','#667',1)+`<circle cx="70" cy="34" r="12" fill="none" stroke="#889" stroke-width="1"/>`+R(18,30,4,16,'#aab')+`<text x="4" y="10" font-size="7" fill="#dfd" font-family="monospace">22:41:07 CH-01</text>`; break;
+    case 'cuff': g=`<path d="M8 60 Q40 30 96 34 L96 62 Q50 66 8 70z" fill="#2f3440"/>`+R(78,32,18,30,'#f4f1ea')+[0,1,2,3,4,5,6].map(i=>`<circle cx="${70+(i*7)%22}" cy="${40+(i*11)%18}" r="${1+(i%3)*.6}" fill="#f6f4ee"/>`).join(''); break;
+    case 'idcard': g=R(16,14,72,46,'#f7f5ee','stroke="#777" rx="3"')+R(22,22,18,22,'#c9c2b4')+[0,1,2].map(i=>R(46,24+i*8,34-i*6,3,'#777')).join('')+R(16,50,72,6,'#3d5a80'); break;
+    case 'note': g=R(14,6,76,62,'#fbf7ea','stroke="#ccc"')+[0,1,2,3,4].map(i=>L(`M20 ${18+i*10} q${10+i*3} -3 ${44-i*4} 0`,'#3a3a5a',.9)).join('')+L('M20 48 l52 0','#8b3a32',1.2); break;
+    case 'calllog': g=R(20,6,64,62,'#fdfcf8','stroke="#bbb"')+[0,1,2,3].map(i=>R(26,14+i*13,40,4,i===1?'#8b3a32':'#888')).join('')+`<text x="26" y="34" font-size="6.5" fill="#8b3a32" font-family="serif">临河 · 11:02</text>`; break;
+    case 'ledger': g=R(8,8,88,58,'#f3ead2','stroke="#aaa"')+[0,1,2,3,4].map(i=>L(`M8 ${18+i*10} h88`,'#c9b98f',.6)).join('')+L('M60 8 v58','#c9b98f',.6)+L('M64 37 l22 -6 M64 31 l22 6','#333',1.4)+`<ellipse cx="75" cy="34" rx="16" ry="8" fill="none" stroke="#a3402f" stroke-width="1.2"/>`; break;
+    case 'mirror': g=`<circle cx="52" cy="38" r="28" fill="#3b4a3e" stroke="#6d7d5e" stroke-width="3"/><circle cx="52" cy="38" r="6" fill="#55664f"/>`+[[40,26,9],[64,30,7],[46,52,8],[66,48,5]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#b7f7ff" opacity=".55"/>`).join(''); break;
+    case 'screen': g=R(10,8,84,52,'#0f1a1a','stroke="#556"')+[0,1,2,3,4].map(i=>R(16,14+i*9,30+(i*13)%40,3,i===2?'#ff9a7a':'#7fd6a4')).join('')+R(44,60,16,8,'#445'); break;
+    case 'brass': g=R(4,40,96,30,'#9aa3a6')+`<ellipse cx="52" cy="56" rx="30" ry="10" fill="#6c7579"/>`+R(36,40,30,16,'#b8913f','stroke="#7a5e22"')+R(40,52,3,3,'#5a1f18'); break;
+    case 'doc': g=R(14,6,76,62,'#f1e8d4','stroke="#bbb"')+[0,1,2,3].map(i=>R(20,14+i*8,50-i*5,2.5,'#888')).join('')+`<circle cx="70" cy="50" r="10" fill="none" stroke="#b5483a" stroke-width="2" opacity=".7"/><text x="64.5" y="54" font-size="10" fill="#b5483a" opacity=".75" font-family="serif">费</text>`+L('M20 58 q14 -4 30 0','#5a5a6a',.8); break;
+    case 'wound': g=R(10,6,84,62,'#fbfbf7','stroke="#bbb"')+`<ellipse cx="50" cy="38" rx="20" ry="24" fill="none" stroke="#555" stroke-width="1"/>`+R(32,30,8,6,'none','stroke="#8b3a32" stroke-width="1.4"')+L('M40 33 h30','#8b3a32',.6,'stroke-dasharray="2 1.5"')+`<text x="72" y="35" font-size="6" fill="#8b3a32" font-family="monospace">4cm</text>`; break;
+    case 'oldcase': g=R(10,6,84,62,'#e5d5ad','stroke="#a99a70"')+R(18,14,30,24,'#bfb291')+`<circle cx="28" cy="24" r="4" fill="#8f8466"/><circle cx="38" cy="27" r="3" fill="#8f8466"/>`+R(24,30,8,8,'#8f8466')+R(35,31,6,7,'#8f8466')+[0,1,2].map(i=>R(54,16+i*8,32,2.5,'#7a6a48')).join('')+`<text x="20" y="56" font-size="7" fill="#5a1f18" font-family="serif">临文 0371</text>`; break;
+    case 'invoice': g=R(12,6,80,62,'#f6f6f2','stroke="#bbb"')+[0,1,2,3,4].map(i=>R(18,14+i*8,60-(i*9)%30,2.5,'#999')).join('')+L('M50 56 q8 -10 14 0 q6 8 14 -4','#1d2a40',1.2); break;
+    case 'shoe': g=`<path d="M12 50 Q14 30 34 32 L58 40 Q86 42 92 54 L92 60 L12 60z" fill="#1f1f22"/>`+R(12,58,80,5,'#ece8de')+[0,1,2].map(i=>`<circle cx="${70+i*5}" cy="${46+i}" r="1.2" fill="#7a2a20"/>`).join(''); break;
+    case 'paper': g=`<path d="M22 14 L84 10 L80 30 L86 44 L78 62 L24 66 L28 46 L18 34z" fill="#c9a66b" stroke="#8a6d3b" stroke-width=".8"/>`+L('M40 24 h20 M50 18 v14 M38 34 l12 -4 l12 4 M44 40 l6 16 l6 -16 M40 48 h20','#2a241c',1.6)+R(30,8,40,5,'#e8eef2','opacity=".8"'); break;
+    case 'wallet': g=R(16,18,72,40,'#5a3d2b','rx="4"')+R(16,18,72,12,'#6e4c37','rx="3"')+R(24,34,30,18,'#f3efe4','stroke="#999" stroke-width=".5"')+R(28,38,10,10,'#c9c2b4')+L('M60 40 h20 M60 46 h14','#e8dccb',1); break;
+    case 'tag': g=R(26,16,52,46,'#3a4a5a','rx="3"')+L('M52 16 l0 -8','#666',1)+R(58,36,22,30,'#fbf8f0','stroke="#999" stroke-width=".6" transform="rotate(12 69 51)"')+L('M62 46 h14 M62 52 h10 M62 58 h12','#888',1,'transform="rotate(12 69 51)"')+`<circle cx="66" cy="40" r="1.6" fill="#999"/>`; break;
+    case 'butts': g=R(18,40,68,20,'#9aa3a6','rx="3"')+[[30,36],[44,32],[58,38],[70,33]].map(([x,y],i)=>R(x,y,14,4,'#f4efe4','rx="1" transform="rotate('+(i*17-20)+' '+(x+7)+' '+(y+2)+')"')+R(x+10,y,4,4,'#c98a3a','transform="rotate('+(i*17-20)+' '+(x+7)+' '+(y+2)+')"')).join('')+[0,1,2,3,4,5].map(i=>L('M'+(14+i*16)+' 4 l-6 14','#9bb3c9',.8)).join(''); break;
+    case 'bus': g=R(10,20,84,36,'#2f6f5e','rx="5"')+[0,1,2,3].map(i=>R(16+i*18,26,14,12,'#cfe3e8')).join('')+`<circle cx="26" cy="58" r="5" fill="#222"/><circle cx="78" cy="58" r="5" fill="#222"/>`+`<text x="70" y="50" font-size="9" fill="#ffe9a8" font-family="monospace">34</text>`+`<text x="4" y="10" font-size="7" fill="#dfd" font-family="monospace">21:10 南平大道东</text>`; break;
+    case 'sms': g=R(30,4,44,66,'#222','rx="5"')+R(34,10,36,52,'#eef2f5')+R(37,20,30,16,'#fff','rx="3"')+L('M40 25 h22 M40 30 h18','#555',1.2)+`<text x="38" y="16" font-size="5" fill="#8b3a32" font-family="monospace">21:50</text>`; break;
+    case 'card': g=R(14,18,76,40,'#fbfaf6','stroke="#999" rx="2"')+R(20,26,30,4,'#333')+R(20,34,44,2.5,'#888')+R(20,40,38,2.5,'#888')+R(20,48,50,2.5,'#8b3a32'); break;
+    case 'tie': g=`<path d="M48 6 L58 6 L56 14 L64 58 L53 68 L42 58 L50 14z" fill="#9aa2aa"/>`+[0,1,2,3,4].map(i=>L('M'+(44+i)+' '+(20+i*9)+' l14 -4','#6d757d',1.4)).join('')+`<ellipse cx="55" cy="50" rx="5" ry="3" fill="#6e2a22" opacity=".7"/>`; break;
+    case 'gloves': g=`<path d="M20 60 L20 30 Q20 24 26 24 L26 14 Q30 10 33 14 L33 22 L36 10 Q40 7 42 12 L42 24 L46 14 Q50 12 51 17 L50 34 Q54 30 58 32 L50 52 L46 62z" fill="#d8d4c8" stroke="#888" stroke-width=".7"/>`+[0,1,2,3,4,5,6].map(i=>`<circle cx="${28+(i*7)%22}" cy="${30+(i*11)%26}" r="1" fill="#555"/>`).join('')+R(26,44,10,4,'#3d6b8a','opacity=".7"')+R(62,22,30,40,'#c9ccd0','stroke="#888"'); break;
+    case 'fire': g=R(0,46,104,28,'#2a2420')+`<path d="M20 50 Q30 20 40 44 Q46 14 56 40 Q66 18 76 46 Q84 30 88 50z" fill="#c55a2a" opacity=".8"/><path d="M34 50 Q42 32 48 46 Q56 30 62 48z" fill="#f0b040" opacity=".8"/>`+R(10,52,84,6,'#444'); break;
+    case 'usb': g=R(30,24,40,22,'#2b3a55','rx="3"')+R(70,29,14,12,'#c9ccd0')+R(74,32,3,3,'#555')+R(78,32,3,3,'#555')+R(36,30,22,4,'#9fb3d1'); break;
+    case 'lamp': g=`<path d="M52 66 L52 30 M52 44 L36 28 M52 38 L68 22 M52 50 L64 40 M44 36 L40 24 M60 30 L64 18" stroke="#3a2a1a" stroke-width="2.2" fill="none"/>`+[[36,26],[40,22],[68,20],[64,16],[64,38],[52,26]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="6" fill="#e8742a" opacity=".55"/>`).join('')+R(42,64,20,5,'#3a2a1a')+[0,1,2].map(i=>R(6+i*10,30,8,26,'none','stroke="#9aa" stroke-width=".7" rx="2"')).join(''); break;
+    case 'map': g=R(8,8,88,58,'#efe8d6','stroke="#bbb"')+L('M8 40 Q40 30 60 42 T96 36','#b8a77f',3)+`<circle cx="56" cy="40" r="8" fill="none" stroke="#8b3a32" stroke-width="1.4"/>`+`<text x="16" y="22" font-size="7" fill="#5a1f18" font-family="serif">金三角</text>`; break;
+    default: g=R(14,10,76,54,'#f4efe4','stroke="#aaa"');
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><defs><filter id="${id}"><feGaussianBlur stdDeviation=".55"/></filter><radialGradient id="${id}v"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".38"/></radialGradient></defs><rect width="${W}" height="${H}" fill="${bg}"/><g filter="url(#${id})">${g}</g><rect width="${W}" height="${H}" fill="url(#${id}v)"/><rect width="${W}" height="${H}" fill="#b08a4a" opacity=".1"/></svg>`;
+}
+
+/* ---- 证物袋：卡片 + 组合推理 ---- */
+let combo=null; // {on:bool, sel:[]}
+const JABS=['这俩要是有关系，骆一锅都能破案了。','强行拉郎配。陶然看见要笑话我。','证据不是积木，不能哪块顺手就往哪块上搭。','……不对。再熬一宿也不对。','费渡要是看见我这么连，能笑到明年。'];
+function makeCard(id){
+  const isD=!!DEDS[id], c=isD?DEDS[id]:CLUES[id];
+  const d=el('div','card'+(isD?' ded':'')+((isD?S.freshDeds:S.freshClues).includes(id)?' fresh':''));
+  d.dataset.id=id;
+  d.innerHTML='<span class="pin"></span><span class="clip"></span>';
+  const ph=el('div','photo'); ph.innerHTML=photo(c.ph); d.appendChild(ph);
+  const h=el('h4'); h.appendChild(el('span',null,c.name)); h.appendChild(el('span','tag',isD?'推论':c.tag)); d.appendChild(h);
+  d.appendChild(el('p',null,c.desc));
+  if(c.note) d.appendChild(el('span','mnote','骆批：'+c.note));
+  return d;
+}
+function renderClues(){
+  const body=$('#clueBody'); body.innerHTML='';
+  const total=Object.keys(CLUES).length;
+  const meta=el('p','board-meta'); meta.innerHTML='证物 <b>'+S.clues.length+'</b> / '+total+' 件 · 推论 <b>'+S.deds.length+'</b> / '+Object.keys(DEDS).length+' 条。部分证物随询问与选择出现；拖得太久，有些会永远拿不到。每次合并推理约花 1 分钟。';
+  body.appendChild(meta);
+  const tg=el('button','combo-toggle', combo&&combo.on ? '退出组合推理' : '组合推理：挑两件证物合并');
+  tg.onclick=()=>{ combo = combo&&combo.on ? null : {on:true, sel:[], msg:''}; renderClues(); };
+  if(S.clues.length>=2) body.appendChild(tg);
+  if(S.deds.length){
+    body.appendChild(el('div','dsec','推论'));
+    S.deds.forEach(id=>body.appendChild(makeCard(id)));
+  }
+  body.appendChild(el('div','dsec','已入袋'));
+  if(!S.clues.length) body.appendChild(el('p','board-meta','证物袋尚空。'));
+  S.clues.forEach(id=>{
+    const d=makeCard(id);
+    if(combo&&combo.on){ d.classList.add('pickable'); if(combo.sel.includes(id)) d.classList.add('sel');
+      d.onclick=()=>{ const i=combo.sel.indexOf(id); if(i>=0) combo.sel.splice(i,1); else { if(combo.sel.length>=2) combo.sel.shift(); combo.sel.push(id); } combo.msg=''; renderClues(); }; }
+    body.appendChild(d);
+  });
+  const left=total-S.clues.length;
+  if(left>0 && !(combo&&combo.on)){
+    body.appendChild(el('div','dsec','待发现'));
+    for(let i=0;i<left;i++){ const d=el('div','card locked'); d.innerHTML='<h4>〔空白证物袋〕</h4><p>尚未发现</p>'; body.appendChild(d); }
+  }
+  if(combo&&combo.on){
+    const bar=el('div','combo-bar'); const row=el('div','row');
+    row.appendChild(el('span',null,'已选：'+(combo.sel.length?combo.sel.map(itemName).join(' ＋ '):'（点两张卡片）')));
+    const go=el('button',null,'合并推理'); go.disabled=combo.sel.length<2; go.onclick=tryCombo; row.appendChild(go);
+    bar.appendChild(row);
+    const ml=el('div','msgline'); if(combo.msg){ ml.appendChild(el('span','mnote',combo.msg)); } bar.appendChild(ml);
+    body.appendChild(bar);
+  }
+}
+function tryCombo(){
+  const [a,b]=combo.sel; S.combos++; addTime(1);
+  const hit=Object.keys(DEDS).find(k=>DEDS[k].combos.some(p=>(p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a)));
+  if(hit && S.deds.includes(hit)) combo.msg='骆批：这个已经推过了——「'+DEDS[hit].name+'」。';
+  else if(hit){ gainDed(hit); combo.msg='骆批：成了。「'+DEDS[hit].name+'」——'+DEDS[hit].note; combo.sel=[]; }
+  else { S.comboWrong++; combo.msg='骆批：'+JABS[S.comboWrong%JABS.length]; }
+  renderClues();
+}
+function renderChars(){
+  const body=$('#charBody'); body.innerHTML=''; let group='';
+  Object.keys(CHARS).forEach(id=>{
+    const c=CHARS[id];
+    if(c.group!==group){ group=c.group; body.appendChild(el('div','dsec',group)); }
+    const d=el('div');
+    if(S.chars.includes(id)){
+      d.className='card'+(S.freshChars.includes(id)?' fresh':'');
+      const h=el('h4'); h.appendChild(el('span',null,c.name)); h.appendChild(el('span','tag',c.role)); d.appendChild(h);
+      d.appendChild(el('p',null,c.desc));
+      (c.more||[]).forEach(m=>{ if(cond(m[0])) d.appendChild(el('span','mnote','骆批：'+m[1])); });
+    } else { d.className='card locked'; d.innerHTML='<h4>未解锁</h4><p>随剧情推进解锁</p>'; }
+    body.appendChild(d);
+  });
+}
+function renderAch(container){
+  container.innerHTML='';
+  const eg=el('div','endlist');
+  Object.keys(ENDINGS).forEach((k,i)=>{ const got=META.endings.includes(k); const d=el('div',got?'got':null); d.appendChild(el('b',null,'结局'+(i+1))); d.appendChild(document.createTextNode(got?'「'+ENDINGS[k].name+'」':'？？？')); if(got) d.title=ENDINGS[k].desc; eg.appendChild(d); });
+  container.appendChild(eg);
+  Object.keys(ACH).forEach(k=>{ const got=META.ach.includes(k); const d=el('div','ach'+(got?'':' locked')); d.appendChild(el('div','ic',got?'印':'？')); const t=el('div'); t.appendChild(el('b',null,got?ACH[k].name:'隐藏成就')); t.appendChild(el('span',null,got?ACH[k].desc:'尚未解锁')); d.appendChild(t); container.appendChild(d); });
+  container.appendChild(el('p','board-meta','已结案 '+META.runs+' 次'+(META.done?' · 封面已开放「重读模式」':'')));
+}
+let openName=null;
+function openDrawer(name){
+  closeDrawer(true); openName=name;
+  if(name==='clues') renderClues();
+  if(name==='chars') renderChars();
+  if(name==='menu'){ updateSaveInfo(); renderAch($('#achBody')); }
+  $('#drawer'+name[0].toUpperCase()+name.slice(1)).classList.add('open');
+  $('#mask').classList.add('show');
+}
+function closeDrawer(){
+  if(openName==='clues'){ S.freshClues=[]; S.freshDeds=[]; combo=null; }
+  if(openName==='chars') S.freshChars=[];
+  openName=null;
+  document.querySelectorAll('.drawer').forEach(d=>d.classList.remove('open'));
+  $('#mask').classList.remove('show');
+  if(S) updateBadges();
+}
+function updateBadges(){
+  const bc=$('#badgeClues'), bh=$('#badgeChars'); const nc=S.freshClues.length+S.freshDeds.length;
+  bc.textContent=nc; bc.style.display=nc?'block':'none';
+  bh.textContent=S.freshChars.length; bh.style.display=S.freshChars.length?'block':'none';
+}
+function pulse(sel){ const e=$(sel); e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }
+function toast(msg){ const box=$('#toasts'); while(box.children.length>=3) box.firstChild.remove(); const t=el('div','toast',msg); box.appendChild(t); setTimeout(()=>t.remove(), 2900); }
+
+/* ---- 元数据：结局 / 成就 / 重读 ---- */
+function loadMeta(){
+  let m=null; try{ m=JSON.parse(localStorage.getItem(SAVE_META)); }catch(e){}
+  if(!m||typeof m!=='object') m={};
+  return {done:!!m.done, runs:m.runs|0, endings:Array.isArray(m.endings)?m.endings:[], ach:Array.isArray(m.ach)?m.ach:[], last:m.last||null};
+}
+function saveMeta(){ try{ localStorage.setItem(SAVE_META, JSON.stringify(META)); }catch(e){} }
+function unlockAch(k){ if(!ACH[k] || META.ach.includes(k)) return; META.ach.push(k); saveMeta(); toast('隐藏成就 · 「'+ACH[k].name+'」'); }
+
+/* ---- 结案报告 ---- */
+function rankOf(sc, e){
+  let r = sc>=RANK_CUT[0] ? 0 : sc>=RANK_CUT[1] ? 1 : sc>=RANK_CUT[2] ? 2 : 3;
+  r=Math.max(r, RANK_CAP[e]||0);
+  return RANKS[r];
+}
+function showEnding(){
+  localStorage.removeItem(SAVE_AUTO);
+  decideEnding();
+  const e=S.ending, sc=S.score, [rank,title,comment]=rankOf(sc,e);
+  if(S.trust>=7) unlockAch('trusted');
+  if(S.reads.ok>=3) unlockAch('reader');
+  META.done=true; META.runs++; if(!META.endings.includes(e)) META.endings.push(e);
+  META.last={keys:S.clues.concat(S.deds).concat(Object.keys(S.flags).filter(k=>S.flags[k]))};
+  saveMeta();
+  const broke = S.inter ? Math.min(3,S.inter.stage) : 0;
+  const box=$('#endBox');
+  box.innerHTML='';
+  const add=(tag,cls,txt)=>{ const x=el(tag,cls,txt); box.appendChild(x); return x; };
+  add('div','t-kicker','燕城市局刑侦支队 · 结案报告');
+  add('div','end-stamp', END_STAMP[e]||'CASE CLOSED');
+  add('div','t-case','结局'+('一二三四五六七八'[+e.slice(1)-1])+' ·「'+ENDINGS[e].name+'」').style.margin='4px 0 10px';
+  add('div','rank',rank); add('div','rank-title',title);
+  add('p','t-desc',comment).style.marginBottom='6px';
+  const st=add('div','stats');
+  [['案情评分',sc],['证物入袋',S.clues.length+' / '+Object.keys(CLUES).length],['推论',S.deds.length+' / '+Object.keys(DEDS).length],['推理核对',S.quiz.right+' / '+S.quiz.total],
+   ['白板连线',S.board?S.board.pc+' / '+BOARD.tps.length+' 人 · '+S.board.ec+' / '+BOARD.tps.filter(t=>t.ok).length+' 证':'—'],['审讯',S.inter?'击穿 '+broke+' / 3 · 失误 '+S.inter.total:'—'],
+   ['读人',S.reads.ok+' / '+S.reads.total],['结案时刻',clockStr(S.time)]].forEach(([k,v])=>{ const s=el('div','stat',k); s.appendChild(el('b',null,String(v))); st.appendChild(s); });
+  add('p','t-desc',trustLine()).style.cssText='margin-bottom:14px;font-style:italic;text-align:center';
+  const note=add('div','sample-note'); note.innerHTML='<strong>【'+VOLUME+'】</strong><br>'+ENDINGS[e].desc+'<br>已收集结局 '+META.endings.length+' / '+Object.keys(ENDINGS).length+' · 隐藏成就 '+META.ach.length+' / '+Object.keys(ACH).length+'。通关后封面开放「重读模式」，会把你这一遍漏看的伏笔标出来。';
+  const b1=add('button','t-btn','案卷封存'); b1.id='eSeal';
+  const b2=add('button','t-btn ghost','翻阅证物袋'); b2.id='eBoard';
+  const b3=add('button','t-btn ghost','重开本案'); b3.id='eRestart';
+  const b4=add('button','t-btn ghost','返回封面'); b4.id='eTitle';
+  $('#endScreen').classList.remove('hide');
+  b1.onclick=()=>{ $('#endScreen').classList.add('hide'); showSeal(); };
+  b2.onclick=()=>{ $('#endScreen').classList.add('hide'); openDrawer('clues'); };
+  b3.onclick=()=>{ $('#endScreen').classList.add('hide'); startNew(false); };
+  b4.onclick=()=>{ $('#endScreen').classList.add('hide'); showTitle(); };
+}
+function showSeal(){
+  const e=S.ending||'e2', box=$('#sealBox'); box.innerHTML='';
+  box.appendChild(el('div','t-kicker','案卷封存 · '+VOLUME));
+  const paras=SEAL[e].filter(t=>typeof t==='string' || cond(t[1])).map(t=>typeof t==='string'?t:t[0]);
+  paras.forEach((t,i)=>{ const p=el('p','sp',t); p.style.animationDelay=(0.4+i*0.9)+'s'; box.appendChild(p); });
+  let delay=0.4+paras.length*0.9;
+  if(cond(SEAL_PHONE.cond.replace(/[()]/g,'').replace('e1|e2&', e==='e1'||e==='e2' ? '' : 'never&'))){
+    const ph=el('div','phone'); ph.style.animationDelay=delay+'s'; delay+=0.9;
+    ph.innerHTML='<div class="ph-h"><span>骆闻舟的手机</span><span>深夜</span></div>';
+    const b=el('div','ph-b'); SEAL_PHONE.msgs.forEach(m=>{ const x=el('div','msg'+(m[0]==='luo'?' me':' fei')); x.style.opacity=1; x.style.animation='none'; x.appendChild(el('small',null,POV_NAME[m[0]])); x.appendChild(document.createTextNode(m[1])); b.appendChild(x); });
+    ph.appendChild(b); box.appendChild(ph);
+  }
+  const last=el('p','sp last','案 卷 封 存'); last.style.animationDelay=delay+'s'; box.appendChild(last);
+  const btn=el('button','t-btn ghost','合上案卷'); btn.style.marginTop='18px'; btn.onclick=()=>{ $('#sealScreen').classList.add('hide'); showTitle(); };
+  box.appendChild(btn);
+  $('#sealScreen').classList.remove('hide'); $('#sealScreen').scrollTop=0;
+  Amb.scene('rain');
+}
+
+/* ---- 环境声：WebAudio 实时合成，默认关闭 ---- */
+const Amb = (()=>{
+  let ctx=null, master=null, on=false, cur='rain', nodes=[], timers=[], clickBuf=null;
+  function ensure(){
+    if(ctx) return true;
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return false;
+    ctx=new AC(); master=ctx.createGain(); master.gain.value=0; master.connect(ctx.destination);
+    const len=Math.floor(ctx.sampleRate*0.03); clickBuf=ctx.createBuffer(1,len,ctx.sampleRate);
+    const d=clickBuf.getChannelData(0); for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,4);
+    return true;
+  }
+  function noise(type){
+    const len=ctx.sampleRate*2, b=ctx.createBuffer(1,len,ctx.sampleRate), d=b.getChannelData(0); let last=0;
+    for(let i=0;i<len;i++){ const w=Math.random()*2-1; if(type==='brown'){ last=(last+0.02*w)/1.02; d[i]=last*3.5; } else d[i]=w; }
+    return b;
+  }
+  function bed(type, ft, f, q, gain){
+    const s=ctx.createBufferSource(); s.buffer=noise(type); s.loop=true;
+    const fl=ctx.createBiquadFilter(); fl.type=ft; fl.frequency.value=f; fl.Q.value=q;
+    const g=ctx.createGain(); g.gain.value=gain; s.connect(fl); fl.connect(g); g.connect(master); s.start();
+    nodes.push(s,fl,g); return g;
+  }
+  function click(dest, ft, f, gain, t){
+    const s=ctx.createBufferSource(); s.buffer=clickBuf;
+    const fl=ctx.createBiquadFilter(); fl.type=ft; fl.frequency.value=f;
+    const g=ctx.createGain(); g.gain.value=gain; s.connect(fl); fl.connect(g); g.connect(dest); s.start(t||ctx.currentTime);
+  }
+  function impulse(sec){ const len=Math.floor(ctx.sampleRate*sec), b=ctx.createBuffer(2,len,ctx.sampleRate); for(let c=0;c<2;c++){ const d=b.getChannelData(c); for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3); } return b; }
+  function every(ms, fn){ timers.push(setInterval(()=>{ try{ if(on&&ctx) fn(); }catch(e){} }, ms)); }
+  const SC={
+    rain(){ bed('white','lowpass',1300,0.4,0.22); bed('white','bandpass',4500,0.9,0.05);
+      every(300,()=>{ if(Math.random()<0.55){ const o=ctx.createOscillator(), g=ctx.createGain(), t=ctx.currentTime; o.frequency.setValueAtTime(1600+Math.random()*1800,t); o.frequency.exponentialRampToValueAtTime(500,t+0.08); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.02+Math.random()*0.03,t+0.005); g.gain.exponentialRampToValueAtTime(0.0001,t+0.12); o.connect(g); g.connect(master); o.start(t); o.stop(t+0.14); } }); },
+    hall(){ bed('brown','lowpass',240,0.7,0.3);
+      const cv=ctx.createConvolver(); cv.buffer=impulse(3); const wet=ctx.createGain(); wet.gain.value=0.7; cv.connect(wet); wet.connect(master); nodes.push(cv,wet);
+      const o=ctx.createOscillator(); o.frequency.value=98; const og=ctx.createGain(); og.gain.value=0.01; o.connect(og); og.connect(master); o.start(); nodes.push(o,og);
+      every(2400,()=>{ if(Math.random()<0.55){ const t=ctx.currentTime; click(cv,'lowpass',500,0.5,t); click(master,'lowpass',500,0.08,t); if(Math.random()<0.6){ click(cv,'lowpass',460,0.4,t+0.55); click(master,'lowpass',460,0.06,t+0.55); } } }); },
+    city(){ bed('brown','lowpass',320,0.5,0.28); bed('white','bandpass',900,0.6,0.012);
+      every(3200,()=>{ if(Math.random()<0.5){ const s=ctx.createBufferSource(); s.buffer=noise('white'); const fl=ctx.createBiquadFilter(); fl.type='bandpass'; fl.Q.value=1.2; const g=ctx.createGain(); const t=ctx.currentTime;
+        fl.frequency.setValueAtTime(300,t); fl.frequency.linearRampToValueAtTime(1100,t+1.2); fl.frequency.linearRampToValueAtTime(400,t+2.6);
+        g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.09,t+1.2); g.gain.exponentialRampToValueAtTime(0.0001,t+2.8);
+        s.connect(fl); fl.connect(g); g.connect(master); s.start(t); s.stop(t+3); } }); },
+    clock(){ bed('brown','lowpass',180,0.6,0.12);
+      const o=ctx.createOscillator(); o.frequency.value=100; const og=ctx.createGain(); og.gain.value=0.005; o.connect(og); og.connect(master); o.start(); nodes.push(o,og);
+      let k=0; every(1000,()=>{ click(master,'bandpass',(k++%2)?1900:2600,0.35); }); }
+  };
+  function stopAll(){ timers.forEach(clearInterval); timers=[]; nodes.forEach(n=>{ try{ n.stop&&n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} }); nodes=[]; }
+  function start(name){ stopAll(); (SC[name]||SC.rain)(); }
+  function fade(to, sec){ const t=ctx.currentTime; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(master.gain.value,t); master.gain.linearRampToValueAtTime(to,t+sec); }
+  return {
+    get on(){ return on; },
+    scene(name){ try{ if(name===cur && (!on || nodes.length)) { cur=name; return; } cur=name; if(!on||!ctx) return; fade(0,0.35); setTimeout(()=>{ try{ if(on){ start(cur); fade(0.8,0.8); } }catch(e){} },380); }catch(e){} },
+    toggle(){
+      try{
+        if(!on){ if(!ensure()) return false; on=true; if(ctx.resume) ctx.resume().catch(()=>{}); start(cur); fade(0.8,0.8); }
+        else { on=false; if(ctx){ fade(0,0.4); setTimeout(()=>{ if(!on) stopAll(); },450); } }
+      }catch(e){ on=false; }
+      return on;
+    }
+  };
+})();
+function syncSoundUI(){ const b=$('#btnSound'); b.textContent=Amb.on?'声·开':'声·关'; b.classList.toggle('on',Amb.on); $('#mSound').textContent='环境声：'+(Amb.on?'开':'关'); }
+function toggleSound(){ Amb.toggle(); syncSoundUI(); toast(Amb.on?'环境声已开启（浏览器实时合成）':'环境声已关闭'); }
+
+/* ---- 存档 ---- */
+function writeSave(key, data){ try{ localStorage.setItem(key, JSON.stringify({t:Date.now(), s:data})); return true; }catch(e){ return false; } }
+function readSave(key){
+  try{ const r=JSON.parse(localStorage.getItem(key)); if(!r||!r.s||!r.s.node) return null; const sv=Object.assign({}, r.s); const s=normalize(JSON.parse(JSON.stringify(r.s))); return s ? {t:r.t, s} : null; }catch(e){ return null; }
+}
+function fmt(t){ const d=new Date(t); const p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()); }
+function manualSave(){
+  if(!snap){ toast('当前无可保存的进度'); return; }
+  if(writeSave(SAVE_MANUAL, snap)) toast('案卷已封存 · 「' + NODES[snap.node].title + '」开头');
+  else toast('存档失败（浏览器可能禁用了本地存储）');
+  updateSaveInfo();
+}
+function loadFrom(key){
+  const r=readSave(key);
+  if(!r){ toast('没有找到存档'); return false; }
+  S=r.s; hideTitle(); closeDrawer(); updateBadges(); enter(S.node, true);
+  toast('案卷已启封');
+  return true;
+}
+function updateSaveInfo(){
+  const m=readSave(SAVE_MANUAL), a=readSave(SAVE_AUTO);
+  $('#saveInfo').innerHTML = '手动存档：' + (m? fmt(m.t)+'（'+NODES[m.s.node].title+'）':'无') + '<br>自动存档：' + (a? fmt(a.t)+'（'+NODES[a.s.node].title+'）':'无');
+}
+
+/* ---- 封面 ---- */
+function showTitle(){
+  closeDrawer();
+  ['#endScreen','#sealScreen'].forEach(s=>$(s).classList.add('hide'));
+  $('#titleScreen').classList.remove('hide');
+  $('#tContinue').style.display = readSave(SAVE_AUTO) ? 'block':'none';
+  $('#tLoad').style.display = readSave(SAVE_MANUAL) ? 'block':'none';
+  $('#tReread').style.display = META.done ? 'block':'none';
+}
+function hideTitle(){ $('#titleScreen').classList.add('hide'); }
+function startNew(reread){ S=newState(reread); combo=null; hideTitle(); updateBadges(); enter('prologue'); if(reread) toast('重读模式 · 伏笔已用铅笔标出'); }
+function showAchScreen(){
+  const box=$('#endBox'); box.innerHTML='';
+  box.appendChild(el('div','t-kicker','结局与成就'));
+  const c=el('div'); c.style.textAlign='left'; c.style.position='relative'; box.appendChild(c); renderAch(c);
+  const b=el('button','t-btn ghost','返回封面'); b.style.marginTop='12px'; b.onclick=()=>{ $('#endScreen').classList.add('hide'); showTitle(); }; box.appendChild(b);
+  hideTitle(); $('#endScreen').classList.remove('hide');
+}
+function armConfirm(btn, msg, action){
+  if(btn.dataset.arm==='1'){ btn.dataset.arm=''; btn.textContent=btn.dataset.orig; btn.classList.remove('confirming'); action(); return; }
+  btn.dataset.orig=btn.textContent; btn.dataset.arm='1'; btn.textContent=msg; btn.classList.add('confirming');
+  setTimeout(()=>{ if(btn.dataset.arm==='1'){ btn.dataset.arm=''; btn.textContent=btn.dataset.orig; btn.classList.remove('confirming'); } }, 4000);
+}
+(function makeRain(){
+  const r=$('#rain');
+  for(let i=0;i<28;i++){ const d=el('div','drop'); d.style.left=(Math.random()*100)+'%'; d.style.animationDuration=(0.7+Math.random()*0.9)+'s'; d.style.animationDelay=(-Math.random()*2)+'s'; d.style.opacity=0.08+Math.random()*0.18; r.appendChild(d); }
+})();
+
+/* ---- 事件 ---- */
+$('#tStart').onclick=e=>{ if(readSave(SAVE_AUTO)) armConfirm(e.currentTarget,'会覆盖自动存档 · 再点一次确认',()=>startNew(false)); else startNew(false); };
+$('#tReread').onclick=e=>{ if(readSave(SAVE_AUTO)) armConfirm(e.currentTarget,'会覆盖自动存档 · 再点一次确认',()=>startNew(true)); else startNew(true); };
+$('#tContinue').onclick=()=>loadFrom(SAVE_AUTO);
+$('#tLoad').onclick=()=>loadFrom(SAVE_MANUAL);
+$('#tAch').onclick=showAchScreen;
+$('#btnClues').onclick=()=>openDrawer('clues');
+$('#btnChars').onclick=()=>openDrawer('chars');
+$('#btnMenu').onclick=()=>openDrawer('menu');
+$('#btnSave').onclick=manualSave;
+$('#btnSound').onclick=toggleSound;
+$('#mSound').onclick=toggleSound;
+$('#mSave').onclick=manualSave;
+$('#mLoad').onclick=()=>loadFrom(SAVE_MANUAL);
+$('#mLoadAuto').onclick=()=>loadFrom(SAVE_AUTO);
+$('#mTitle').onclick=showTitle;
+$('#mReset').onclick=e=>armConfirm(e.currentTarget,'连同结局与成就一起清除 · 再点一次',()=>{ [SAVE_AUTO,SAVE_MANUAL,SAVE_META].forEach(k=>localStorage.removeItem(k)); META=loadMeta(); updateSaveInfo(); renderAch($('#achBody')); toast('存档已清除'); });
+$('#mask').onclick=()=>closeDrawer();
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeDrawer());
+document.addEventListener('keydown',e=>{
+  if(['#titleScreen','#endScreen','#sealScreen'].some(s=>!$(s).classList.contains('hide'))) return;
+  if(e.key==='Escape'){ closeDrawer(); return; }
+  if(openName) return;
+  if(e.target && e.target.closest && e.target.closest('.hs,.rd-frag')) return;
+  if(e.key===' '||e.key==='Enter'){ const b=controls.querySelector('.btn-next'); if(b && !b.disabled){ e.preventDefault(); b.click(); } }
+  else if(/^[1-9]$/.test(e.key)){ const cs=controls.querySelectorAll('.choice:not(.locked)'); const b=cs[+e.key-1]; if(b){ e.preventDefault(); b.click(); } }
+});
+story.addEventListener('click',e=>{
+  if(e.target.closest('.quiz,.survey,.read,.board,.interro')) return;
+  const b=controls.querySelector('.btn-next'); if(b && contCb && !b.disabled) b.click();
+});
+
+S=newState(false); updateBadges(); renderProgress(0); renderClock(); syncSoundUI(); showTitle();
+</script>
+</body>
+</html>

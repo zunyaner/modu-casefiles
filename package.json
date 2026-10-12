@@ -1,0 +1,57 @@
+{
+  "name": "modu-casefiles",
+  "productName": "默读·案卷",
+  "version": "1.0.0",
+  "description": "默读·案卷 — 离线案卷游戏合集",
+  "author": "modu",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron ."
+  },
+  "build": {
+    "appId": "local.modu.casefiles",
+    "productName": "modu-casefiles",
+    "artifactName": "modu-casefiles.${ext}",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "package.json",
+      "app/**/*",
+      "build/icon.png"
+    ],
+    "asar": false,
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": true
+    },
+    "portable": {
+      "artifactName": "modu-casefiles.exe"
+    },
+    "linux": {
+      "target": [
+        "dir"
+      ],
+      "icon": "build/icon.png"
+    },
+    "compression": "maximum",
+    "electronLanguages": [
+      "zh-CN",
+      "en-US"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3"
+  }
+}

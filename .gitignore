@@ -1,0 +1,21 @@
+# 依赖
+node_modules/
+# 构建产物
+dist/
+out/
+*.exe
+*.exe.part*
+*.blockmap
+*.zip
+*.7z
+win-unpacked/
+linux-unpacked/
+builder-debug.yml
+builder-effective-config.yaml
+# 日志 / 系统文件
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
